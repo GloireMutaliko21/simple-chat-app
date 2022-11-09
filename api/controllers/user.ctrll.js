@@ -51,3 +51,15 @@ export const login = async (req, res, next) => {
         res.status(500).json({ err })
     }
 };
+
+export const findAllUsers = async (req, res, next) => {
+    try {
+        const users = await userMdl.find();
+        if (!users) {
+            res.status(404).json({ error: 'Users not found' });
+        }
+        res.status(200).json({ message: 'Users founded', data: users });
+    } catch (err) {
+        res.status(500).json({ err });
+    }
+};
