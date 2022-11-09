@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import mongooseUniqueValidator from "mongoose-unique-validator";
 
 const userSchema = mongoose.Schema({
-    mail: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 });
 

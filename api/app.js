@@ -2,6 +2,8 @@
 import express from 'express';
 
 import db from './config/db.config.js';
+import { racineApiRoute, userParh } from './constants/constants.js';
+import userRouter from "./routes/user.routes.js"
 
 const app = express();
 
@@ -17,10 +19,7 @@ app
     });
 
 //Routes
-app.get('/', (req, res, next) => {
-    const data = { ...req.body }
-    res.json({ message: 'Server received your GET request', data });
-});
+app.use(`${racineApiRoute}${userParh}`, userRouter);
 
 
 
