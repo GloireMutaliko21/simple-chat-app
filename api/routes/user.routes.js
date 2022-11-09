@@ -1,9 +1,12 @@
 import express from "express";
 
-import { signup } from '../controllers/user.ctrll.js';
+import { login, signup } from '../controllers/user.ctrll.js';
 
 const router = express.Router();
 
-router.post('/signup', signup);
+router
+    .post('/signup', signup)
+
+    .get('/login', login);
 
 export default router;

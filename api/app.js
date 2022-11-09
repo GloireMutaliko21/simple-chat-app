@@ -2,7 +2,7 @@
 import express from 'express';
 
 import db from './config/db.config.js';
-import { racineApiRoute, userParh } from './constants/constants.js';
+import { racineApiRoute, userPath } from './constants/constants.js';
 import userRouter from "./routes/user.routes.js"
 
 const app = express();
@@ -19,7 +19,7 @@ app
     });
 
 //Routes
-app.use(`${racineApiRoute}${userParh}`, userRouter);
+app.use(`${racineApiRoute}${userPath}`, userRouter);
 
 
 
