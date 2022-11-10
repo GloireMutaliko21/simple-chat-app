@@ -1,0 +1,1 @@
+export const API_URL = `http://localhost:${import.meta.env.VITE_API_PORT}/talks/api/v1`

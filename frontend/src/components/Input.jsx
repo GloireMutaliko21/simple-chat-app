@@ -1,4 +1,6 @@
-import React from 'react'
+import { useState } from 'react';
+
+import { useStateContext } from "../context/ContextProvider";
 
 const Input = (
     {
@@ -11,6 +13,14 @@ const Input = (
         reference
     }
 ) => {
+    const { boolingState, setBoolingState } = useStateContext();
+
+    const handleChangeIcon = () => {
+        setBoolingState(prevState => {
+            return { ...prevState, showPassword: !prevState.showPassword }
+        });
+    };
+
     return (
         <div>
             <label className='font-bold text-sm'>{label}</label>
@@ -28,9 +38,9 @@ const Input = (
                 </input>
                 <span
                     className='absolute right-3 hover:cursor-pointer text-lg text-teal-900'
-                // onClick={handleChangeIcon}
+                    onClick={handleChangeIcon}
                 >
-                    {/* {!boolingState.showPassword ? icon : iconMask} */}
+                    {!boolingState.showPassword ? icon : iconMask}
                 </span>
             </div>
         </div>
