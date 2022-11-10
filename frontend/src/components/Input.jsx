@@ -14,7 +14,7 @@ const Input = (
     return (
         <div>
             <label className='font-bold text-sm'>{label}</label>
-            <div className='bg-gray-200 flex justify-between items-center relative mt-2 mb-4'>
+            <div className='bg-gray-200 flex justify-between items-center relative my-2'>
                 <input
                     ref={reference}
                     className={`${style} text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block appearance-none w-full`}

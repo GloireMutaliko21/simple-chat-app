@@ -79,11 +79,15 @@ const Login = () => {
             </div>
             <div className='mt-8'>
                 <Button
-                    label='Se connecter'
+                    label='Login'
                     style='flex justify-center w-full bg-teal-800 hover:bg-teal-700 text-white font-semibold p-3'
                 // onClick={handleLogin}
                 />
-                <p className='text-center my-3'>Or</p>
+                <div className='flex justify-between items-center w-full text-center'>
+                    <div className='border-t w-1/3'></div>
+                    <p className='text-center my-3'>Or</p>
+                    <div className='border-t w-1/3'></div>
+                </div>
                 <Button
                     label="Sign Up"
                     style='flex justify-center w-full text-teal-800 font-semibold underline'
