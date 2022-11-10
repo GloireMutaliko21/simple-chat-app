@@ -5,10 +5,11 @@ import userMdl from "../models/user.mdl.js";
 
 export const signup = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email, username, password } = req.body;
         const hashedPwd = await bcrypt.hash(password, 10);
         const user = await new userMdl({
             email,
+            username,
             password: hashedPwd
         });
         try {
