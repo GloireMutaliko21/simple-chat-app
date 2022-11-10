@@ -1,14 +1,59 @@
-import React from 'react';
+import { useState, useMemo } from 'react';
 
 import { FcGoogle } from 'react-icons/fc'
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { API_URL } from '../constants/apiUrl';
 import { useStateContext } from "../context/ContextProvider";
 
 const Login = () => {
     const { boolingState, setBoolingState } = useStateContext();
+
     const handleLoadSignUp = () => {
         setBoolingState({ ...boolingState, isSignNotLog: true })
+    }
+
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const handleChange = useMemo(() =>
+        (e) => {
+            if (e.target.name === "email") {
+                setEmail(e.target.value);
+            }
+            if (e.target.name === "password") {
+                setPassword(e.target.value);
+            }
+        }, [email, password]);
+
+    async function handleLogin() {
+        const params = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        }
+        try {
+            if (!localStorage.getItem('isLogged')) {
+                const response = await fetch(`${API_URL}/users/login`, params);
+                const responseData = await response.json();
+                if (response.status === 200) {
+                    localStorage.setItem('token', responseData.token)
+                    // if (rememberMe.current.checked) {
+                    //     localStorage.setItem('isLogged', true);
+                    // }
+                    console.log(responseData);
+                    // setUserData(responseData);
+                    // setToken(responseData.token);
+                    // setBoolingState({ ...boolingState, loginStatus: true });
+                }
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -31,13 +76,13 @@ const Login = () => {
                 <Input
                     label='E-mail'
                     type='email'
-                    // onChange={handleChange}
-                    name="userName"
+                    onChange={handleChange}
+                    name="email"
                 />
                 <Input
                     label='Mot de passe'
                     // type={boolingState.showPassword ? 'text' : 'password'}
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     name="password"
                 // icon={<BsEyeFill />}
                 // iconMask={<BsFillEyeSlashFill />}
@@ -81,7 +126,7 @@ const Login = () => {
                 <Button
                     label='Login'
                     style='flex justify-center w-full bg-teal-800 hover:bg-teal-700 text-white font-semibold p-3'
-                // onClick={handleLogin}
+                    onClick={handleLogin}
                 />
                 <div className='flex justify-between items-center w-full text-center'>
                     <div className='border-t w-1/3'></div>

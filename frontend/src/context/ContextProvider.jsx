@@ -6,7 +6,8 @@ const StateContext = createContext();
 export const ContextProvider = memo(({ children }) => {
     const [boolingState, setBoolingState] = useState({
         loginStatus: false,
-        isSignNotLog: false
+        isSignNotLog: false,
+        isTimeToFetch: true,
     })
     return (
         <StateContext.Provider

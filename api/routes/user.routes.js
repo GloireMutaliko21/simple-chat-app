@@ -7,7 +7,7 @@ const router = express.Router();
 router
     .post('/signup', signup)
 
-    .get('/login', login)
+    .post('/login', login)
 
     .get('/', findAllUsers)
 
