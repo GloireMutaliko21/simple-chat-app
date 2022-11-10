@@ -1,8 +1,12 @@
-import React from 'react'
-
+import { useStateContext } from "../context/ContextProvider";
 const Signup = () => {
+    const { boolingState, setBoolingState } = useStateContext();
+    const handleLoadSignUp = () => {
+        setBoolingState({ ...boolingState, isSignNotLog: true })
+    }
+
     return (
-        <div>Signup</div>
+        <div onClick={handleLoadSignUp}>Signup</div>
     )
 }
 

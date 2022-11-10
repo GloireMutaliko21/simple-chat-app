@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 const App = lazy(() => import('./App'));
 import { ContextProvider } from './context/ContextProvider'
 import './index.css'
-import PageLoader from './components/PageLoader';
+import PageLoader from './components/Loaders/PageLoader';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
