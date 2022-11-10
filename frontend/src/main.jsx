@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
+
+const App = lazy(() => import('./App'));
+import { ContextProvider } from './context/ContextProvider'
 import './index.css'
+import PageLoader from './components/Loaders/PageLoader';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <ContextProvider>
+      <Suspense fallback={<PageLoader />}>
+        <App />
+      </Suspense>
+    </ContextProvider>
   </React.StrictMode>
 )
