@@ -66,7 +66,7 @@ export const findOneUser = async (req, res, next) => {
     try {
         const user = await userMdl.findById(req.params.id)
         if (!user) {
-            res.status(400).json({ err });
+            res.status(400).json({ error: 'No User founded' });
         }
         res.status(200).json({ message: 'User founded', user })
     } catch (err) {
