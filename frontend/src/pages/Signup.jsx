@@ -1,10 +1,58 @@
+import { useState, useMemo } from "react";
+
 import { useStateContext } from "../context/ContextProvider";
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { API_URL } from '../constants/apiUrl';
 const Signup = () => {
     const { boolingState, setBoolingState } = useStateContext();
-    const handleLoadSignUp = () => {
+    const handleLoadLogin = () => {
         setBoolingState({ ...boolingState, isSignNotLog: false })
+    }
+
+    const [email, setEmail] = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const handleChange = useMemo(() =>
+        (e) => {
+            if (e.target.name === "email") {
+                setEmail(e.target.value);
+            }
+            if (e.target.name === "username") {
+                setUsername(e.target.value);
+            }
+            if (e.target.name === "password") {
+                setPassword(e.target.value);
+            }
+        }, [email, username, password]);
+
+    async function handleSignUp() {
+        const params = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                username,
+                password
+            })
+        }
+        try {
+            const response = await fetch(`${API_URL}/users/signup`, params);
+            const responseData = await response.json();
+            if (response.status === 201) {
+                // if (rememberMe.current.checked) {
+                //     localStorage.setItem('isLogged', true);
+                // }
+                console.log(responseData);
+                // setUserData(responseData);
+                // setToken(responseData.token);
+                // setBoolingState({ ...boolingState, loginStatus: true });
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -17,19 +65,19 @@ const Signup = () => {
                 <Input
                     label='Username'
                     type='text'
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     name="username"
                 />
                 <Input
                     label='E-mail'
                     type='email'
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     name="email"
                 />
                 <Input
                     label='Mot de passe'
                     // type={boolingState.showPassword ? 'text' : 'password'}
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     name="password"
                 // icon={<BsEyeFill />}
                 // iconMask={<BsFillEyeSlashFill />}
@@ -73,7 +121,7 @@ const Signup = () => {
                 <Button
                     label='Sign Up'
                     style='flex justify-center w-full bg-teal-800 hover:bg-teal-700 text-white font-semibold p-3'
-                // onClick={handleLogin}
+                    onClick={handleSignUp}
                 />
                 <div className='flex justify-between items-center w-full text-center'>
                     <div className='border-t w-1/3'></div>
@@ -83,7 +131,7 @@ const Signup = () => {
                 <Button
                     label="Login"
                     style='flex justify-center w-full text-teal-800 font-semibold underline'
-                    onClick={handleLoadSignUp}
+                    onClick={handleLoadLogin}
                 />
 
             </div>
