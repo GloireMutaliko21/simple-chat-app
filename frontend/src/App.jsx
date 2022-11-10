@@ -6,10 +6,10 @@ import Signup from './pages/Signup';
 function App() {
   const { boolingState, setBoolingState } = useStateContext();
   return (
-    <div className='flex justify-between w-full'>
+    <div className='flex justify-between items-center w-full shadow-md px-32'>
       <Landing />
       {
-        boolingState.isSignNotLog ? <Login /> : <Signup />
+        !boolingState.isSignNotLog ? <Login /> : <Signup />
       }
 
     </div>

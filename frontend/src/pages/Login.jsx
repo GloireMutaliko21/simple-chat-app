@@ -8,11 +8,11 @@ import { useStateContext } from "../context/ContextProvider";
 const Login = () => {
     const { boolingState, setBoolingState } = useStateContext();
     const handleLoadSignUp = () => {
-        setBoolingState({ ...boolingState, isSignNotLog: false })
+        setBoolingState({ ...boolingState, isSignNotLog: true })
     }
 
     return (
-        <div className='flex flex-col justify-center min-w-[400px] max-w-max shadow-xl shadow-gray-200 p-10 text-teal-800 rounded-md text-left'>
+        <div className='flex flex-col justify-center min-w-[400px] max-w-max shadow-gray-200 p-10 text-teal-800 rounded-md text-left'>
             <div className='flex flex-col items-center  mb-5'>
                 <h1 className='text-5xl font-black bg-clip-text bg-gradient-to-l from-green-900 via-light-teal-900 to-cyan-700 text-transparent'>Talks</h1>
                 <p className='mb-5'>Welcome</p>
@@ -22,7 +22,7 @@ const Login = () => {
                     style='text-blue-gray-800 hover:bg-slate-50 text-sm font-medium shadow-md border p-2'
                 />
             </div>
-            <div className='flex justify-between items-center w-full mb-5 text-center'>
+            <div className='flex justify-between items-center w-full mb-3 text-center'>
                 <div className='border-t w-1/5'></div>
                 <span className='text-xs'>OU SE CONNECTER AVEC</span>
                 <div className='border-t w-1/5'></div>
@@ -46,11 +46,11 @@ const Login = () => {
             <div className='flex justify-between items-center text-xs'>
                 <div className='flex justify-around items-center'>
                     <input name='remember' id='remember' type="checkbox" />
-                    <label htmlFor='remember' className='ml-3 cursor-pointer'>Rememver Me</label>
+                    <label htmlFor='remember' className='ml-3 cursor-pointer'>Remember Me</label>
                 </div>
                 <div>
                     <span
-                        className='text-blue-800 hover:underline hover:cursor-pointer'
+                        className='text-green-600 font-semibold hover:underline hover:cursor-pointer'
                     // onClick={() => { setBoolingState({ ...boolingState, changePassWord: true }) }}
                     >
                         Forgot password ?
