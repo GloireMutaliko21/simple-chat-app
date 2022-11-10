@@ -14,6 +14,8 @@ const Login = () => {
         setBoolingState({ ...boolingState, isSignNotLog: true })
     }
 
+    const [errorLoginMsg, setErrorLoginMsg] = useState(null)
+
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const handleChange = useMemo(() =>
@@ -50,9 +52,15 @@ const Login = () => {
                     // setUserData(responseData);
                     // setToken(responseData.token);
                     // setBoolingState({ ...boolingState, loginStatus: true });
+                } else {
+                    setErrorLoginMsg(responseData.error);
+                    setTimeout(() => {
+                        setErrorLoginMsg(null);
+                    }, 2000);
                 }
             }
         } catch (err) {
+            setErrorLoginMsg(err.json());
             console.log(err);
         }
     }
@@ -122,6 +130,9 @@ const Login = () => {
                             </div>
                         </Dialogue>} */}
                 </div>
+            </div>
+            <div>
+                <p className={`${errorLoginMsg && 'mt-4'} text-center text-red-600`}>{errorLoginMsg}</p>
             </div>
             <div className='mt-8'>
                 <Button
