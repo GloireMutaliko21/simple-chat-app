@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { BsEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
 import { useStateContext } from "../context/ContextProvider";
 import Button from '../components/Button';
@@ -76,11 +77,11 @@ const Signup = () => {
                 />
                 <Input
                     label='Mot de passe'
-                    // type={boolingState.showPassword ? 'text' : 'password'}
+                    type={boolingState.showPassword ? 'text' : 'password'}
                     onChange={handleChange}
                     name="password"
-                // icon={<BsEyeFill />}
-                // iconMask={<BsFillEyeSlashFill />}
+                    icon={<BsEyeFill />}
+                    iconMask={<BsFillEyeSlashFill />}
                 />
             </div>
             <div className='flex justify-between items-center text-xs'>

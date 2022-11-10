@@ -8,6 +8,7 @@ export const ContextProvider = memo(({ children }) => {
         loginStatus: false,
         isSignNotLog: false,
         isTimeToFetch: true,
+        showPassword: false,
     })
     return (
         <StateContext.Provider

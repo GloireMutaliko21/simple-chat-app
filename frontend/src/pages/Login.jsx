@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
-
 import { FcGoogle } from 'react-icons/fc'
+import { BsEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { API_URL } from '../constants/apiUrl';
@@ -81,11 +82,11 @@ const Login = () => {
                 />
                 <Input
                     label='Mot de passe'
-                    // type={boolingState.showPassword ? 'text' : 'password'}
+                    type={boolingState.showPassword ? 'text' : 'password'}
                     onChange={handleChange}
                     name="password"
-                // icon={<BsEyeFill />}
-                // iconMask={<BsFillEyeSlashFill />}
+                    icon={<BsEyeFill />}
+                    iconMask={<BsFillEyeSlashFill />}
                 />
             </div>
             <div className='flex justify-between items-center text-xs'>
