@@ -1,9 +1,7 @@
 import bcrypt from "bcrypt";
-import jsonwebtoken from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 import userMdl from "../models/user.mdl.js";
-
-const jwt = jsonwebtoken;
 
 export const signup = async (req, res, next) => {
     try {
