@@ -51,7 +51,7 @@ const Login = () => {
                     console.log(responseData);
                     // setUserData(responseData);
                     // setToken(responseData.token);
-                    // setBoolingState({ ...boolingState, loginStatus: true });
+                    setBoolingState({ ...boolingState, loginStatus: true });
                 } else {
                     setErrorLoginMsg(responseData.error);
                     setTimeout(() => {

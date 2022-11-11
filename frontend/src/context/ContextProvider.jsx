@@ -8,12 +8,17 @@ export const ContextProvider = memo(({ children }) => {
         loginStatus: false,
         isSignNotLog: false,
         isTimeToFetch: true,
+        fetchData: true,
         showPassword: false,
-    })
+    });
+
+    const [users, setUsers] = useState([])
+
     return (
         <StateContext.Provider
             value={{
-                boolingState, setBoolingState
+                boolingState, setBoolingState,
+                users, setUsers
             }}
         >
             {children}
