@@ -24,9 +24,9 @@ export function fetchData(data, setData, url) {
                     await setData(responseData.data);
                     setBoolingState({ ...boolingState, fetchData: false });
                 }
-                if (response.status === 403) {
+                if (response.status === 401) {
                     setBoolingState({ ...boolingState, loginStatus: false });
-                    // localStorage.removeItem('isLogged');
+                    localStorage.removeItem('isLogged');
                 }
             } catch (error) {
                 setBoolingState({ ...boolingState, loginStatus: false });

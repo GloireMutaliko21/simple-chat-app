@@ -34,7 +34,29 @@ export const getMessages = async (req, res, next) => {
         if (!messages) {
             res.status(404).json({ message: `Begin Talks with @${req.user.email}` });
         }
-        res.status(200).json(messages);
+        res.status(200).json({ data: messages });
+    } catch (err) {
+        res.status(500).json({ err });
+    }
+};
+
+export const getRelatedMessages = async (req, res, next) => {
+    const senderId = req.user._id;
+    try {
+        const messages = await Message.find({
+            talkers: {
+                $all: [senderId, senderId],
+            }
+        });
+        if (!messages) {
+            res.status(404).json({ message: 'Begin Talk' });
+        } else {
+            messages.map(message => {
+                const idUser = message.talkers.find(id => id.toString() !== senderId.toString());
+                console.log(idUser)
+            });
+        }
+        res.status(200).json({ data: messages });
     } catch (err) {
         res.status(500).json({ err });
     }

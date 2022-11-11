@@ -44,7 +44,8 @@ const Login = () => {
                 const response = await fetch(`${API_URL}/users/login`, params);
                 const responseData = await response.json();
                 if (response.status === 200) {
-                    localStorage.setItem('token', responseData.token)
+                    localStorage.setItem('token', responseData.token);
+                    localStorage.setItem('id', responseData.userId);
                     // if (rememberMe.current.checked) {
                     //     localStorage.setItem('isLogged', true);
                     // }

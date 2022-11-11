@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import { useStateContext } from "./context/ContextProvider";
 import Signup from './pages/Signup';
 import Contact from './components/Contact';
+import Messages from './components/Messages';
 
 function App() {
   const { boolingState, setBoolingState } = useStateContext();
@@ -16,6 +17,7 @@ function App() {
               <Login /> :
               <div className='w-screen h-screen'>
                 <Contact />
+                <Messages />
               </div>
             }
           </div> :
