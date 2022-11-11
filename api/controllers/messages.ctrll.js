@@ -66,7 +66,7 @@ export const getRelatedMessages = async (req, res, next) => {
                 console.log(err);
             }
         }
-        res.status(200).json({ data: friends });
+        res.status(200).json({ data: { friends, messages } });
     } catch (err) {
         res.status(500).json({ err });
     }
