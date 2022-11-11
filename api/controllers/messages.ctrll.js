@@ -1,5 +1,6 @@
 import Message from "../models/message.mdl.js";
 import mongoose from "mongoose";
+import userMdl from "../models/user.mdl.js";
 
 export const postSendMessage = async (req, res, next) => {
     const { content } = req.body;
@@ -48,15 +49,24 @@ export const getRelatedMessages = async (req, res, next) => {
                 $all: [senderId, senderId],
             }
         });
+        let friends;
         if (!messages) {
             res.status(404).json({ message: 'Begin Talk' });
         } else {
+            const userIds = []
             messages.map(message => {
                 const idUser = message.talkers.find(id => id.toString() !== senderId.toString());
-                console.log(idUser)
+                userIds.push(idUser);
             });
+            try {
+                friends = await userMdl.find({
+                    _id: { $in: userIds }
+                });
+            } catch (err) {
+                console.log(err);
+            }
         }
-        res.status(200).json({ data: messages });
+        res.status(200).json({ data: friends });
     } catch (err) {
         res.status(500).json({ err });
     }
