@@ -1,5 +1,6 @@
 import Message from "../models/message.mdl.js";
 import mongoose from "mongoose";
+import userMdl from "../models/user.mdl.js";
 
 export const postSendMessage = async (req, res, next) => {
     const { content } = req.body;
@@ -34,7 +35,38 @@ export const getMessages = async (req, res, next) => {
         if (!messages) {
             res.status(404).json({ message: `Begin Talks with @${req.user.email}` });
         }
-        res.status(200).json(messages);
+        res.status(200).json({ data: messages });
+    } catch (err) {
+        res.status(500).json({ err });
+    }
+};
+
+export const getRelatedMessages = async (req, res, next) => {
+    const senderId = req.user._id;
+    try {
+        const messages = await Message.find({
+            talkers: {
+                $all: [senderId, senderId],
+            }
+        });
+        let friends;
+        if (!messages) {
+            res.status(404).json({ message: 'Begin Talk' });
+        } else {
+            const userIds = []
+            messages.map(message => {
+                const idUser = message.talkers.find(id => id.toString() !== senderId.toString());
+                userIds.push(idUser);
+            });
+            try {
+                friends = await userMdl.find({
+                    _id: { $in: userIds }
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        res.status(200).json({ data: { friends, messages } });
     } catch (err) {
         res.status(500).json({ err });
     }

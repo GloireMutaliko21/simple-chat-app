@@ -44,14 +44,15 @@ const Login = () => {
                 const response = await fetch(`${API_URL}/users/login`, params);
                 const responseData = await response.json();
                 if (response.status === 200) {
-                    localStorage.setItem('token', responseData.token)
+                    localStorage.setItem('token', responseData.token);
+                    localStorage.setItem('id', responseData.userId);
                     // if (rememberMe.current.checked) {
                     //     localStorage.setItem('isLogged', true);
                     // }
                     console.log(responseData);
                     // setUserData(responseData);
                     // setToken(responseData.token);
-                    // setBoolingState({ ...boolingState, loginStatus: true });
+                    setBoolingState({ ...boolingState, loginStatus: true });
                 } else {
                     setErrorLoginMsg(responseData.error);
                     setTimeout(() => {
@@ -68,8 +69,7 @@ const Login = () => {
     return (
         <div className='flex flex-col justify-center min-w-[400px] max-w-max shadow-gray-200 p-10 text-teal-800 rounded-md text-left'>
             <div className='flex flex-col items-center  mb-5'>
-                <h1 className='text-5xl font-black bg-clip-text bg-gradient-to-l from-green-900 via-light-teal-900 to-cyan-700 text-transparent'>Talks</h1>
-                <p className='mb-5'>Welcome</p>
+                <img src="/images/logo.png" className='h-32' alt='Talks' />
                 <Button
                     icon={<FcGoogle className='text-xl mr-2' />}
                     label='Se connecter avec google'
