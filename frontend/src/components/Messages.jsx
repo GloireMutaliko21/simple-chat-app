@@ -22,12 +22,13 @@ const Messages = () => {
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
                             const msgCompleteDate = new Date(createdAt);
                             const timeDiffe = (completeDate.getTime() - msgCompleteDate.getTime()) / (1000 * 3600)
-                            console.log(timeDiffe);
                             const msgTime = new Date(createdAt).toLocaleTimeString();
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             return (
-                                <div key={_id} className="flex items-center my-2">
-                                    <HiUser className="h-14 w-14 text-gray-500 border p-1 rounded-full" />
+                                <div key={_id} className="flex justify-center items-center my-2">
+                                    <div>
+                                        <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
+                                    </div>
                                     <div className='mx-4 w-full'>
                                         <p className="font-extrabold overflow-hidden text-lg">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
                                         <div>
@@ -36,7 +37,7 @@ const Messages = () => {
                                                 <p className='text-xs text-teal-700'>
                                                     {msgDate === date ?
                                                         msgTime.substring(0, 5) :
-                                                        timeDiffe < 24 ? 'Hier' : msgDate
+                                                        completeDate.getDate() - 1 === msgCompleteDate.getDate() ? 'Hier' : msgDate
                                                     }
                                                 </p>
                                             </div>
