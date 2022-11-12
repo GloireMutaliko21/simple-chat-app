@@ -26,9 +26,9 @@ const Contact = () => {
         recherche(searchData, user);
     });
 
-    const handleChangeIsFilter = (e) => {
+    const handleChangeIsFilter = useMemo(() => (e) => {
         setSearchValue(e.target.value);
-    };
+    }, [searchValue])
 
     return (
         <div className="flex flex-col justify-start mb-1">
@@ -43,12 +43,7 @@ const Contact = () => {
                 <input
                     className={`focus:outline-none rounded-full border py-1 pr-4 pl-10 block appearance-none w-full`}
                     placeholder='Search'
-                    // type={type}
-                    // value={value}
-                    // placeholder={placeholder}
-                    onChange={(e) => handleChangeIsFilter(e)}
-                // name={name}
-                // disabled={disabled}
+                    onChange={handleChangeIsFilter}
                 >
                 </input>
             </div>
