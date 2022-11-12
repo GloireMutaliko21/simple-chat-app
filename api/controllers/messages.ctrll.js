@@ -5,11 +5,13 @@ import userMdl from "../models/user.mdl.js";
 export const postSendMessage = async (req, res, next) => {
     const { content } = req.body;
     const senderId = req.user._id;
-    const talkers = [senderId, mongoose.Types.ObjectId(req.params.receiverId)];
+    const receiverId = mongoose.Types.ObjectId(req.params.receiverId)
+    const talkers = [senderId, receiverId];
     try {
         const message = new Message({
             content,
             senderId,
+            receiverId,
             talkers
         });
         try {
@@ -31,7 +33,7 @@ export const getMessages = async (req, res, next) => {
             talkers: {
                 $all: [senderId, receiverId],
             }
-        });
+        }).populate(['receiverId', 'senderId']);
         if (!messages) {
             res.status(404).json({ message: `Begin Talks with @${req.user.email}` });
         }
@@ -48,25 +50,33 @@ export const getRelatedMessages = async (req, res, next) => {
             talkers: {
                 $all: [senderId, senderId],
             }
-        });
-        let friends;
+        }).populate('senderId');
+        let messagesTosend;
         if (!messages) {
             res.status(404).json({ message: 'Begin Talk' });
         } else {
-            const userIds = []
+            const userIds = [];
             messages.map(message => {
                 const idUser = message.talkers.find(id => id.toString() !== senderId.toString());
-                userIds.push(idUser);
+                userIds.push(idUser.toString());
             });
             try {
-                friends = await userMdl.find({
-                    _id: { $in: userIds }
-                });
+                messagesTosend = await Promise.all(
+                    [...new Set(userIds)].map(async (friend) => {
+                        const msg = await Message.findOne({
+                            talkers: {
+                                $all: [senderId, mongoose.Types.ObjectId(friend)],
+                            }
+                        }).populate(['senderId', 'receiverId']).sort({ createdAt: -1 }).exec();
+                        return msg;
+                    })
+                )
+                messagesTosend.sort((oldMsg, recentMsg) => recentMsg.createdAt.getTime() - oldMsg.createdAt.getTime());
             } catch (err) {
                 console.log(err);
             }
         }
-        res.status(200).json({ data: { friends, messages } });
+        res.status(200).json({ data: { messages: messagesTosend } });
     } catch (err) {
         res.status(500).json({ err });
     }

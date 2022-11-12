@@ -14,13 +14,18 @@ export const ContextProvider = memo(({ children }) => {
 
     const [users, setUsers] = useState([]);
     const [relatedUsers, serRelatedUsers] = useState([]);
+    const [messagesList, setMessagesList] = useState([]);
+
+    const rememberMe = useRef();
 
     return (
         <StateContext.Provider
             value={{
                 boolingState, setBoolingState,
                 users, setUsers,
-                relatedUsers, serRelatedUsers
+                relatedUsers, serRelatedUsers,
+                rememberMe,
+                messagesList, setMessagesList,
             }}
         >
             {children}

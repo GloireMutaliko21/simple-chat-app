@@ -1,0 +1,30 @@
+.bulle {
+    width: max-content;
+    position: relative;
+}
+
+.sender:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-top: 1px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 10px solid #115e59;
+    border-left: 10px solid transparent;
+    top: 40%;
+    left: -20px;
+}
+
+.receiver:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-top: 1px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 10px solid #115e59;
+    border-right: 10px solid transparent;
+    bottom: 40%;
+    right: -20px;
+}

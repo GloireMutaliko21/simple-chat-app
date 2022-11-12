@@ -8,7 +8,7 @@ import { API_URL } from '../constants/apiUrl';
 import { useStateContext } from "../context/ContextProvider";
 
 const Login = () => {
-    const { boolingState, setBoolingState } = useStateContext();
+    const { boolingState, setBoolingState, rememberMe } = useStateContext();
 
     const handleLoadSignUp = () => {
         setBoolingState({ ...boolingState, isSignNotLog: true })
@@ -46,9 +46,9 @@ const Login = () => {
                 if (response.status === 200) {
                     localStorage.setItem('token', responseData.token);
                     localStorage.setItem('id', responseData.userId);
-                    // if (rememberMe.current.checked) {
-                    //     localStorage.setItem('isLogged', true);
-                    // }
+                    if (rememberMe.current.checked) {
+                        localStorage.setItem('isLogged', true);
+                    }
                     console.log(responseData);
                     // setUserData(responseData);
                     // setToken(responseData.token);
@@ -99,7 +99,7 @@ const Login = () => {
             </div>
             <div className='flex justify-between items-center text-xs'>
                 <div className='flex justify-around items-center'>
-                    <input name='remember' id='remember' type="checkbox" />
+                    <input ref={rememberMe} name='remember' id='remember' type="checkbox" />
                     <label htmlFor='remember' className='ml-3 cursor-pointer'>Remember Me</label>
                 </div>
                 <div>

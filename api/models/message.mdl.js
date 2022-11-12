@@ -8,10 +8,15 @@ const messageSchema = mongoose.Schema(
             ref: 'User',
             req: true
         },
+        receiverId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            req: true
+        },
         talkers: Array
     },
     {
-        timestamp: true
+        timestamps: true
     }
 );
 
