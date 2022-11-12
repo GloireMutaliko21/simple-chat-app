@@ -63,7 +63,7 @@ export const getRelatedMessages = async (req, res, next) => {
             try {
                 messagesTosend = await Promise.all(
                     [...new Set(userIds)].map(async (friend) => {
-                        const msg = await Message.find({
+                        const msg = await Message.findOne({
                             talkers: {
                                 $all: [senderId, mongoose.Types.ObjectId(friend)],
                             }
@@ -71,6 +71,7 @@ export const getRelatedMessages = async (req, res, next) => {
                         return msg;
                     })
                 )
+                messagesTosend.sort((oldMsg, recentMsg) => recentMsg.createdAt.getTime() - oldMsg.createdAt.getTime());
             } catch (err) {
                 console.log(err);
             }
