@@ -32,8 +32,8 @@ const Messages = () => {
                                             {
                                                 talkers.includes(_id) &&
                                                 <div className='flex items-center'>
-                                                    <p className='mr-3'>{content}</p>
-                                                    <p className='text-xs'>
+                                                    <p className='mr-3 text-gray-600'>{content}</p>
+                                                    <p className='text-xs text-teal-700'>
                                                         {msgDate === date ?
                                                             msgTime.substring(0, 5) :
                                                             timeDiff > 0 && timeDiff <= 1 ? 'Hier' : msgDate
