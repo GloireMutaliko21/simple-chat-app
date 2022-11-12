@@ -1,15 +1,54 @@
+import { useState, useMemo } from 'react';
 import { CiMicrophoneOn } from "react-icons/ci";
 import { MdSend } from "react-icons/md";
 import { TiAttachment } from "react-icons/ti";
 
 import { useStateContext } from "../context/ContextProvider";
 import "../../public/css/message.css";
-
+import { API_URL } from '../constants/apiUrl';
 
 const Chat = () => {
+    const [msgContent, setMsgContent] = useState('');
+
     const { messagesList } = useStateContext();
     const userId = localStorage.getItem('id');
-    let receiverId;
+    const receiverId = localStorage.getItem('receiverId');
+
+    const handleChange = useMemo(() =>
+        (e) => setMsgContent(e.target.value), [msgContent]
+    );
+
+    async function sendMessage() {
+        const params = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                content: msgContent,
+                senderId: userId,
+                receiverId: receiverId,
+                talkers: [userId, receiverId]
+            })
+        }
+        try {
+            const response = await fetch(`${API_URL}/messages/send/${receiverId}`, params);
+            const responseData = await response.json();
+            if (response.status === 201) {
+                console.log(responseData);
+            }
+            // else {
+            //     setErrorLoginMsg(responseData.error);
+            //     setTimeout(() => {
+            //         setErrorLoginMsg(null);
+            //     }, 2000);
+            // }
+        } catch (err) {
+            // setErrorLoginMsg(err.json());
+            console.log(err);
+        }
+    }
 
     return (
         <div className="min-w-[580px] ml-20 h-full">
@@ -30,13 +69,13 @@ const Chat = () => {
                                 <input
                                     className={`focus:outline-none rounded-full border border-teal-200 text-teal-800 py-1 pl-4 pr-36 block appearance-none w-full`}
                                     placeholder='Your massage'
-                                // onChange={handleChangeIsFilter}
+                                    onChange={handleChange}
                                 >
                                 </input>
                                 <span className='absolute right-1 ml-3 px-2 py-1 flex items-center border rounded-full bg-slate-100 text-lg text-gray-500'>
                                     <CiMicrophoneOn className="text-blue-700 hover:cursor-pointer" />
                                     <TiAttachment className="ml-3 text-blue-600 text-xl hover:cursor-pointer" />
-                                    <span className="ml-3 hover:cursor-pointer">
+                                    <span className="ml-3 hover:cursor-pointer" onClick={sendMessage}>
                                         <MdSend className="text-teal-800" />
                                     </span>
                                 </span>
