@@ -14,6 +14,7 @@ export const ContextProvider = memo(({ children }) => {
 
     const [users, setUsers] = useState([]);
     const [relatedUsers, serRelatedUsers] = useState([]);
+    const [messagesList, setMessagesList] = useState([]);
 
     const rememberMe = useRef();
 
@@ -24,6 +25,7 @@ export const ContextProvider = memo(({ children }) => {
                 users, setUsers,
                 relatedUsers, serRelatedUsers,
                 rememberMe,
+                messagesList, setMessagesList,
             }}
         >
             {children}

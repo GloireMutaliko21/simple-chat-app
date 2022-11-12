@@ -41,3 +41,29 @@ export function fetchData(data, setData, url) {
     }, [boolingState.fetchData]);
     return [data];
 }
+export async function fetchMessages(userId) {
+    const { boolingState, setBoolingState, messages, setMessages } = useStateContext();
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const paramsData = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    };
+    try {
+        const response = await fetch(`${API_URL}/messages/messages${userId}`, paramsData, { signal });
+        const responseData = await response.json();
+        if (response.status === 200) {
+            await setMessages(responseData.data);
+        }
+        if (response.status === 401) {
+            localStorage.removeItem('isLogged');
+        }
+    } catch (error) {
+        setBoolingState({ ...boolingState, loginStatus: false });
+    }
+    return [messages];
+}

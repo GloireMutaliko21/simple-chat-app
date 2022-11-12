@@ -8,7 +8,7 @@ import Home from './pages/Home';
 import Chat from "./pages/Chat";
 
 function App() {
-  const { boolingState, setBoolingState } = useStateContext();
+  const { boolingState } = useStateContext();
   return (
     <BrowserRouter>
       <div>
@@ -22,7 +22,7 @@ function App() {
                   <Login />
                 </div> :
 
-                <div className='w-screen h-screen'>
+                <div className='w-full h-screen max-w-[1020px] shadow-sm px-10'>
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/home" element={<Home />} />

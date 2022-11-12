@@ -1,8 +1,12 @@
-import React from 'react'
+import { useStateContext } from "../context/ContextProvider";
 
 const Chat = () => {
+    const { messagesList } = useStateContext();
+
     return (
-        <div>Chat</div>
+        <div>
+            {messagesList.map(message => <div key={message._id}>{message.content}</div>)}
+        </div>
     )
 }
 

@@ -33,7 +33,7 @@ export const getMessages = async (req, res, next) => {
             talkers: {
                 $all: [senderId, receiverId],
             }
-        }).populate('receiverId');
+        }).populate(['receiverId', 'senderId']);
         if (!messages) {
             res.status(404).json({ message: `Begin Talks with @${req.user.email}` });
         }
