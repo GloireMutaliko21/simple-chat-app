@@ -5,10 +5,11 @@ import { HiUser } from 'react-icons/hi';
 
 const Messages = () => {
     const { relatedUsers, serRelatedUsers } = useStateContext();
-    const userId = localStorage.getItem('id')
+
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
-    // console.log(messages);
-    const friends = messages.friends;
+
+    const userId = localStorage.getItem('id')
+
     const relatedMessages = messages.messages;
     const date = new Date().toLocaleDateString();
     const completeDate = new Date();
@@ -17,36 +18,33 @@ const Messages = () => {
             <h1 className="text-3xl text-teal-800 font-black m-4">Messages</h1>
             <div className="ml-5 overflow-scroll">
                 {
-                    friends?.map(({ _id, username }) => <div key={_id} className="flex items-center my-2">
-                        <HiUser className="h-14 w-14 text-gray-500 border p-1 rounded-full" />
-                        <div className='ml-4'>
-                            <p className="font-extrabold overflow-hidden text-lg">{username}</p>
-                            <div>
-                                {
-                                    relatedMessages.map(({ talkers, content, createdAt }, idx) => {
-                                        const msgCompleteDate = new Date(createdAt);
-                                        const timeDiff = (completeDate.getTime() - msgCompleteDate.getTime()) / (1000 * 3600 * 24);
-                                        const msgTime = new Date(createdAt).toLocaleTimeString();
-                                        const msgDate = new Date(createdAt).toLocaleDateString();
-                                        return <div key={idx}>
-                                            {
-                                                talkers.includes(_id) &&
-                                                <div className='flex items-center'>
-                                                    <p className='mr-3 text-gray-600'>{content}</p>
-                                                    <p className='text-xs text-teal-700'>
-                                                        {msgDate === date ?
-                                                            msgTime.substring(0, 5) :
-                                                            timeDiff > 0 && timeDiff <= 1 ? 'Hier' : msgDate
-                                                        }
-                                                    </p>
-                                                </div>
-                                            }
+                    relatedMessages?.map(
+                        ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
+                            const msgCompleteDate = new Date(createdAt);
+                            const timeDiff = (completeDate.getTime() - msgCompleteDate.getTime()) / (1000 * 3600 * 24);
+                            const msgTime = new Date(createdAt).toLocaleTimeString();
+                            const msgDate = new Date(createdAt).toLocaleDateString();
+                            return (
+                                <div key={_id} className="flex items-center my-2">
+                                    <HiUser className="h-14 w-14 text-gray-500 border p-1 rounded-full" />
+                                    <div className='ml-4'>
+                                        <p className="font-extrabold overflow-hidden text-lg">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
+                                        <div>
+                                            <div className='flex items-center'>
+                                                <p className='mr-3 text-gray-600'>{content}</p>
+                                                <p className='text-xs text-teal-700'>
+                                                    {msgDate === date ?
+                                                        msgTime.substring(0, 5) :
+                                                        timeDiff > 0 && timeDiff <= 1 ? 'Hier' : msgDate
+                                                    }
+                                                </p>
+                                            </div>
                                         </div>
-                                    })
-                                }
-                            </div>
-                        </div>
-                    </div>)
+                                    </div>
+                                </div>
+                            )
+                        }
+                    )
                 }
             </div>
         </div>

@@ -5,11 +5,13 @@ import userMdl from "../models/user.mdl.js";
 export const postSendMessage = async (req, res, next) => {
     const { content } = req.body;
     const senderId = req.user._id;
-    const talkers = [senderId, mongoose.Types.ObjectId(req.params.receiverId)];
+    const receiverId = mongoose.Types.ObjectId(req.params.receiverId)
+    const talkers = [senderId, receiverId];
     try {
         const message = new Message({
             content,
             senderId,
+            receiverId,
             talkers
         });
         try {
@@ -31,7 +33,7 @@ export const getMessages = async (req, res, next) => {
             talkers: {
                 $all: [senderId, receiverId],
             }
-        });
+        }).populate('receiverId');
         if (!messages) {
             res.status(404).json({ message: `Begin Talks with @${req.user.email}` });
         }
@@ -49,7 +51,6 @@ export const getRelatedMessages = async (req, res, next) => {
                 $all: [senderId, senderId],
             }
         }).populate('senderId');
-        let friends;
         let messagesTosend;
         if (!messages) {
             res.status(404).json({ message: 'Begin Talk' });
@@ -57,20 +58,16 @@ export const getRelatedMessages = async (req, res, next) => {
             const userIds = [];
             messages.map(message => {
                 const idUser = message.talkers.find(id => id.toString() !== senderId.toString());
-                userIds.push(idUser);
+                userIds.push(idUser.toString());
             });
-
             try {
-                friends = await userMdl.find({
-                    _id: { $in: userIds }
-                });
                 messagesTosend = await Promise.all(
-                    friends.map(async (friend) => {
-                        const msg = await Message.findOne({
+                    [...new Set(userIds)].map(async (friend) => {
+                        const msg = await Message.find({
                             talkers: {
-                                $all: [senderId, friend._id],
+                                $all: [senderId, mongoose.Types.ObjectId(friend)],
                             }
-                        }).sort({ createdAt: -1 }).exec();
+                        }).populate(['senderId', 'receiverId']).sort({ createdAt: -1 }).exec();
                         return msg;
                     })
                 )
@@ -78,7 +75,7 @@ export const getRelatedMessages = async (req, res, next) => {
                 console.log(err);
             }
         }
-        res.status(200).json({ data: { friends, messages: messagesTosend } });
+        res.status(200).json({ data: { messages: messagesTosend } });
     } catch (err) {
         res.status(500).json({ err });
     }
