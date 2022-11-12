@@ -10,7 +10,8 @@ const Messages = () => {
     // console.log(messages);
     const friends = messages.friends;
     const relatedMessages = messages.messages;
-    let user;
+    const date = new Date().toLocaleDateString();
+    const completeDate = new Date();
     return (
         <div className='flex flex-col justify-start'>
             <h1 className="text-3xl text-teal-800 font-black m-4">Messages</h1>
@@ -21,17 +22,28 @@ const Messages = () => {
                         <div className='ml-4'>
                             <p className="font-extrabold overflow-hidden text-lg">{username}</p>
                             <div>
-                                {relatedMessages.map((message, idx) =>
-                                    <div key={idx}>
-                                        {
-                                            message.talkers.includes(_id) &&
-                                            <div className='flex items-center'>
-                                                <p className='mr-3'>{message.content}</p>
-                                                <p className='text-xs'>{message.createdAt.substring(11, 16)}</p>
-                                            </div>
-                                        }
-                                    </div>
-                                )}
+                                {
+                                    relatedMessages.map(({ talkers, content, createdAt }, idx) => {
+                                        const msgCompleteDate = new Date(createdAt);
+                                        const timeDiff = (completeDate.getTime() - msgCompleteDate.getTime()) / (1000 * 3600 * 24);
+                                        const msgTime = new Date(createdAt).toLocaleTimeString();
+                                        const msgDate = new Date(createdAt).toLocaleDateString();
+                                        return <div key={idx}>
+                                            {
+                                                talkers.includes(_id) &&
+                                                <div className='flex items-center'>
+                                                    <p className='mr-3'>{content}</p>
+                                                    <p className='text-xs'>
+                                                        {msgDate === date ?
+                                                            msgTime.substring(0, 5) :
+                                                            timeDiff > 0 && timeDiff <= 1 ? 'Hier' : msgDate
+                                                        }
+                                                    </p>
+                                                </div>
+                                            }
+                                        </div>
+                                    })
+                                }
                             </div>
                         </div>
                     </div>)
