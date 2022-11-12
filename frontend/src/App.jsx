@@ -11,18 +11,18 @@ function App() {
   const { boolingState } = useStateContext();
   return (
     <BrowserRouter>
-      <div>
+      <div className="w-full shadow-sm px-32">
 
         {
           !boolingState.isSignNotLog ?
-            <div className=''>
+            <div className='w-full'>
               {!boolingState.loginStatus && !localStorage.getItem("isLogged") ?
-                <div className='flex justify-between items-center w-full h-screen shadow-md px-32'>
+                <div className='flex justify-between items-center'>
                   <Landing />
                   <Login />
                 </div> :
 
-                <div className='w-full h-screen max-w-[1020px] shadow-sm px-10'>
+                <div className='min-w-[960px] py-10'>
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/home" element={<Home />} />

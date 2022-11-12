@@ -31,7 +31,7 @@ const Contact = () => {
     }, [searchValue])
 
     return (
-        <div className="flex flex-col justify-start mb-1 max-w-[940px]">
+        <div className="flex flex-col justify-start mb-1">
             <div className="flex justify-between items-center m-4 mb-0">
                 <h1 className="text-3xl text-teal-800 font-black">Contacts</h1>
                 <HiUser className="h-7 w-7 text-gray-500 rounded-full" />

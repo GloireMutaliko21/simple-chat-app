@@ -56,8 +56,8 @@ const Messages = () => {
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             return (
-                                <div onClick={() => fetchMessages(user)}>
-                                    <NavLink to='/chat' key={_id} className="flex justify-center items-center my-2">
+                                <div onClick={() => fetchMessages(user)} className='cursor-pointer'>
+                                    <div key={_id} className="flex justify-center items-center my-2">
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
                                         </div>
@@ -75,7 +75,7 @@ const Messages = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </NavLink>
+                                    </div>
                                 </div>
                             )
                         }
