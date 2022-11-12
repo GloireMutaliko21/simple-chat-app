@@ -1,4 +1,6 @@
 import React from 'react'
+import { NavLink } from "react-router-dom";
+
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData } from '../hook/useFecth';
 import { HiUser } from 'react-icons/hi';
@@ -21,11 +23,10 @@ const Messages = () => {
                     relatedMessages?.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
                             const msgCompleteDate = new Date(createdAt);
-                            const timeDiffe = (completeDate.getTime() - msgCompleteDate.getTime()) / (1000 * 3600)
                             const msgTime = new Date(createdAt).toLocaleTimeString();
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             return (
-                                <div key={_id} className="flex justify-center items-center my-2">
+                                <NavLink to='/chat' key={_id} className="flex justify-center items-center my-2">
                                     <div>
                                         <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
                                     </div>
@@ -43,7 +44,7 @@ const Messages = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </NavLink>
                             )
                         }
                     )
