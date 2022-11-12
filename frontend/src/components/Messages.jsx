@@ -16,26 +16,27 @@ const Messages = () => {
     return (
         <div className='flex flex-col justify-start'>
             <h1 className="text-3xl text-teal-800 font-black m-4">Messages</h1>
-            <div className="ml-5 overflow-scroll">
+            <div className="ml-5">
                 {
                     relatedMessages?.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
                             const msgCompleteDate = new Date(createdAt);
-                            const timeDiff = (completeDate.getTime() - msgCompleteDate.getTime()) / (1000 * 3600 * 24);
+                            const timeDiffe = (completeDate.getTime() - msgCompleteDate.getTime()) / (1000 * 3600)
+                            console.log(timeDiffe);
                             const msgTime = new Date(createdAt).toLocaleTimeString();
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             return (
                                 <div key={_id} className="flex items-center my-2">
                                     <HiUser className="h-14 w-14 text-gray-500 border p-1 rounded-full" />
-                                    <div className='ml-4'>
+                                    <div className='mx-4 w-full'>
                                         <p className="font-extrabold overflow-hidden text-lg">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
                                         <div>
-                                            <div className='flex items-center'>
+                                            <div className='flex justify-between items-center'>
                                                 <p className='mr-3 text-gray-600'>{content}</p>
                                                 <p className='text-xs text-teal-700'>
                                                     {msgDate === date ?
                                                         msgTime.substring(0, 5) :
-                                                        timeDiff > 0 && timeDiff <= 1 ? 'Hier' : msgDate
+                                                        timeDiffe < 24 ? 'Hier' : msgDate
                                                     }
                                                 </p>
                                             </div>
