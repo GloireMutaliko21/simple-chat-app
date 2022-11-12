@@ -48,25 +48,37 @@ export const getRelatedMessages = async (req, res, next) => {
             talkers: {
                 $all: [senderId, senderId],
             }
-        });
+        }).populate('senderId');
         let friends;
+        let messagesTosend;
         if (!messages) {
             res.status(404).json({ message: 'Begin Talk' });
         } else {
-            const userIds = []
+            const userIds = [];
             messages.map(message => {
                 const idUser = message.talkers.find(id => id.toString() !== senderId.toString());
                 userIds.push(idUser);
             });
+
             try {
                 friends = await userMdl.find({
                     _id: { $in: userIds }
                 });
+                messagesTosend = await Promise.all(
+                    friends.map(async (friend) => {
+                        const msg = await Message.findOne({
+                            talkers: {
+                                $all: [senderId, friend._id],
+                            }
+                        }).sort({ createdAt: -1 }).exec();
+                        return msg;
+                    })
+                )
             } catch (err) {
                 console.log(err);
             }
         }
-        res.status(200).json({ data: { friends, messages } });
+        res.status(200).json({ data: { friends, messages: messagesTosend } });
     } catch (err) {
         res.status(500).json({ err });
     }

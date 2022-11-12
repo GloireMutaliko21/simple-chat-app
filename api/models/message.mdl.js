@@ -11,7 +11,7 @@ const messageSchema = mongoose.Schema(
         talkers: Array
     },
     {
-        timestamp: true
+        timestamps: true
     }
 );
 
