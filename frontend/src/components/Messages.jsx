@@ -34,6 +34,7 @@ const Messages = () => {
             const responseData = await response.json();
             if (response.status === 200) {
                 await setMessagesList(responseData.data);
+                localStorage.setItem('receiverId', userId);
             }
             if (response.status === 401) {
                 localStorage.removeItem('isLogged');
