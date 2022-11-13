@@ -1,26 +1,89 @@
+import { useState, useMemo } from 'react';
+import { CiMicrophoneOn } from "react-icons/ci";
+import { MdSend } from "react-icons/md";
+import { TiAttachment } from "react-icons/ti";
+
 import { useStateContext } from "../context/ContextProvider";
 import "../../public/css/message.css";
-
+import { API_URL } from '../constants/apiUrl';
 
 const Chat = () => {
+    const [msgContent, setMsgContent] = useState('');
+
     const { messagesList } = useStateContext();
     const userId = localStorage.getItem('id');
+    const receiverId = localStorage.getItem('receiverId');
+
+    const handleChange = useMemo(() =>
+        (e) => setMsgContent(e.target.value), [msgContent]
+    );
+
+    async function sendMessage() {
+        const params = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                content: msgContent,
+                senderId: userId,
+                receiverId: receiverId,
+                talkers: [userId, receiverId]
+            })
+        }
+        try {
+            const response = await fetch(`${API_URL}/messages/send/${receiverId}`, params);
+            const responseData = await response.json();
+            if (response.status === 201) {
+                console.log(responseData);
+            }
+            // else {
+            //     setErrorLoginMsg(responseData.error);
+            //     setTimeout(() => {
+            //         setErrorLoginMsg(null);
+            //     }, 2000);
+            // }
+        } catch (err) {
+            // setErrorLoginMsg(err.json());
+            console.log(err);
+        }
+    }
 
     return (
         <div className="min-w-[580px] ml-20 h-full">
             {
                 messagesList.length > 0 ?
-                    <div className="h-full border-[1px] border-gray-50 px-6">
-                        {
-                            messagesList.map(message => {
-                                const senderId = message.talkers[0] === userId;
-                                {/* before: content - none before: w - 0 before: h - 0 before:absolute before: border - l - 8 before: border - r - 8 before: border - r - transparent before: border - t - 8 before: border - b - 8 before: border - b - transparent before: -right - 5 before: top - 2 */ }
+                    <div className="h-full border-[1px] border-gray-50 px-6 flex flex-col relative">
+                        <div className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'>
 
-                                return <div key={message._id} className={`p-2 my-1 bulle ${!senderId ? 'sender bg-teal-800 text-white rounded-r-2xl rounded-tl-2xl rounded-bl-xl' : 'receiver text-teal-800 border border-teal-600 rounded-l-full rounded-br-full'} `}>
-                                    {message.content}
-                                </div>
-                            })
-                        }
+                            {
+                                messagesList.map(message => {
+                                    const senderId = message.talkers[0] === userId;
+
+                                    return <div key={message._id} className={`py-1 px-2 my-1 relative w-64 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-slate-100 text-teal-800 rounded-l-3xl rounded-br-3xl rounded-tr-none place-self-end'} `}>
+                                        {message.content}
+                                    </div>
+                                })
+                            }
+                        </div>
+                        <div className="absolute bottom-0 left-5 right-5">
+                            <div className='bg-gray-200 flex justify-between items-center relative mx-4 mb-4 rounded-full'>
+                                <input
+                                    className={`focus:outline-none rounded-full border border-teal-200 text-teal-800 py-1 pl-4 pr-36 block appearance-none w-full`}
+                                    placeholder='Your massage'
+                                    onChange={handleChange}
+                                >
+                                </input>
+                                <span className='absolute right-1 ml-3 px-2 py-1 flex items-center border rounded-full bg-slate-100 text-lg text-gray-500'>
+                                    <CiMicrophoneOn className="text-blue-700 hover:cursor-pointer" />
+                                    <TiAttachment className="ml-3 text-blue-600 text-xl hover:cursor-pointer" />
+                                    <span className="ml-3 hover:cursor-pointer" onClick={sendMessage}>
+                                        <MdSend className="text-teal-800" />
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
                     </div> :
 
                     <div className="h-full bg-center bg-no-repeat flex justify-center items-center">

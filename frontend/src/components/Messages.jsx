@@ -34,6 +34,7 @@ const Messages = () => {
             const responseData = await response.json();
             if (response.status === 200) {
                 await setMessagesList(responseData.data);
+                localStorage.setItem('receiverId', userId);
             }
             if (response.status === 401) {
                 localStorage.removeItem('isLogged');
@@ -56,8 +57,8 @@ const Messages = () => {
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             return (
-                                <div onClick={() => fetchMessages(user)} className='cursor-pointer'>
-                                    <div key={_id} className="flex justify-center items-center my-2">
+                                <div key={_id} onClick={() => fetchMessages(user)} className='cursor-pointer'>
+                                    <div className="flex justify-center items-center my-2">
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
                                         </div>
@@ -65,7 +66,7 @@ const Messages = () => {
                                             <p className="font-extrabold overflow-hidden text-lg">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
                                             <div>
                                                 <div className='flex justify-between items-center'>
-                                                    <p className='mr-3 text-gray-600'>{content}</p>
+                                                    <p className='mr-3 text-gray-600 w-[100px] overflow-hidden h-6'>{content}</p>
                                                     <p className='text-xs text-teal-700'>
                                                         {msgDate === date ?
                                                             msgTime.substring(0, 5) :
