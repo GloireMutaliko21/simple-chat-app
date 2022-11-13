@@ -66,7 +66,7 @@ const Messages = () => {
                                             <p className="font-extrabold overflow-hidden text-lg">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
                                             <div>
                                                 <div className='flex justify-between items-center'>
-                                                    <p className='mr-3 text-gray-600'>{content}</p>
+                                                    <p className='mr-3 text-gray-600 w-[100px] overflow-hidden h-6'>{content}</p>
                                                     <p className='text-xs text-teal-700'>
                                                         {msgDate === date ?
                                                             msgTime.substring(0, 5) :

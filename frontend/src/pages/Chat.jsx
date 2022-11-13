@@ -55,15 +55,18 @@ const Chat = () => {
             {
                 messagesList.length > 0 ?
                     <div className="h-full border-[1px] border-gray-50 px-6 flex flex-col relative">
-                        {
-                            messagesList.map(message => {
-                                const senderId = message.talkers[0] === userId;
+                        <div className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'>
 
-                                return <div key={message._id} className={`py-1 px-2 my-1 relative w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-xl place-self-start' : 'receiver bg-slate-100 text-teal-800 border rounded-l-3xl rounded-br-3xl rounded-tr-2xl place-self-end'} `}>
-                                    {message.content}
-                                </div>
-                            })
-                        }
+                            {
+                                messagesList.map(message => {
+                                    const senderId = message.talkers[0] === userId;
+
+                                    return <div key={message._id} className={`py-1 px-2 my-1 relative w-64 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-slate-100 text-teal-800 rounded-l-3xl rounded-br-3xl rounded-tr-none place-self-end'} `}>
+                                        {message.content}
+                                    </div>
+                                })
+                            }
+                        </div>
                         <div className="absolute bottom-0 left-5 right-5">
                             <div className='bg-gray-200 flex justify-between items-center relative mx-4 mb-4 rounded-full'>
                                 <input
