@@ -41,8 +41,7 @@ export function fetchData(data, setData, url) {
     }, [boolingState.fetchData]);
     return [data];
 }
-export async function fetchMessages(userId, setMessagesList) {
-    // const { setMessagesList } = useStateContext();
+export async function fetchMessages(userId, setMessagesList, setBoolingState, boolingState) {
     const controller = new AbortController();
     const signal = controller.signal;
 
@@ -66,5 +65,4 @@ export async function fetchMessages(userId, setMessagesList) {
     } catch (error) {
         setBoolingState({ ...boolingState, loginStatus: false });
     }
-    console.log();
 }

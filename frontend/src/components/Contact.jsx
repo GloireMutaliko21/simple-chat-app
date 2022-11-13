@@ -3,10 +3,10 @@ import { HiUser } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
 
 import { useStateContext } from "../context/ContextProvider";
-import { fetchData } from "../hook/useFecth";
+import { fetchData, fetchMessages } from "../hook/useFecth";
 
 const Contact = () => {
-    const { users, setUsers } = useStateContext();
+    const { users, setUsers, setMessagesList, boolingState, setBoolingState } = useStateContext();
     const [searchValue, setSearchValue] = useState('');
 
     const [data] = fetchData(users, setUsers, '/users');
@@ -49,7 +49,11 @@ const Contact = () => {
             </div>
             <div className="flex ml-5 overflow-clip">
                 {usersData.length > 0 ? usersData.map(({ _id, username }) => _id !== localStorage.getItem('id') &&
-                    <div key={_id} className="flex flex-col justify-center items-center mx-1">
+                    <div
+                        key={_id}
+                        className="flex flex-col justify-center items-center mx-1 hover:cursor-pointer"
+                        onClick={() => fetchMessages(_id, setMessagesList, setBoolingState, boolingState)}
+                    >
                         <HiUser className="h-10 w-10 text-gray-500 border border-teal-200 p-1 rounded-full" />
                         <p className="mt-1 font-semibold w-[40px] overflow-hidden text-sm">{username}</p>
                     </div>) : <div className='text-red-500'>No user found</div>}

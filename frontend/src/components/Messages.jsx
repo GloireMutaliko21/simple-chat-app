@@ -6,7 +6,7 @@ import { fetchData, fetchMessages } from '../hook/useFecth';
 import { HiUser } from 'react-icons/hi';
 
 const Messages = () => {
-    const { relatedUsers, serRelatedUsers, setMessagesList } = useStateContext();
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
@@ -19,7 +19,7 @@ const Messages = () => {
     return (
         <div className='flex flex-col justify-start'>
             <h1 className="text-3xl text-teal-800 font-black my-4">Messages</h1>
-            <div className="ml-5">
+            <div className="ml-5 h-64 overflow-y-scroll">
                 {
                     relatedMessages?.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
@@ -28,7 +28,7 @@ const Messages = () => {
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             return (
-                                <div key={_id} onClick={() => fetchMessages(user, setMessagesList)} className='cursor-pointer'>
+                                <div key={_id} onClick={() => fetchMessages(user, setMessagesList, setBoolingState, boolingState)} className='cursor-pointer'>
                                     <div className="flex justify-center items-center my-2">
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />

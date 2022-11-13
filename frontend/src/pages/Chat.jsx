@@ -51,7 +51,7 @@ const Chat = () => {
     }
 
     return (
-        <div className="min-w-[780px] h-full" style={{
+        <div className="min-w-[780px] h-full relative" style={{
             backgroundImage: 'radial-gradient(#F4F6F6 20%, transparent 20%),radial-gradient(#F4F6F6 20%, transparent 20%)',
             backgroundPosition: '0 0, 50px 50px',
             backgroundSize: '10px 10px'
@@ -71,29 +71,30 @@ const Chat = () => {
                                 })
                             }
                         </div>
-                        <div className="absolute bottom-0 left-5 right-5">
-                            <div className='bg-gray-200 flex justify-between items-center relative mx-4 mb-4 rounded-full'>
-                                <input
-                                    className={`focus:outline-none rounded-full border border-teal-200 text-teal-800 py-1 pl-4 pr-36 block appearance-none w-full`}
-                                    placeholder='Your massage'
-                                    onChange={handleChange}
-                                >
-                                </input>
-                                <span className='absolute right-1 ml-3 px-2 py-1 flex items-center border rounded-full bg-slate-100 text-lg text-gray-500'>
-                                    <CiMicrophoneOn className="text-blue-700 hover:cursor-pointer" />
-                                    <TiAttachment className="ml-3 text-blue-600 text-xl hover:cursor-pointer" />
-                                    <span className="ml-3 hover:cursor-pointer" onClick={sendMessage}>
-                                        <MdSend className="text-teal-800" />
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
+
                     </div> :
 
                     <div className="h-full bg-center bg-no-repeat flex justify-center items-center">
                         <img src="/images/logo.png" alt="" className="rounded-full border-[1px] border-teal-100" />
                     </div>
             }
+            <div className="absolute bottom-0 left-0 right-0">
+                <div className='bg-gray-200 flex justify-between items-center relative mx-4 mb-4 rounded-full'>
+                    <input
+                        className={`focus:outline-none rounded-full border border-teal-200 text-teal-800 py-1 pl-4 pr-36 block appearance-none w-full`}
+                        placeholder='Your massage'
+                        onChange={handleChange}
+                    >
+                    </input>
+                    <span className='absolute right-1 ml-3 px-2 py-1 flex items-center border rounded-full bg-slate-100 text-lg text-gray-500'>
+                        <CiMicrophoneOn className="text-blue-700 hover:cursor-pointer" />
+                        <TiAttachment className="ml-3 text-blue-600 text-xl hover:cursor-pointer" />
+                        <span className="ml-3 hover:cursor-pointer" onClick={sendMessage}>
+                            <MdSend className="text-teal-800" />
+                        </span>
+                    </span>
+                </div>
+            </div>
         </div>
     )
 }
