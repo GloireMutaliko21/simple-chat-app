@@ -41,11 +41,10 @@ export function fetchData(data, setData, url) {
     }, [boolingState.fetchData]);
     return [data];
 }
-export async function fetchMessages(userId) {
-    const { boolingState, setBoolingState, messages, setMessages } = useStateContext();
-
+export async function fetchMessages(userId, setMessagesList, setBoolingState, boolingState) {
     const controller = new AbortController();
     const signal = controller.signal;
+
     const paramsData = {
         method: 'GET',
         headers: {
@@ -54,10 +53,11 @@ export async function fetchMessages(userId) {
         }
     };
     try {
-        const response = await fetch(`${API_URL}/messages/messages${userId}`, paramsData, { signal });
+        const response = await fetch(`${API_URL}/messages/messages/${userId}`, paramsData, { signal });
         const responseData = await response.json();
         if (response.status === 200) {
-            await setMessages(responseData.data);
+            await setMessagesList(responseData.data);
+            localStorage.setItem('receiverId', userId);
         }
         if (response.status === 401) {
             localStorage.removeItem('isLogged');
@@ -65,5 +65,4 @@ export async function fetchMessages(userId) {
     } catch (error) {
         setBoolingState({ ...boolingState, loginStatus: false });
     }
-    return [messages];
 }

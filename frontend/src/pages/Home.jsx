@@ -6,12 +6,12 @@ import Chat from './Chat';
 
 const Home = () => {
     return (
-        <div className='flex'>
-            <div>
+        <div className='flex justify-around'>
+            <div className='border-0 md:border-r md:pr-20'>
                 <Contact />
                 <Messages />
             </div>
-            <div>
+            <div className='hidden md:block'>
                 <Chat />
             </div>
         </div>

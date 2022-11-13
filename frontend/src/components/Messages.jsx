@@ -2,12 +2,11 @@ import React from 'react'
 import { NavLink } from "react-router-dom";
 
 import { useStateContext } from '../context/ContextProvider';
-import { fetchData } from '../hook/useFecth';
+import { fetchData, fetchMessages } from '../hook/useFecth';
 import { HiUser } from 'react-icons/hi';
-import { API_URL } from '../constants/apiUrl';
 
 const Messages = () => {
-    const { relatedUsers, serRelatedUsers, boolingState, setBoolingState, messagesList, setMessagesList } = useStateContext();
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
@@ -17,38 +16,10 @@ const Messages = () => {
     const date = new Date().toLocaleDateString();
     const completeDate = new Date();
 
-
-    async function fetchMessages(userId) {
-        const controller = new AbortController();
-        const signal = controller.signal;
-
-        const paramsData = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        };
-        try {
-            const response = await fetch(`${API_URL}/messages/messages/${userId}`, paramsData, { signal });
-            const responseData = await response.json();
-            if (response.status === 200) {
-                await setMessagesList(responseData.data);
-                localStorage.setItem('receiverId', userId);
-            }
-            if (response.status === 401) {
-                localStorage.removeItem('isLogged');
-            }
-        } catch (error) {
-            setBoolingState({ ...boolingState, loginStatus: false });
-        }
-        console.log(messagesList)
-    }
-
     return (
         <div className='flex flex-col justify-start'>
-            <h1 className="text-3xl text-teal-800 font-black m-4">Messages</h1>
-            <div className="ml-5">
+            <h1 className="text-3xl text-teal-800 font-black my-4">Messages</h1>
+            <div className="ml-5 h-64 overflow-y-scroll">
                 {
                     relatedMessages?.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
@@ -57,13 +28,13 @@ const Messages = () => {
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             return (
-                                <div key={_id} onClick={() => fetchMessages(user)} className='cursor-pointer'>
+                                <div key={_id} onClick={() => fetchMessages(user, setMessagesList, setBoolingState, boolingState)} className='cursor-pointer'>
                                     <div className="flex justify-center items-center my-2">
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
                                         </div>
-                                        <div className='mx-4 w-full'>
-                                            <p className="font-extrabold overflow-hidden text-lg">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
+                                        <div className='mx-4 w-full border-b'>
+                                            <p className="font-extrabold overflow-hidden text-base">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
                                             <div>
                                                 <div className='flex justify-between items-center'>
                                                     <p className='mr-3 text-gray-600 w-[100px] overflow-hidden h-6'>{content}</p>
