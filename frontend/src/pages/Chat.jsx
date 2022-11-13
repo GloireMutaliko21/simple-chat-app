@@ -51,10 +51,14 @@ const Chat = () => {
     }
 
     return (
-        <div className="min-w-[580px] ml-20 h-full">
+        <div className="min-w-[780px] h-full" style={{
+            backgroundImage: 'radial-gradient(#F4F6F6 20%, transparent 20%),radial-gradient(#F4F6F6 20%, transparent 20%)',
+            backgroundPosition: '0 0, 50px 50px',
+            backgroundSize: '10px 10px'
+        }}>
             {
                 messagesList.length > 0 ?
-                    <div className="h-full border-[1px] border-gray-50 px-6 flex flex-col relative">
+                    <div className="h-full  border-gray-50 px-6 flex flex-col relative">
                         <div className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'>
 
                             {
@@ -87,7 +91,7 @@ const Chat = () => {
                     </div> :
 
                     <div className="h-full bg-center bg-no-repeat flex justify-center items-center">
-                        <img src="/images/logo.png" alt="" className="" />
+                        <img src="/images/logo.png" alt="" className="rounded-full border-[1px] border-teal-100" />
                     </div>
             }
         </div>

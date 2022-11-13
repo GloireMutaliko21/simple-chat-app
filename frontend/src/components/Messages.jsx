@@ -47,7 +47,7 @@ const Messages = () => {
 
     return (
         <div className='flex flex-col justify-start'>
-            <h1 className="text-3xl text-teal-800 font-black m-4">Messages</h1>
+            <h1 className="text-3xl text-teal-800 font-black my-4">Messages</h1>
             <div className="ml-5">
                 {
                     relatedMessages?.map(
@@ -62,8 +62,8 @@ const Messages = () => {
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
                                         </div>
-                                        <div className='mx-4 w-full'>
-                                            <p className="font-extrabold overflow-hidden text-lg">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
+                                        <div className='mx-4 w-full border-b'>
+                                            <p className="font-extrabold overflow-hidden text-base">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
                                             <div>
                                                 <div className='flex justify-between items-center'>
                                                     <p className='mr-3 text-gray-600 w-[100px] overflow-hidden h-6'>{content}</p>
