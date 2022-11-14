@@ -88,8 +88,8 @@ const Chat = () => {
                                             {message.content}
                                             <p className='text-[8px] '>
                                                 {msgDate === date ?
-                                                    msgTime.substring(0, 5) :
-                                                    completeDate.getDate() - 1 === msgCompleteDate.getDate() ? 'Hier' : msgDate
+                                                    `Auj ${msgTime.substring(0, 5)}` :
+                                                    completeDate.getDate() - 1 === msgCompleteDate.getDate() ? `Hier ${msgTime.substring(0, 5)}` : `${msgDate} ${msgTime.substring(0, 5)}`
                                                 }
                                             </p>
                                         </div>
