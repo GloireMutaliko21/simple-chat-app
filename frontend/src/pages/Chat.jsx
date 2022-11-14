@@ -47,7 +47,7 @@ const Chat = () => {
             const response = await fetch(`${API_URL}/messages/send/${receiverId}`, params);
             const responseData = await response.json();
             if (response.status === 201) {
-
+                setMsgContent('');
                 console.log(responseData);
             }
             // else {
@@ -96,6 +96,7 @@ const Chat = () => {
                         className={`focus:outline-none rounded-full border border-teal-200 text-teal-800 py-1 pl-4 pr-36 block appearance-none w-full`}
                         placeholder='Your massage'
                         onChange={handleChange}
+                        value={msgContent}
                     >
                     </input>
                     <span className='absolute right-1 ml-3 px-2 py-1 flex items-center border rounded-full bg-slate-100 text-lg text-gray-500'>
