@@ -30,14 +30,18 @@ const Contact = () => {
 
     const handleChangeIsFilter = useMemo(() => (e) => {
         setSearchValue(e.target.value);
-    }, [searchValue])
+    }, [searchValue]);
+
+    const handleShowContactList = () => {
+        setBoolingState(prevSates => { return { ...prevSates, showContactList: !prevSates.showContactList } });
+    };
 
     return (
         <div className="flex flex-col justify-start mb-1 relative">
             <Button
                 label='New Message'
                 style='flex justify-between w-full hover:border hover:border-teal-800 text-teal-800 font-semibold p-3 mb-2'
-                onClick={() => setBoolingState(prevSates => { return { ...prevSates, showContactList: !prevSates.showContactList } })}
+                onClick={handleShowContactList}
                 icon={<RiMailAddFill className='text-xl' />}
             />
             <div className='bg-gray-200 flex justify-between items-center relative rounded-full'>
@@ -54,7 +58,10 @@ const Contact = () => {
             {
                 boolingState.showContactList &&
                 <div className="flex flex-col ml-5 overflow-clip absolute right-0 top-14 bg-teal-600 text-gray-100 p-4 shadow-xl w-full rounded-xl">
-                    <div className='flex self-end justify-end mb-4 px-3 rounded-full bg-teal-200 text-teal-800 hover:text-teal-200 hover:bg-teal-800 shadow-2xl cursor-pointer'>
+                    <div
+                        className='flex self-end justify-end mb-4 px-3 rounded-full bg-teal-200 text-teal-800 hover:text-teal-200 hover:bg-teal-800 shadow-2xl cursor-pointer'
+                        onClick={handleShowContactList}
+                    >
                         <p className=''>Fermer</p>
                     </div>
                     {

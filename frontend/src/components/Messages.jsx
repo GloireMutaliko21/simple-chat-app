@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages } from '../hook/useFecth';
 import { HiUser } from 'react-icons/hi';
+import RelatedMsg from './Loaders/RelatedMsg';
 
 const Messages = () => {
     const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData } = useStateContext();
@@ -21,7 +22,7 @@ const Messages = () => {
             <h1 className="text-2xl text-teal-800 font-black my-2">Messages</h1>
             <div className="min-h-[320px] max-h-min overflow-y-scroll">
                 {
-                    relatedMessages?.map(
+                    relatedMessages?.length > 0 ? relatedMessages.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
                             const msgCompleteDate = new Date(createdAt);
                             const msgTime = new Date(createdAt).toLocaleTimeString();
@@ -53,7 +54,7 @@ const Messages = () => {
                                 </div>
                             )
                         }
-                    )
+                    ) : <RelatedMsg />
                 }
             </div>
         </div>
