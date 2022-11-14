@@ -48,14 +48,14 @@ const Contact = () => {
                 </input>
             </div>
             <div className="flex ml-5 overflow-clip">
-                {usersData.length > 0 ? usersData.map(({ _id, username }) => _id !== userData._id &&
+                {usersData.length > 0 ? usersData.map((receiver) => receiver._id !== userData._id &&
                     <div
-                        key={_id}
+                        key={receiver._id}
                         className="flex flex-col justify-center items-center mx-1 hover:cursor-pointer"
-                        onClick={() => fetchMessages(_id, setMessagesList, setBoolingState, boolingState)}
+                        onClick={() => fetchMessages(receiver._id, JSON.stringify(receiver), setMessagesList, setBoolingState, boolingState)}
                     >
                         <HiUser className="h-10 w-10 text-gray-500 border border-teal-200 p-1 rounded-full" />
-                        <p className="mt-1 font-semibold w-[40px] overflow-hidden text-sm">{username}</p>
+                        <p className="mt-1 font-semibold w-[40px] overflow-hidden text-sm">{receiver.username}</p>
                     </div>) : <div className='text-red-500'>No user found</div>}
             </div>
         </div>
