@@ -8,7 +8,7 @@ import { API_URL } from '../constants/apiUrl';
 import { useStateContext } from "../context/ContextProvider";
 
 const Login = () => {
-    const { boolingState, setBoolingState, rememberMe } = useStateContext();
+    const { boolingState, setBoolingState, loginStatus, setLoginStatus, rememberMe } = useStateContext();
 
     const handleLoadSignUp = () => {
         setBoolingState({ ...boolingState, isSignNotLog: true })
@@ -52,7 +52,7 @@ const Login = () => {
                     console.log(responseData);
                     // setUserData(responseData);
                     // setToken(responseData.token);
-                    setBoolingState({ ...boolingState, loginStatus: true });
+                    setLoginStatus(true);
                 } else {
                     setErrorLoginMsg(responseData.error);
                     setTimeout(() => {

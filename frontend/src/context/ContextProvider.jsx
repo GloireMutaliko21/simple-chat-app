@@ -13,11 +13,17 @@ export const ContextProvider = memo(({ children }) => {
         fetchData: true,
         showPassword: false,
         showContactList: false,
+        showProfileMenu: false
     });
 
     const [users, setUsers] = useState([]);
+    const [loginStatus, setLoginStatus] = useState(false);
     const [relatedUsers, serRelatedUsers] = useState([]);
     const [messagesList, setMessagesList] = useState([]);
+
+    const handleChangeShowProfMenu = () => {
+        setBoolingState(prevState => { return { ...prevState, showProfileMenu: !prevState.showProfileMenu } })
+    }
 
     const rememberMe = useRef();
 
@@ -26,6 +32,8 @@ export const ContextProvider = memo(({ children }) => {
             value={{
                 userData, receiverData,
                 boolingState, setBoolingState,
+                loginStatus, setLoginStatus,
+                handleChangeShowProfMenu,
                 users, setUsers,
                 relatedUsers, serRelatedUsers,
                 rememberMe,

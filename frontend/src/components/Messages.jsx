@@ -27,7 +27,6 @@ const Messages = () => {
                             const msgCompleteDate = new Date(createdAt);
                             const msgTime = new Date(createdAt).toLocaleTimeString();
                             const msgDate = new Date(createdAt).toLocaleDateString();
-                            console.log(receiverId);
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
                             return (
