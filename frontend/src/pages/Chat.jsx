@@ -86,7 +86,7 @@ const Chat = () => {
                                     return (
                                         <div key={message._id} className={`py-1 px-2 my-1 relative w-64 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-slate-100 text-teal-800 rounded-l-3xl rounded-br-3xl rounded-tr-none place-self-end'} `}>
                                             {message.content}
-                                            <p className='text-[8px] '>
+                                            <p className='text-[10px] text-end'>
                                                 {msgDate === date ?
                                                     `Auj ${msgTime.substring(0, 5)}` :
                                                     completeDate.getDate() - 1 === msgCompleteDate.getDate() ? `Hier ${msgTime.substring(0, 5)}` : `${msgDate} ${msgTime.substring(0, 5)}`

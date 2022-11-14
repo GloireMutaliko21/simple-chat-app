@@ -18,9 +18,9 @@ const Messages = () => {
     const completeDate = new Date();
 
     return (
-        <div className='flex flex-col justify-start'>
+        <div className='flex flex-col justify-start relative overflow-scroll h-full'>
             <h1 className="text-2xl text-teal-800 font-black my-2">Messages</h1>
-            <div className="min-h-[320px] max-h-min overflow-y-scroll">
+            <div className="overflow-scroll absolute top-10 bottom-0 left-0 right-0 mb-[74px]">
                 {
                     relatedMessages?.length > 0 ? relatedMessages.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
