@@ -14,7 +14,13 @@ export const signup = async (req, res, next) => {
         });
         try {
             await user.save();
-            res.status(201).json({ message: 'Registered' });
+            res.status(201).json({
+                message: 'Registered',
+                user,
+                token: jwt.sign(
+                    { userId: user._id }, process.env.TOKEN_KEY, { expiresIn: '6h' }
+                )
+            });
         } catch (err) {
             res.status(400).json({ err });
         }
@@ -44,10 +50,10 @@ export const login = async (req, res, next) => {
                 )
             });
         } catch (err) {
-            res.status(401).json({ err })
+            res.status(401).json({ err });
         }
     } catch (err) {
-        res.status(500).json({ err })
+        res.status(500).json({ err });
     }
 };
 

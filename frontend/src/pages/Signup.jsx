@@ -6,7 +6,7 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import { API_URL } from '../constants/apiUrl';
 const Signup = () => {
-    const { boolingState, setBoolingState } = useStateContext();
+    const { boolingState, setBoolingState, setLoginStatus } = useStateContext();
     const handleLoadLogin = () => {
         setBoolingState({ ...boolingState, isSignNotLog: false })
     }
@@ -43,6 +43,10 @@ const Signup = () => {
             const response = await fetch(`${API_URL}/users/signup`, params);
             const responseData = await response.json();
             if (response.status === 201) {
+                localStorage.setItem('token', responseData.token);
+                localStorage.setItem('user', JSON.stringify(responseData.user));
+                setLoginStatus(true);
+                handleLoadLogin();
                 // if (rememberMe.current.checked) {
                 //     localStorage.setItem('isLogged', true);
                 // }
