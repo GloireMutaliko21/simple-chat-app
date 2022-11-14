@@ -25,6 +25,9 @@ const Chat = () => {
     const userId = userData._id;
     const receiverId = localStorage.getItem('receiverId');
 
+    const date = new Date().toLocaleDateString();
+    const completeDate = new Date();
+
     const handleChange = useMemo(() =>
         (e) => setMsgContent(e.target.value), [msgContent]
     );
@@ -76,10 +79,21 @@ const Chat = () => {
                             {
                                 messagesList.map(message => {
                                     const senderId = message.talkers[0] === userId;
+                                    const msgCompleteDate = new Date(message.createdAt);
+                                    const msgTime = new Date(message.createdAt).toLocaleTimeString();
+                                    const msgDate = new Date(message.createdAt).toLocaleDateString();
 
-                                    return <div key={message._id} className={`py-1 px-2 my-1 relative w-64 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-slate-100 text-teal-800 rounded-l-3xl rounded-br-3xl rounded-tr-none place-self-end'} `}>
-                                        {message.content}
-                                    </div>
+                                    return (
+                                        <div key={message._id} className={`py-1 px-2 my-1 relative w-64 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-slate-100 text-teal-800 rounded-l-3xl rounded-br-3xl rounded-tr-none place-self-end'} `}>
+                                            {message.content}
+                                            <p className='text-[8px] '>
+                                                {msgDate === date ?
+                                                    msgTime.substring(0, 5) :
+                                                    completeDate.getDate() - 1 === msgCompleteDate.getDate() ? 'Hier' : msgDate
+                                                }
+                                            </p>
+                                        </div>
+                                    )
                                 })
                             }
                         </div>
