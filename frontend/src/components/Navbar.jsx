@@ -12,8 +12,8 @@ const Navbar = () => {
                 <img src="/images/logo.png" alt="Talks App" className="w-12 h-12" />
             </div>
             {(messagesList.length > 0 || localStorage.getItem('receiver')) && <div className="flex flex-col justify-end items-center">
-                <p className="bg-clip-text bg-gradient-to-r from-teal-900 via-yellow-900 to-emerald-500 text-transparent text-2xl font-black">{receiverData.username}</p>
-                <p className="text-xs text-emerald-600">{receiverData.email}</p>
+                <p className="bg-clip-text bg-gradient-to-r from-teal-900 via-yellow-900 to-emerald-500 text-transparent text-2xl font-black">{receiverData?.username}</p>
+                <p className="text-xs text-emerald-600">{receiverData?.email}</p>
             </div>}
             <div className="flex flex-col items-center cursor-pointer">
                 <HiUser className="h-8 w-8 text-teal-800 border p-1 rounded-full" />
