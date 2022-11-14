@@ -1,6 +1,7 @@
-import Message from "../models/message.mdl.js";
 import mongoose from "mongoose";
-import userMdl from "../models/user.mdl.js";
+
+import IO from "../socket.io.js";
+import Message from "../models/message.mdl.js";
 
 export const postSendMessage = async (req, res, next) => {
     const { content } = req.body;
@@ -16,7 +17,8 @@ export const postSendMessage = async (req, res, next) => {
         });
         try {
             await message.save();
-            res.status(201).json({ message: 'Message sended' });
+            IO.getIO().emit('messages', { key: 'sending', message });
+            res.status(201).json({ message });
         } catch (err) {
             res.status(400).json({ err });
         }

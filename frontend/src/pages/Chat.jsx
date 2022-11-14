@@ -2,6 +2,7 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { CiMicrophoneOn } from "react-icons/ci";
 import { MdSend } from "react-icons/md";
 import { TiAttachment } from "react-icons/ti";
+import openSocket from "socket.io-client";
 
 import { useStateContext } from "../context/ContextProvider";
 import "../../public/css/message.css";
@@ -12,7 +13,7 @@ const Chat = () => {
 
     const chatRef = useRef();
 
-    const { messagesList } = useStateContext();
+    const { messagesList, setMessagesList } = useStateContext();
 
     useEffect(() => {
         chatRef.current?.scrollTo({
@@ -46,6 +47,7 @@ const Chat = () => {
             const response = await fetch(`${API_URL}/messages/send/${receiverId}`, params);
             const responseData = await response.json();
             if (response.status === 201) {
+
                 console.log(responseData);
             }
             // else {
