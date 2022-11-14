@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { CiMicrophoneOn } from "react-icons/ci";
 import { MdSend } from "react-icons/md";
 import { TiAttachment } from "react-icons/ti";
@@ -10,7 +10,17 @@ import { API_URL } from '../constants/apiUrl';
 const Chat = () => {
     const [msgContent, setMsgContent] = useState('');
 
+    const chatRef = useRef();
+
     const { messagesList } = useStateContext();
+
+    useEffect(() => {
+        chatRef.current?.scrollTo({
+            behavior: 'auto',
+            top: chatRef.current.scrollHeight
+        })
+    }, [messagesList]);
+
     const userId = localStorage.getItem('id');
     const receiverId = localStorage.getItem('receiverId');
 
@@ -59,7 +69,7 @@ const Chat = () => {
             {
                 messagesList.length > 0 ?
                     <div className="h-full  border-gray-50 px-6 flex flex-col relative">
-                        <div className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'>
+                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'>
 
                             {
                                 messagesList.map(message => {
