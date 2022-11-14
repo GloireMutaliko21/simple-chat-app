@@ -6,11 +6,11 @@ import { fetchData, fetchMessages } from '../hook/useFecth';
 import { HiUser } from 'react-icons/hi';
 
 const Messages = () => {
-    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState } = useStateContext();
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
-    const userId = localStorage.getItem('id')
+    const userId = userData._id;
 
     const relatedMessages = messages.messages;
     const date = new Date().toLocaleDateString();

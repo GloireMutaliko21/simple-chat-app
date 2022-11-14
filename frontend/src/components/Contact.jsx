@@ -6,7 +6,7 @@ import { useStateContext } from "../context/ContextProvider";
 import { fetchData, fetchMessages } from "../hook/useFecth";
 
 const Contact = () => {
-    const { users, setUsers, setMessagesList, boolingState, setBoolingState } = useStateContext();
+    const { users, setUsers, setMessagesList, boolingState, setBoolingState, userData } = useStateContext();
     const [searchValue, setSearchValue] = useState('');
 
     const [data] = fetchData(users, setUsers, '/users');
@@ -48,7 +48,7 @@ const Contact = () => {
                 </input>
             </div>
             <div className="flex ml-5 overflow-clip">
-                {usersData.length > 0 ? usersData.map(({ _id, username }) => _id !== localStorage.getItem('id') &&
+                {usersData.length > 0 ? usersData.map(({ _id, username }) => _id !== userData._id &&
                     <div
                         key={_id}
                         className="flex flex-col justify-center items-center mx-1 hover:cursor-pointer"

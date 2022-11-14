@@ -13,7 +13,7 @@ const Chat = () => {
 
     const chatRef = useRef();
 
-    const { messagesList, setMessagesList } = useStateContext();
+    const { messagesList, userData } = useStateContext();
 
     useEffect(() => {
         chatRef.current?.scrollTo({
@@ -22,7 +22,7 @@ const Chat = () => {
         })
     }, [messagesList]);
 
-    const userId = localStorage.getItem('id');
+    const userId = userData._id;
     const receiverId = localStorage.getItem('receiverId');
 
     const handleChange = useMemo(() =>

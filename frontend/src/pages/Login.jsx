@@ -45,7 +45,7 @@ const Login = () => {
                 const responseData = await response.json();
                 if (response.status === 200) {
                     localStorage.setItem('token', responseData.token);
-                    localStorage.setItem('id', responseData.userId);
+                    localStorage.setItem('user', JSON.stringify(responseData.user));
                     if (rememberMe.current.checked) {
                         localStorage.setItem('isLogged', true);
                     }

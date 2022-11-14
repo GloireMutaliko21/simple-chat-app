@@ -1,9 +1,10 @@
 import React, { createContext, useContext, memo, useState, useRef, } from "react";
 
-
 const StateContext = createContext();
 
 export const ContextProvider = memo(({ children }) => {
+    const userData = JSON.parse(localStorage.getItem('user'));
+
     const [boolingState, setBoolingState] = useState({
         loginStatus: false,
         isSignNotLog: false,
@@ -21,6 +22,7 @@ export const ContextProvider = memo(({ children }) => {
     return (
         <StateContext.Provider
             value={{
+                userData,
                 boolingState, setBoolingState,
                 users, setUsers,
                 relatedUsers, serRelatedUsers,
