@@ -8,7 +8,7 @@ import { API_URL } from '../constants/apiUrl';
 import { useStateContext } from "../context/ContextProvider";
 
 const Login = () => {
-    const { boolingState, setBoolingState, rememberMe } = useStateContext();
+    const { boolingState, setBoolingState, loginStatus, setLoginStatus, rememberMe } = useStateContext();
 
     const handleLoadSignUp = () => {
         setBoolingState({ ...boolingState, isSignNotLog: true })
@@ -45,14 +45,11 @@ const Login = () => {
                 const responseData = await response.json();
                 if (response.status === 200) {
                     localStorage.setItem('token', responseData.token);
-                    localStorage.setItem('id', responseData.userId);
+                    localStorage.setItem('user', JSON.stringify(responseData.user));
                     if (rememberMe.current.checked) {
                         localStorage.setItem('isLogged', true);
                     }
-                    console.log(responseData);
-                    // setUserData(responseData);
-                    // setToken(responseData.token);
-                    setBoolingState({ ...boolingState, loginStatus: true });
+                    setLoginStatus(true);
                 } else {
                     setErrorLoginMsg(responseData.error);
                     setTimeout(() => {

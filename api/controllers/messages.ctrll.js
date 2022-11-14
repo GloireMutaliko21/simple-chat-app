@@ -1,6 +1,7 @@
-import Message from "../models/message.mdl.js";
 import mongoose from "mongoose";
-import userMdl from "../models/user.mdl.js";
+
+import IO from "../socket.io.js";
+import Message from "../models/message.mdl.js";
 
 export const postSendMessage = async (req, res, next) => {
     const { content } = req.body;
@@ -16,7 +17,8 @@ export const postSendMessage = async (req, res, next) => {
         });
         try {
             await message.save();
-            res.status(201).json({ message: 'Message sended' });
+            IO.getIO().emit('messages', { key: 'sending', message });
+            res.status(201).json({ message });
         } catch (err) {
             res.status(400).json({ err });
         }
@@ -35,7 +37,7 @@ export const getMessages = async (req, res, next) => {
             }
         }).populate(['receiverId', 'senderId']);
         if (!messages) {
-            res.status(404).json({ message: `Begin Talks with @${req.user.email}` });
+            res.status(404).json({ data: `Begin Talks with @${req.user.email}` });
         }
         res.status(200).json({ data: messages });
     } catch (err) {
@@ -53,7 +55,7 @@ export const getRelatedMessages = async (req, res, next) => {
         }).populate('senderId');
         let messagesTosend;
         if (!messages) {
-            res.status(404).json({ message: 'Begin Talk' });
+            res.status(404).json({ data: { messages: 'Begin Talk' } });
         } else {
             const userIds = [];
             messages.map(message => {

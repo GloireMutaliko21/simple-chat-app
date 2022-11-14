@@ -4,13 +4,14 @@ import { NavLink } from "react-router-dom";
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages } from '../hook/useFecth';
 import { HiUser } from 'react-icons/hi';
+import RelatedMsg from './Loaders/RelatedMsg';
 
 const Messages = () => {
-    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState } = useStateContext();
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
-    const userId = localStorage.getItem('id')
+    const userId = userData._id;
 
     const relatedMessages = messages.messages;
     const date = new Date().toLocaleDateString();
@@ -18,17 +19,18 @@ const Messages = () => {
 
     return (
         <div className='flex flex-col justify-start'>
-            <h1 className="text-3xl text-teal-800 font-black my-4">Messages</h1>
-            <div className="ml-5 h-64 overflow-y-scroll">
+            <h1 className="text-2xl text-teal-800 font-black my-2">Messages</h1>
+            <div className="min-h-[320px] max-h-min overflow-y-scroll">
                 {
-                    relatedMessages?.map(
+                    relatedMessages?.length > 0 ? relatedMessages.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
                             const msgCompleteDate = new Date(createdAt);
                             const msgTime = new Date(createdAt).toLocaleTimeString();
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
+                            const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
                             return (
-                                <div key={_id} onClick={() => fetchMessages(user, setMessagesList, setBoolingState, boolingState)} className='cursor-pointer'>
+                                <div key={_id} onClick={() => fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState)} className='cursor-pointer'>
                                     <div className="flex justify-center items-center my-2">
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
@@ -51,7 +53,7 @@ const Messages = () => {
                                 </div>
                             )
                         }
-                    )
+                    ) : <RelatedMsg />
                 }
             </div>
         </div>

@@ -8,7 +8,7 @@ import Home from './pages/Home';
 import Chat from "./pages/Chat";
 
 function App() {
-  const { boolingState } = useStateContext();
+  const { boolingState, loginStatus, setLoginStatus } = useStateContext();
   return (
     <BrowserRouter>
       <div className="">
@@ -16,7 +16,7 @@ function App() {
         {
           !boolingState.isSignNotLog ?
             <div className='w-full'>
-              {!boolingState.loginStatus && !localStorage.getItem("isLogged") ?
+              {!loginStatus && !localStorage.getItem("isLogged") ?
                 <div className='flex justify-between items-center shadow-sm'>
                   <Landing />
                   <Login />

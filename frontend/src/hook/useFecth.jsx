@@ -1,11 +1,20 @@
 import { useEffect } from "react";
+import openSocket from "socket.io-client";
 
 import { useStateContext } from "../context/ContextProvider";
 import { API_URL } from '../constants/apiUrl';
 
 export function fetchData(data, setData, url) {
-    const { boolingState, setBoolingState } = useStateContext();
+    const { boolingState, setBoolingState, messagesList, setMessagesList } = useStateContext();
     useEffect(() => {
+        const socket = openSocket(`http://localhost:5501`);
+
+        socket.on('messages', data => {
+            if (data.key === 'sending') {
+                setMessagesList([...messagesList, data.message]);
+            }
+        });
+
         const controller = new AbortController();
         const signal = controller.signal;
 
@@ -34,14 +43,15 @@ export function fetchData(data, setData, url) {
             }
         })();
 
+
         return () => {
             controller.abort();
             setBoolingState({ ...boolingState, fetchData: false })
         }
-    }, [boolingState.fetchData]);
+    }, [boolingState.fetchData, messagesList]);
     return [data];
 }
-export async function fetchMessages(userId, setMessagesList, setBoolingState, boolingState) {
+export async function fetchMessages(userId, receiver, setMessagesList, setBoolingState, boolingState) {
     const controller = new AbortController();
     const signal = controller.signal;
 
@@ -58,6 +68,7 @@ export async function fetchMessages(userId, setMessagesList, setBoolingState, bo
         if (response.status === 200) {
             await setMessagesList(responseData.data);
             localStorage.setItem('receiverId', userId);
+            localStorage.setItem('receiver', receiver);
         }
         if (response.status === 401) {
             localStorage.removeItem('isLogged');

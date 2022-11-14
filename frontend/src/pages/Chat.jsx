@@ -1,7 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { CiMicrophoneOn } from "react-icons/ci";
 import { MdSend } from "react-icons/md";
 import { TiAttachment } from "react-icons/ti";
+import openSocket from "socket.io-client";
 
 import { useStateContext } from "../context/ContextProvider";
 import "../../public/css/message.css";
@@ -10,8 +11,18 @@ import { API_URL } from '../constants/apiUrl';
 const Chat = () => {
     const [msgContent, setMsgContent] = useState('');
 
-    const { messagesList } = useStateContext();
-    const userId = localStorage.getItem('id');
+    const chatRef = useRef();
+
+    const { messagesList, userData } = useStateContext();
+
+    useEffect(() => {
+        chatRef.current?.scrollTo({
+            behavior: 'auto',
+            top: chatRef.current.scrollHeight
+        })
+    }, [messagesList]);
+
+    const userId = userData._id;
     const receiverId = localStorage.getItem('receiverId');
 
     const handleChange = useMemo(() =>
@@ -36,6 +47,7 @@ const Chat = () => {
             const response = await fetch(`${API_URL}/messages/send/${receiverId}`, params);
             const responseData = await response.json();
             if (response.status === 201) {
+                setMsgContent('');
                 console.log(responseData);
             }
             // else {
@@ -52,14 +64,14 @@ const Chat = () => {
 
     return (
         <div className="min-w-[780px] h-full relative" style={{
-            backgroundImage: 'radial-gradient(#F4F6F6 20%, transparent 20%),radial-gradient(#F4F6F6 20%, transparent 20%)',
+            backgroundImage: 'radial-gradient(#EDF1F1 20%, transparent 20%),radial-gradient(#EDF1F1 20%, transparent 20%)',
             backgroundPosition: '0 0, 50px 50px',
             backgroundSize: '10px 10px'
         }}>
             {
                 messagesList.length > 0 ?
                     <div className="h-full  border-gray-50 px-6 flex flex-col relative">
-                        <div className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'>
+                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'>
 
                             {
                                 messagesList.map(message => {
@@ -74,7 +86,8 @@ const Chat = () => {
 
                     </div> :
 
-                    <div className="h-full bg-center bg-no-repeat flex justify-center items-center">
+                    <div className="h-full bg-center bg-no-repeat flex flex-col justify-center items-center relative">
+                        <p className='absolute top-20 text-xl font-bold bg-clip-text bg-gradient-to-r from-red-600 via-emerald-500 to-red-800 text-transparent tracking-widest'>Begin talks</p>
                         <img src="/images/logo.png" alt="" className="rounded-full border-[1px] border-teal-100" />
                     </div>
             }
@@ -84,6 +97,7 @@ const Chat = () => {
                         className={`focus:outline-none rounded-full border border-teal-200 text-teal-800 py-1 pl-4 pr-36 block appearance-none w-full`}
                         placeholder='Your massage'
                         onChange={handleChange}
+                        value={msgContent}
                     >
                     </input>
                     <span className='absolute right-1 ml-3 px-2 py-1 flex items-center border rounded-full bg-slate-100 text-lg text-gray-500'>
