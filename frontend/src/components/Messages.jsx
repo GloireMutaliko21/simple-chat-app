@@ -18,8 +18,8 @@ const Messages = () => {
 
     return (
         <div className='flex flex-col justify-start'>
-            <h1 className="text-3xl text-teal-800 font-black my-4">Messages</h1>
-            <div className="ml-5 h-64 overflow-y-scroll">
+            <h1 className="text-2xl text-teal-800 font-black my-2">Messages</h1>
+            <div className="min-h-[320px] max-h-min overflow-y-scroll">
                 {
                     relatedMessages?.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {

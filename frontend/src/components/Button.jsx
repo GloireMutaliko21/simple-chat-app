@@ -7,8 +7,8 @@ const Button = ({ icon, label, style, onClick }) => {
             className={`${style} flex items-center rounded-md text-center`}
             onClick={onClick}
         >
-            {icon}
             {label}
+            {icon}
         </button>
     )
 

@@ -12,6 +12,7 @@ export const ContextProvider = memo(({ children }) => {
         isTimeToFetch: true,
         fetchData: true,
         showPassword: false,
+        showContactList: false,
     });
 
     const [users, setUsers] = useState([]);
