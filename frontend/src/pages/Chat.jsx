@@ -64,7 +64,7 @@ const Chat = () => {
 
     return (
         <div className="min-w-[780px] h-full relative" style={{
-            backgroundImage: 'radial-gradient(#F4F6F6 20%, transparent 20%),radial-gradient(#F4F6F6 20%, transparent 20%)',
+            backgroundImage: 'radial-gradient(#EDF1F1 20%, transparent 20%),radial-gradient(#EDF1F1 20%, transparent 20%)',
             backgroundPosition: '0 0, 50px 50px',
             backgroundSize: '10px 10px'
         }}>

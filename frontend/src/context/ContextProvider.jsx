@@ -4,6 +4,7 @@ const StateContext = createContext();
 
 export const ContextProvider = memo(({ children }) => {
     const userData = JSON.parse(localStorage.getItem('user'));
+    const receiverData = JSON.parse(localStorage.getItem('receiver'));
 
     const [boolingState, setBoolingState] = useState({
         loginStatus: false,
@@ -22,7 +23,7 @@ export const ContextProvider = memo(({ children }) => {
     return (
         <StateContext.Provider
             value={{
-                userData,
+                userData, receiverData,
                 boolingState, setBoolingState,
                 users, setUsers,
                 relatedUsers, serRelatedUsers,

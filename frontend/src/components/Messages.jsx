@@ -26,9 +26,11 @@ const Messages = () => {
                             const msgCompleteDate = new Date(createdAt);
                             const msgTime = new Date(createdAt).toLocaleTimeString();
                             const msgDate = new Date(createdAt).toLocaleDateString();
+                            console.log(receiverId);
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
+                            const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
                             return (
-                                <div key={_id} onClick={() => fetchMessages(user, setMessagesList, setBoolingState, boolingState)} className='cursor-pointer'>
+                                <div key={_id} onClick={() => fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState)} className='cursor-pointer'>
                                     <div className="flex justify-center items-center my-2">
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
