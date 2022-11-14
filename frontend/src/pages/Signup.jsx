@@ -59,7 +59,7 @@ const Signup = () => {
     return (
         <div className='flex flex-col justify-center min-w-[400px] max-w-max shadow-gray-200 p-10 text-teal-800 rounded-md text-left'>
             <div className='flex flex-col items-center  mb-5'>
-                <h1 className='text-5xl font-black bg-clip-text bg-gradient-to-l from-green-900 via-light-teal-900 to-cyan-700 text-transparent'>Talks</h1>
+                <img src="/images/logo.png" className='h-32' alt='Talks' />
                 <p className='mb-2'>Welcome</p>
             </div>
             <div className=''>

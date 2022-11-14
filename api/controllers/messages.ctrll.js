@@ -37,7 +37,7 @@ export const getMessages = async (req, res, next) => {
             }
         }).populate(['receiverId', 'senderId']);
         if (!messages) {
-            res.status(404).json({ message: `Begin Talks with @${req.user.email}` });
+            res.status(404).json({ data: `Begin Talks with @${req.user.email}` });
         }
         res.status(200).json({ data: messages });
     } catch (err) {
@@ -55,7 +55,7 @@ export const getRelatedMessages = async (req, res, next) => {
         }).populate('senderId');
         let messagesTosend;
         if (!messages) {
-            res.status(404).json({ message: 'Begin Talk' });
+            res.status(404).json({ data: { messages: 'Begin Talk' } });
         } else {
             const userIds = [];
             messages.map(message => {

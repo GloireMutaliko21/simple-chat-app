@@ -69,7 +69,10 @@ const Contact = () => {
                             <div
                                 key={receiver._id}
                                 className="flex justify-between items-center mx-1 mb-2 pb-1 hover:cursor-pointer border-b border-gray-300"
-                                onClick={() => fetchMessages(receiver._id, JSON.stringify(receiver), setMessagesList, setBoolingState, boolingState)}
+                                onClick={() => {
+                                    fetchMessages(receiver._id, JSON.stringify(receiver), setMessagesList, setBoolingState, boolingState);
+                                    handleShowContactList();
+                                }}
                             >
                                 <p className="font-semibold">{receiver.username}</p>
                                 <HiUser className="h-10 w-10 text-yellow-500 border border-teal-200 p-1 rounded-full" />

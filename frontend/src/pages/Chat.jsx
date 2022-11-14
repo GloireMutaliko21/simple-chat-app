@@ -86,7 +86,8 @@ const Chat = () => {
 
                     </div> :
 
-                    <div className="h-full bg-center bg-no-repeat flex justify-center items-center">
+                    <div className="h-full bg-center bg-no-repeat flex flex-col justify-center items-center relative">
+                        <p className='absolute top-20 text-xl font-bold bg-clip-text bg-gradient-to-r from-red-600 via-emerald-500 to-red-800 text-transparent tracking-widest'>Begin talks</p>
                         <img src="/images/logo.png" alt="" className="rounded-full border-[1px] border-teal-100" />
                     </div>
             }

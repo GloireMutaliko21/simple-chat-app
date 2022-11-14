@@ -6,7 +6,7 @@ const UserProfile = () => {
     const handleLogout = () => {
         setLoginStatus(false);
         localStorage.removeItem('isLogged');
-        console.log(boolingState);
+        localStorage.removeItem('receiver');
     }
 
     return (

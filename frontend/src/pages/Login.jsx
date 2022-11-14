@@ -49,9 +49,6 @@ const Login = () => {
                     if (rememberMe.current.checked) {
                         localStorage.setItem('isLogged', true);
                     }
-                    console.log(responseData);
-                    // setUserData(responseData);
-                    // setToken(responseData.token);
                     setLoginStatus(true);
                 } else {
                     setErrorLoginMsg(responseData.error);
