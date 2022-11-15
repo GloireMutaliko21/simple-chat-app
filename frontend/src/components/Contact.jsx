@@ -37,7 +37,7 @@ const Contact = () => {
     };
 
     return (
-        <div className="flex flex-col justify-start mb-1 relative z-10">
+        <div className="hidden md:flex md:flex-col justify-start mb-1 relative z-10">
             <Button
                 label='New Message'
                 style='flex justify-between w-full hover:border hover:border-teal-800 text-teal-800 font-semibold p-3 mb-2'
