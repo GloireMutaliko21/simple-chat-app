@@ -7,19 +7,21 @@ import openSocket from "socket.io-client";
 import { useStateContext } from "../context/ContextProvider";
 import "../../public/css/message.css";
 import { API_URL } from '../constants/apiUrl';
+import { fetchMessages } from '../hook/useFecth';
 
 const Chat = () => {
     const [msgContent, setMsgContent] = useState('');
 
     const chatRef = useRef();
 
-    const { messagesList, userData } = useStateContext();
+    const { messagesList, userData, receiverData, setMessagesList, setBoolingState, boolingState } = useStateContext();
 
     useEffect(() => {
         chatRef.current?.scrollTo({
-            behavior: 'auto',
+            behavior: 'smooth',
             top: chatRef.current.scrollHeight
-        })
+        });
+
     }, [messagesList]);
 
     const userId = userData._id;
@@ -51,14 +53,7 @@ const Chat = () => {
             const responseData = await response.json();
             if (response.status === 201) {
                 setMsgContent('');
-                console.log(responseData);
             }
-            // else {
-            //     setErrorLoginMsg(responseData.error);
-            //     setTimeout(() => {
-            //         setErrorLoginMsg(null);
-            //     }, 2000);
-            // }
         } catch (err) {
             // setErrorLoginMsg(err.json());
             console.log(err);

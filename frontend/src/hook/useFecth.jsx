@@ -5,18 +5,33 @@ import { useStateContext } from "../context/ContextProvider";
 import { API_URL } from '../constants/apiUrl';
 
 export function fetchData(data, setData, url) {
-    const { boolingState, setBoolingState, messagesList, setMessagesList } = useStateContext();
+    const { boolingState, setBoolingState, messagesList, setMessagesList, receiverData } = useStateContext();
     useEffect(() => {
-        const socket = openSocket(`http://localhost:5501`);
-
-        socket.on('messages', data => {
-            if (data.key === 'sending') {
-                setMessagesList([...messagesList, data.message]);
-            }
-        });
 
         const controller = new AbortController();
         const signal = controller.signal;
+
+        const socket = openSocket(`http://localhost:5501`);
+
+        socket.connect();
+
+        socket.on('messages', data => {
+            if (data.key === 'sending') {
+                fetch(`${API_URL}/messages/messages/${receiverData._id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(responseData => {
+                        setMessagesList(responseData.data);
+                        return;
+                    })
+                    .catch(err => console.log(err));
+            }
+        });
 
         (async function () {
             const paramsData = {
@@ -45,6 +60,7 @@ export function fetchData(data, setData, url) {
 
 
         return () => {
+            socket.disconnect();
             controller.abort();
             setBoolingState({ ...boolingState, fetchData: false })
         }
