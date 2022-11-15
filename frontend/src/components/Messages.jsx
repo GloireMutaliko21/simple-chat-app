@@ -19,10 +19,10 @@ const Messages = () => {
     const completeDate = new Date();
 
     return (
-        <div className='relative top-20 md:top-2 right-3 left-3 overflow-auto h-full'>
+        <div className=''>
             {/* <div className='flex flex-col justify-start relative md:relative overflow-scroll h-full'> */}
             <div className=''>
-                <h1 className="text-lg md:text-2xl text-teal-800 font-black">Messages</h1>
+                <h1 className="">Messages</h1>
             </div>
             {/* <h1 className="text-2xl text-teal-800 font-black my-2 absolute top-14 md:top-auto left-3">Messages</h1> */}
             <div className="">
