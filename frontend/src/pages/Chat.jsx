@@ -1,20 +1,18 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { CiMicrophoneOn } from "react-icons/ci";
-import { MdSend } from "react-icons/md";
+import { MdSend, MdArrowBackIosNew } from "react-icons/md";
 import { TiAttachment } from "react-icons/ti";
-import openSocket from "socket.io-client";
 
 import { useStateContext } from "../context/ContextProvider";
 import "../../public/css/message.css";
 import { API_URL } from '../constants/apiUrl';
-import { fetchMessages } from '../hook/useFecth';
 
 const Chat = () => {
     const [msgContent, setMsgContent] = useState('');
 
     const chatRef = useRef();
 
-    const { messagesList, userData, receiverData, setMessagesList, setBoolingState, boolingState } = useStateContext();
+    const { messagesList, userData, receiverData, messagesRef } = useStateContext();
 
     useEffect(() => {
         chatRef.current?.scrollTo({
@@ -77,9 +75,17 @@ const Chat = () => {
                         {/* <div className="h-full  border-gray-50 px-6 flex flex-col relative"> */}
                         {
                             (messagesList.length > 0 || localStorage.getItem('receiver')) &&
-                            <div className="flex flex-col justify-end items-center fixed md:hidden bg-white left-0 right-0 z-10">
-                                <p className="bg-clip-text bg-gradient-to-r from-teal-900 via-yellow-900 to-emerald-500 text-transparent md:text-2xl font-black">{receiverData?.username}</p>
-                                <p className="text-xs text-emerald-600">{receiverData?.email}</p>
+                            <div className="flex justify-between items-center fixed md:hidden bg-white left-0 right-0 px-5 z-10">
+                                <MdArrowBackIosNew
+                                    className='text-teal-600'
+                                    onClick={() => {
+                                        messagesRef.current.classList.add('z-20');
+                                    }}
+                                />
+                                <div className='flex flex-col justify-center items-center'>
+                                    <p className="bg-clip-text bg-gradient-to-r from-teal-900 via-yellow-900 to-emerald-500 text-transparent md:text-2xl font-black">{receiverData?.username}</p>
+                                    <p className="text-xs text-emerald-600">{receiverData?.email}</p>
+                                </div>
                             </div>
                         }
                         <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-5 lg:px-24 pb-16 md:pb-36 mt-12 md:mt-0 absolute'>
