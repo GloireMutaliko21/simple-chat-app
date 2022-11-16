@@ -5,7 +5,11 @@ html {
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(15 118 110 / var(--tw-bg-opacity));
 }
 
 body {

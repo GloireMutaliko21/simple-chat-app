@@ -8,7 +8,7 @@ import RelatedMsg from './Loaders/RelatedMsg';
 
 const Messages = () => {
 
-    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData } = useStateContext();
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef, chatRef } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
@@ -35,7 +35,14 @@ const Messages = () => {
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
                             return (
-                                <div key={_id} onClick={() => fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState)} className={`cursor-pointer hover:bg-teal-100 hover:rounded-xl hover:text-teal-700 hover:pl-2 hover:duration-1000`}>
+                                <div
+                                    key={_id}
+                                    onClick={() => {
+                                        fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState);
+                                        messagesRef.current.classList.remove('z-20');
+                                        // chatRef.current.classList.remove('hidden');
+                                    }}
+                                    className={`cursor-pointer hover:bg-teal-100 hover:rounded-xl hover:text-teal-700 hover:pl-2 hover:duration-1000`}>
                                     {<div className={`flex justify-between items-center my-2`}>
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />

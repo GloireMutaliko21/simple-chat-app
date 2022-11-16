@@ -73,9 +73,9 @@ const Chat = () => {
         }}> */}
             {
                 messagesList.length > 0 ?
-                    <div className="h-full  border-gray-50 px-6 flex flex-col relative md:top-20">
+                    <div className="h-full  border-gray-50 px-6 flex flex-col relative top-20">
                         {/* <div className="h-full  border-gray-50 px-6 flex flex-col relative"> */}
-                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-24 pb-36 absolute'>
+                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-5 md:px-24 pb-36 absolute'>
                             {/* <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'> */}
 
                             {

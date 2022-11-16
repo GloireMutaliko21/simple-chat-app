@@ -26,6 +26,8 @@ export const ContextProvider = memo(({ children }) => {
     }
 
     const rememberMe = useRef();
+    const messagesRef = useRef();
+    const chatRef = useRef();
 
     return (
         <StateContext.Provider
@@ -36,7 +38,7 @@ export const ContextProvider = memo(({ children }) => {
                 handleChangeShowProfMenu,
                 users, setUsers,
                 relatedUsers, serRelatedUsers,
-                rememberMe,
+                rememberMe, messagesRef, chatRef,
                 messagesList, setMessagesList,
             }}
         >

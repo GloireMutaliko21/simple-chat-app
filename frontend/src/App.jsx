@@ -10,7 +10,7 @@ import Navbar from './components/Navbar';
 import Messages from "./components/Messages";
 
 function App() {
-  const { boolingState, loginStatus, setLoginStatus } = useStateContext();
+  const { boolingState, loginStatus, messagesRef, chatRef } = useStateContext();
   return (
     <BrowserRouter>
       <div className="relative left-0 right-0 w-full">
@@ -25,13 +25,13 @@ function App() {
                 </div> :
 
                 <div className="relative flex">
-                  <div className="fixed w-full md:w-80 pr-5 pl-3 py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
+                  <div ref={messagesRef} className="fixed z-20 w-full bg-white md:w-80 pr-5 pl-3 py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
                     <Messages />
                   </div>
                   <div className="fixed w-full z-[10000000] bg-white border-b">
                     <Navbar />
                   </div>
-                  <div className="hidden absolute md:bottom-0 md:top-0 md:left-0 md:right-0 md:block min-h-screen md:ml-80 overflow-hidden">
+                  <div ref={chatRef} className="block absolute bottom-0 top-0 left-0 right-0  min-h-screen md:ml-80 overflow-hidden">
                     <Chat />
                   </div>
                   {/* <Routes>
