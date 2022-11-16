@@ -61,7 +61,7 @@ const Chat = () => {
     }
 
     return (
-        <div className="h-full relative" style={{
+        <div className="h-full relative bg-slate-50" style={{
             backgroundImage: 'radial-gradient(#EDF1F1 20%, transparent 20%),radial-gradient(#EDF1F1 20%, transparent 20%)',
             backgroundPosition: '0 0, 50px 50px',
             backgroundSize: '10px 10px'

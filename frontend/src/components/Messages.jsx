@@ -20,11 +20,11 @@ const Messages = () => {
 
     return (
         <div className='ml-3 h-screen md:overflow-hidden relative overflow-auto md:hover:overflow-auto pb-24'>
-            <div className=''>
-                <h1 className="text-2xl text-teal-800 font-black fixed bg-white z-10 left-4 right-0 pb-4">Messages</h1>
+            <div className='fixed md:absolute bg-white z-10 left-4 md:left-0 right-1 pb-4'>
+                <h1 className="text-2xl text-teal-800 font-black ">Messages</h1>
             </div>
             {/* <h1 className="text-2xl text-teal-800 font-black my-2 absolute top-14 md:top-auto left-3">Messages</h1> */}
-            <div className="mt-12">
+            <div className="mt-12 md:overflow-scroll md:absolute md:top-0 bottom-5 md:left-0 md:right-0 md:mb-[74px]">
                 {/* <div className="overflow-scroll absolute md:top-10 bottom-0 left-5 md:left-0 right-3 md:right-0 mb-[74px]"> */}
                 {
                     relatedMessages?.length > 0 ? relatedMessages.map(
