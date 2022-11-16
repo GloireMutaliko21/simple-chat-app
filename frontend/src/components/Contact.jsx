@@ -30,8 +30,6 @@ const Contact = () => {
             recherche(searchData, user);
         });
 
-    // console.log(data.sort((a, b) => (a.username[0].toLowerCase() < b.username[0].toLowerCase() ? -1 : 1)));
-
     const handleChangeIsFilter = useMemo(() => (e) => {
         setSearchValue(e.target.value);
     }, [searchValue]);

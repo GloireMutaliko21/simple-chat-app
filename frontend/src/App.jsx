@@ -13,7 +13,7 @@ function App() {
   const { boolingState, loginStatus, messagesRef, chatRef } = useStateContext();
   return (
     <BrowserRouter>
-      <div className="relative left-0 right-0 w-full">
+      <div className="relative left-0 right-0 w-full 2xl:w-[1290px]">
         {
           !boolingState.isSignNotLog ?
             <div className=''>
@@ -28,7 +28,7 @@ function App() {
                     {boolingState.showContactList ? <Contact /> : <Messages />}
                     <Messages />
                   </div>
-                  <div className="fixed w-full hidden md:block z-[10000000] bg-white border-b">
+                  <div className="fixed w-full 2xl:w-[1290px] hidden md:block z-[10000000] bg-white border-b">
                     <Navbar />
                   </div>
                   <div ref={chatRef} className="block absolute bottom-0 top-0 left-0 right-0  min-h-screen md:ml-80 overflow-hidden">
