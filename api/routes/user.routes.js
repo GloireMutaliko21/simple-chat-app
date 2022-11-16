@@ -1,6 +1,7 @@
 import express from "express";
 
 import { findAllUsers, findOneUser, login, signup } from '../controllers/user.ctrll.js';
+import auth from '../middlewares/auth.mid.js';
 
 const router = express.Router();
 
@@ -9,8 +10,8 @@ router
 
     .post('/login', login)
 
-    .get('/', findAllUsers)
+    .get('/', auth, findAllUsers)
 
-    .get('/:id', findOneUser);
+    .get('/:id', auth, findOneUser);
 
 export default router;
