@@ -1,10 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import Landing from './components/Landing';
 import Login from './pages/Login';
 import { useStateContext } from "./context/ContextProvider";
 import Signup from './pages/Signup';
-import Home from './pages/Home';
 import Chat from "./pages/Chat";
 import Navbar from './components/Navbar';
 import Messages from "./components/Messages";
@@ -14,7 +13,6 @@ function App() {
   return (
     <BrowserRouter>
       <div className="relative left-0 right-0 w-full">
-
         {
           !boolingState.isSignNotLog ?
             <div className=''>
@@ -34,11 +32,6 @@ function App() {
                   <div ref={chatRef} className="block absolute bottom-0 top-0 left-0 right-0  min-h-screen md:ml-80 overflow-hidden">
                     <Chat />
                   </div>
-                  {/* <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/chat" element={<Chat />} />
-                  </Routes> */}
                 </div>
               }
             </div> :

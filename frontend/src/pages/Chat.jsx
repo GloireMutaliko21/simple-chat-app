@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { CiMicrophoneOn } from "react-icons/ci";
 import { MdSend, MdArrowBackIosNew } from "react-icons/md";
 import { TiAttachment } from "react-icons/ti";
@@ -10,9 +10,7 @@ import { API_URL } from '../constants/apiUrl';
 const Chat = () => {
     const [msgContent, setMsgContent] = useState('');
 
-    const chatRef = useRef();
-
-    const { relatedUsers, messagesList, userData, receiverData, messagesRef } = useStateContext();
+    const { relatedUsers, messagesList, userData, receiverData, messagesRef, chatRef } = useStateContext();
 
     useEffect(() => {
         chatRef.current?.scrollTo({
@@ -48,12 +46,10 @@ const Chat = () => {
         }
         try {
             const response = await fetch(`${API_URL}/messages/send/${receiverId}`, params);
-            const responseData = await response.json();
             if (response.status === 201) {
                 setMsgContent('');
             }
         } catch (err) {
-            // setErrorLoginMsg(err.json());
             console.log(err);
         }
     }
@@ -64,15 +60,9 @@ const Chat = () => {
             backgroundPosition: '0 0, 50px 50px',
             backgroundSize: '10px 10px'
         }}>
-            {/* <div className="min-w-[780px] h-full relative" style={{
-            backgroundImage: 'radial-gradient(#EDF1F1 20%, transparent 20%),radial-gradient(#EDF1F1 20%, transparent 20%)',
-            backgroundPosition: '0 0, 50px 50px',
-            backgroundSize: '10px 10px'
-        }}> */}
             {
                 messagesList.length > 0 ?
                     <div className="h-full  border-gray-50 px-6 flex flex-col relative top-0 md:top-20">
-                        {/* <div className="h-full  border-gray-50 px-6 flex flex-col relative"> */}
                         {
                             (messagesList.length > 0 || localStorage.getItem('receiver')) &&
                             <div className="flex justify-between items-center fixed md:hidden bg-white shadow-lg border-slate-50 border-b left-0 right-0 px-5 z-10">
@@ -95,8 +85,6 @@ const Chat = () => {
                             </div>
                         }
                         <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-5 lg:px-24 pb-16 md:pb-36 mt-12 md:mt-0 absolute'>
-                            {/* <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'> */}
-
                             {
                                 messagesList.map(message => {
                                     const senderId = message.talkers[0] === userId;
@@ -106,7 +94,6 @@ const Chat = () => {
 
                                     return (
                                         <div key={message._id} className={`py-1 px-2 my-1 relative w-64 md:w-80 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-teal-700 text-white rounded-l-2xl rounded-br-2xl rounded-tr-none place-self-end'} `}>
-                                            {/* <div key={message._id} className={`py-1 px-2 my-1 relative w-64 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-slate-100 text-teal-800 rounded-l-3xl rounded-br-3xl rounded-tr-none place-self-end'} `}> */}
                                             {message.content}
                                             <p className='text-[10px] text-end'>
                                                 {msgDate === date ?
@@ -123,13 +110,11 @@ const Chat = () => {
                     </div> :
 
                     <div className="h-full bg-center bg-no-repeat flex flex-col justify-center items-center relative">
-                        {/* <div className="h-full bg-center bg-no-repeat flex flex-col justify-center items-center relative"> */}
                         <p className='absolute top-20 text-xl font-bold bg-clip-text bg-gradient-to-r from-red-600 via-emerald-500 to-red-800 text-transparent tracking-widest'>Begin talks</p>
                         <img src="/images/logo.png" alt="" className="rounded-full border-[1px] border-teal-100" />
                     </div>
             }
             <div className="absolute bottom-0 left-0 right-0 z-10 bg-white pt-2">
-                {/* <div className="absolute bottom-0 left-0 right-0"> */}
                 <div className='bg-gray-200 flex justify-between items-center relative mx-4 mb-4 rounded-full'>
                     <input
                         className={`focus:outline-none rounded-full border border-teal-200 text-teal-800 py-1 pl-4 pr-36 block appearance-none w-full`}
@@ -151,4 +136,4 @@ const Chat = () => {
     )
 }
 
-export default Chat
+export default Chat;

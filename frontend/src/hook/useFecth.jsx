@@ -54,7 +54,7 @@ export function fetchData(data, setData, url) {
                 }
             } catch (error) {
                 setBoolingState({ ...boolingState, loginStatus: false });
-                // localStorage.removeItem('isLogged');
+                localStorage.removeItem('isLogged');
             }
         })();
 
@@ -91,5 +91,6 @@ export async function fetchMessages(userId, receiver, setMessagesList, setBoolin
         }
     } catch (error) {
         setBoolingState({ ...boolingState, loginStatus: false });
+        localStorage.removeItem('isLogged');
     }
 }

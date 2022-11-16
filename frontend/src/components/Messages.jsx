@@ -1,9 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { NavLink } from "react-router-dom";
+import { HiUser } from 'react-icons/hi';
 
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages } from '../hook/useFecth';
-import { HiUser } from 'react-icons/hi';
 import RelatedMsg from './Loaders/RelatedMsg';
 
 const Messages = () => {
@@ -23,9 +21,7 @@ const Messages = () => {
             <div className='fixed md:absolute bg-white z-10 left-4 md:left-0 right-1 pb-4'>
                 <h1 className="text-2xl text-teal-800 font-black ">Messages</h1>
             </div>
-            {/* <h1 className="text-2xl text-teal-800 font-black my-2 absolute top-14 md:top-auto left-3">Messages</h1> */}
             <div className="mt-12 md:overflow-y-scroll md:absolute md:top-0 bottom-5 md:left-0 md:right-0 md:mb-[74px] md:pr-5">
-                {/* <div className="overflow-scroll absolute md:top-10 bottom-0 left-5 md:left-0 right-3 md:right-0 mb-[74px]"> */}
                 {
                     relatedMessages?.length > 0 ? relatedMessages.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
@@ -40,9 +36,9 @@ const Messages = () => {
                                     onClick={() => {
                                         fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState);
                                         messagesRef.current.classList.remove('z-20');
-                                        // chatRef.current.classList.remove('hidden');
                                     }}
-                                    className={`cursor-pointer hover:bg-teal-100 hover:rounded-xl hover:text-teal-700 hover:pl-2 hover:duration-1000`}>
+                                    className={`cursor-pointer hover:bg-teal-100 hover:rounded-xl hover:text-teal-700 hover:pl-2 hover:duration-1000`}
+                                >
                                     {<div className={`flex justify-between items-center my-2`}>
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
@@ -72,4 +68,4 @@ const Messages = () => {
     )
 }
 
-export default Messages
+export default Messages;

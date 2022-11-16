@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Button = ({ icon, label, style, onClick }) => {
     return (
         <button
@@ -11,7 +9,6 @@ const Button = ({ icon, label, style, onClick }) => {
             {icon}
         </button>
     )
-
 }
 
-export default Button
+export default Button;

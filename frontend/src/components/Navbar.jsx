@@ -1,6 +1,7 @@
-import { useStateContext } from "../context/ContextProvider";
 import { HiUser } from 'react-icons/hi';
 import { IoIosArrowDown } from 'react-icons/io';
+
+import { useStateContext } from "../context/ContextProvider";
 import UserProfile from "./UserProfile";
 
 const Navbar = () => {
@@ -30,4 +31,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Navbar;

@@ -47,13 +47,7 @@ const Signup = () => {
                 localStorage.setItem('user', JSON.stringify(responseData.user));
                 setLoginStatus(true);
                 handleLoadLogin();
-                // if (rememberMe.current.checked) {
-                //     localStorage.setItem('isLogged', true);
-                // }
                 console.log(responseData);
-                // setUserData(responseData);
-                // setToken(responseData.token);
-                // setBoolingState({ ...boolingState, loginStatus: true });
             }
         } catch (err) {
             console.log(err);
@@ -94,32 +88,9 @@ const Signup = () => {
                     <label htmlFor='remember' className='ml-3 cursor-pointer'>Rememver Me</label>
                 </div>
                 <div>
-                    <span
-                        className='text-blue-800 hover:underline hover:cursor-pointer'
-                    // onClick={() => { setBoolingState({ ...boolingState, changePassWord: true }) }}
-                    >
+                    <span className='text-blue-800 hover:underline hover:cursor-pointer'>
                         Forgot password ?
                     </span>
-                    {/* {boolingState.changePassWord &&
-                        <Dialogue
-                            boolingState={boolingState.changePassWord}
-                            setBoolingState={setBoolingState}
-                            value={{ ...boolingState, changePassWord: false }}
-                            label='Envoyer'
-                            handleConfirm={() => { }}
-                            title='Réinitialiser mot de passe'
-                            cancel={{ ...boolingState, changePassWord: false }}
-                        >
-                            <div className='text-blue-gray-900 px-4'>
-                                <Input
-                                    label='E-mail '
-                                    type='email'
-                                    value=''
-                                    onChange={() => { }}
-                                    style='w-full'
-                                />
-                            </div>
-                        </Dialogue>} */}
                 </div>
             </div>
             <div className='mt-8'>
@@ -144,4 +115,4 @@ const Signup = () => {
     )
 }
 
-export default Signup
+export default Signup;

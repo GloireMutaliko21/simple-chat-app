@@ -1,5 +1,3 @@
-import React from 'react'
-
 const CardLoader = () => {
     return (
         <div className="p-4 md:w-1/3">
@@ -13,12 +11,9 @@ const CardLoader = () => {
                     <p className="leading-relaxed mb-3 w-1/2 h-3 animate-pulse bg-gray-400"></p>
                     <div className="flex items-center flex-wrap ">
                         <a className="bg-indigo-300 h-4 animate-pulse mt-2 w-32 inline-flex items-center md:mb-2 lg:mb-0">
-
                         </a>
                         <span className="bg-indigo-300 w-16 mt-2 h-4 animate-pulse mr-3 px-2 inline-flex items-center ml-auto leading-none text-sm pr-5 py-1">
-
                         </span>
-
                     </div>
                 </div>
             </div>
@@ -26,4 +21,4 @@ const CardLoader = () => {
     )
 }
 
-export default CardLoader
+export default CardLoader;

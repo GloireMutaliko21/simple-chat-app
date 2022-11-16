@@ -1,5 +1,3 @@
-import React from 'react'
-
 const RelatedMsg = () => {
     return (
         <div className='w-56'>
@@ -37,4 +35,4 @@ const RelatedMsg = () => {
     )
 }
 
-export default RelatedMsg
+export default RelatedMsg;

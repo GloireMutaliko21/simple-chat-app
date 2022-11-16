@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { HiUser } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
-import { RiCloseCircleLine, RiMailAddFill } from "react-icons/ri";
+import { RiMailAddFill } from "react-icons/ri";
 
 import { useStateContext } from "../context/ContextProvider";
 import { fetchData, fetchMessages } from "../hook/useFecth";
