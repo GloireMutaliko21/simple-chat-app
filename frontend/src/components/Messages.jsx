@@ -19,13 +19,12 @@ const Messages = () => {
     const completeDate = new Date();
 
     return (
-        <div className=''>
-            {/* <div className='flex flex-col justify-start relative md:relative overflow-scroll h-full'> */}
+        <div className='ml-3 h-screen md:overflow-hidden relative overflow-auto md:hover:overflow-auto pb-24'>
             <div className=''>
-                <h1 className="">Messages</h1>
+                <h1 className="text-2xl text-teal-800 font-black fixed bg-white z-10 left-4 right-0 pb-4">Messages</h1>
             </div>
             {/* <h1 className="text-2xl text-teal-800 font-black my-2 absolute top-14 md:top-auto left-3">Messages</h1> */}
-            <div className="">
+            <div className="mt-12">
                 {/* <div className="overflow-scroll absolute md:top-10 bottom-0 left-5 md:left-0 right-3 md:right-0 mb-[74px]"> */}
                 {
                     relatedMessages?.length > 0 ? relatedMessages.map(
@@ -37,7 +36,7 @@ const Messages = () => {
                             const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
                             return (
                                 <div key={_id} onClick={() => fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState)} className={`cursor-pointer hover:bg-teal-100 hover:rounded-xl hover:text-teal-700 hover:pl-2 hover:duration-1000`}>
-                                    {<div className={`flex justify-center items-center my-2`}>
+                                    {<div className={`flex justify-between items-center my-2`}>
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
                                         </div>

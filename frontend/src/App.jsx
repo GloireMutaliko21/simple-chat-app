@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Chat from "./pages/Chat";
 import Navbar from './components/Navbar';
+import Messages from "./components/Messages";
 
 function App() {
   const { boolingState, loginStatus, setLoginStatus } = useStateContext();
@@ -23,16 +24,21 @@ function App() {
                   <Login />
                 </div> :
 
-                <div className=''>
-                  <Navbar />
-                  {/* <div className='w-full md:w-screen md:py-2 md:px-10'> */}
-                  <div className="relative top-20 py-10">
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/home" element={<Home />} />
-                      <Route path="/chat" element={<Chat />} />
-                    </Routes>
+                <div className="relative flex">
+                  <div className="fixed w-full pr-5 pl-3 py-20">
+                    <Messages />
                   </div>
+                  <div className="fixed w-full z-[10000000] bg-white border-b">
+                    <Navbar />
+                  </div>
+                  <div className="hidden md:block mt-12 min-h-screen w-full md:ml-56">
+                    <Chat />
+                  </div>
+                  {/* <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/chat" element={<Chat />} />
+                  </Routes> */}
                 </div>
               }
             </div> :

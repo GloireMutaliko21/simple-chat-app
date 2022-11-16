@@ -7,7 +7,7 @@ const Navbar = () => {
     const { userData, receiverData, messagesList, handleChangeShowProfMenu } = useStateContext();
 
     return (
-        <div className='fixed z-20 top-0 left-0 right-0 flex items-center justify-between py-1 px-10 bg-white border-b-[1px]'>
+        <div className='flex justify-between p-2 md:mx-6 relative'>
             <div className="flex items-center justify-between">
                 <img src="/images/logo.png" alt="Talks App" className="w-12 h-12" />
             </div>
