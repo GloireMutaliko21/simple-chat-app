@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import Chat from "./pages/Chat";
 import Navbar from './components/Navbar';
 import Messages from "./components/Messages";
+import Contact from "./components/Contact";
 
 function App() {
   const { boolingState, loginStatus, messagesRef, chatRef } = useStateContext();
@@ -24,6 +25,7 @@ function App() {
 
                 <div className="relative flex">
                   <div ref={messagesRef} className="fixed z-20 w-full bg-white md:w-80 pr-5 pl-3 py-2 md:py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
+                    {boolingState.showContactList ? <Contact /> : <Messages />}
                     <Messages />
                   </div>
                   <div className="fixed w-full hidden md:block z-[10000000] bg-white border-b">

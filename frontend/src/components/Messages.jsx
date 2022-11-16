@@ -1,4 +1,5 @@
 import { HiUser } from 'react-icons/hi';
+import { IoCreateOutline } from 'react-icons/io5';
 
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages } from '../hook/useFecth';
@@ -16,11 +17,22 @@ const Messages = () => {
     const date = new Date().toLocaleDateString();
     const completeDate = new Date();
 
+    const handleShowContactList = () => {
+        setBoolingState(prevSates => { return { ...prevSates, showContactList: true } });
+    };
+
     return (
         <div className='ml-3 h-screen md:overflow-hidden relative overflow-auto md:hover:overflow-auto pb-24'>
-            <div className='fixed md:absolute bg-white z-10 left-4 md:left-0 right-1 pb-4'>
+            <div className='fixed md:absolute bg-white z-10 left-4 md:left-0 right-4 pb-4 flex justify-between'>
                 <h1 className="text-2xl text-teal-800 font-black ">Messages</h1>
+                <p className="text-2xl text-teal-800 font-black cursor-pointer ">
+                    <IoCreateOutline
+
+                        onClick={handleShowContactList}
+                    />
+                </p>
             </div>
+
             <div className="mt-12 md:overflow-y-scroll md:absolute md:top-0 bottom-5 md:left-0 md:right-0 md:mb-[74px] md:pr-5">
                 {
                     relatedMessages?.length > 0 ? relatedMessages.map(

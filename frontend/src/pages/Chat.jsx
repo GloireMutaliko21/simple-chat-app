@@ -60,29 +60,30 @@ const Chat = () => {
             backgroundPosition: '0 0, 50px 50px',
             backgroundSize: '10px 10px'
         }}>
+            <div className="flex justify-between items-center fixed md:hidden bg-white shadow-lg border-slate-50 border-b left-0 right-0 px-5 z-10">
+                <div
+                    className='flex items-center cursor-pointer'
+                    onClick={() => {
+                        messagesRef.current.classList.add('z-20');
+                    }}
+                >
+                    <MdArrowBackIosNew className='text-teal-600' />
+                    <p className='text-xs bg-teal-600 text-white rounded-full px-1'>{relatedUsers.messages?.length}</p>
+                </div>
+                <div className='flex flex-col justify-center items-center'>
+                    <p className="bg-clip-text bg-gradient-to-r from-teal-900 via-yellow-900 to-emerald-500 text-transparent md:text-2xl font-black">{receiverData?.username}</p>
+                    <p className="text-xs text-emerald-600">{receiverData?.email}</p>
+                </div>
+                <div className='bg-teal-100 border border-teal-500 rounded-full w-8 h-8 flex justify-center items-center text-teal-800 font-black text-xl'>
+                    {receiverData?.username[0].toUpperCase()}
+                </div>
+            </div>
             {
                 messagesList.length > 0 ?
                     <div className="h-full  border-gray-50 px-6 flex flex-col relative top-0 md:top-20">
                         {
-                            (messagesList.length > 0 || localStorage.getItem('receiver')) &&
-                            <div className="flex justify-between items-center fixed md:hidden bg-white shadow-lg border-slate-50 border-b left-0 right-0 px-5 z-10">
-                                <div
-                                    className='flex items-center cursor-pointer'
-                                    onClick={() => {
-                                        messagesRef.current.classList.add('z-20');
-                                    }}
-                                >
-                                    <MdArrowBackIosNew className='text-teal-600' />
-                                    <p className='text-xs bg-teal-600 text-white rounded-full px-1'>{relatedUsers.messages.length}</p>
-                                </div>
-                                <div className='flex flex-col justify-center items-center'>
-                                    <p className="bg-clip-text bg-gradient-to-r from-teal-900 via-yellow-900 to-emerald-500 text-transparent md:text-2xl font-black">{receiverData?.username}</p>
-                                    <p className="text-xs text-emerald-600">{receiverData?.email}</p>
-                                </div>
-                                <div className='bg-teal-100 border border-teal-500 rounded-full w-8 h-8 flex justify-center items-center text-teal-800 font-black text-xl'>
-                                    {receiverData?.username[0].toUpperCase()}
-                                </div>
-                            </div>
+
+
                         }
                         <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-5 lg:px-24 pb-16 md:pb-36 mt-12 md:mt-0 absolute'>
                             {
