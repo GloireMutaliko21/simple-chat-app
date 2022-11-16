@@ -8,7 +8,7 @@ import { API_URL } from '../constants/apiUrl';
 import { useStateContext } from "../context/ContextProvider";
 
 const Login = () => {
-    const { boolingState, setBoolingState, loginStatus, setLoginStatus, rememberMe } = useStateContext();
+    const { boolingState, setBoolingState, setLoginStatus, rememberMe } = useStateContext();
 
     const handleLoadSignUp = () => {
         setBoolingState({ ...boolingState, isSignNotLog: true })
@@ -100,32 +100,9 @@ const Login = () => {
                     <label htmlFor='remember' className='ml-3 cursor-pointer'>Remember Me</label>
                 </div>
                 <div>
-                    <span
-                        className='text-green-600 font-semibold hover:underline hover:cursor-pointer'
-                    // onClick={() => { setBoolingState({ ...boolingState, changePassWord: true }) }}
-                    >
+                    <span className='text-green-600 font-semibold hover:underline hover:cursor-pointer'>
                         Forgot password ?
                     </span>
-                    {/* {boolingState.changePassWord &&
-                        <Dialogue
-                            boolingState={boolingState.changePassWord}
-                            setBoolingState={setBoolingState}
-                            value={{ ...boolingState, changePassWord: false }}
-                            label='Envoyer'
-                            handleConfirm={() => { }}
-                            title='Réinitialiser mot de passe'
-                            cancel={{ ...boolingState, changePassWord: false }}
-                        >
-                            <div className='text-blue-gray-900 px-4'>
-                                <Input
-                                    label='E-mail '
-                                    type='email'
-                                    value=''
-                                    onChange={() => { }}
-                                    style='w-full'
-                                />
-                            </div>
-                        </Dialogue>} */}
                 </div>
             </div>
             <div>

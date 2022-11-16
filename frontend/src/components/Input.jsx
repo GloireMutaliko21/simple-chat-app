@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { useStateContext } from "../context/ContextProvider";
 
 const Input = (

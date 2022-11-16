@@ -1,13 +1,13 @@
-import React from 'react'
-import { NavLink } from "react-router-dom";
+import { HiUser } from 'react-icons/hi';
+import { IoCreateOutline } from 'react-icons/io5';
 
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages } from '../hook/useFecth';
-import { HiUser } from 'react-icons/hi';
 import RelatedMsg from './Loaders/RelatedMsg';
 
 const Messages = () => {
-    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData } = useStateContext();
+
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
@@ -17,10 +17,23 @@ const Messages = () => {
     const date = new Date().toLocaleDateString();
     const completeDate = new Date();
 
+    const handleShowContactList = () => {
+        setBoolingState(prevSates => { return { ...prevSates, showContactList: true } });
+    };
+
     return (
-        <div className='flex flex-col justify-start'>
-            <h1 className="text-2xl text-teal-800 font-black my-2">Messages</h1>
-            <div className="min-h-[320px] max-h-min overflow-y-scroll">
+        <div className='ml-3 h-screen md:overflow-hidden relative overflow-auto md:hover:overflow-auto pb-24'>
+            <div className='fixed md:absolute bg-white z-10 left-4 md:left-0 right-4 pb-4 flex justify-between'>
+                <h1 className="text-2xl text-teal-800 font-black ">Messages</h1>
+                <p className="text-2xl text-teal-800 font-black cursor-pointer ">
+                    <IoCreateOutline
+
+                        onClick={handleShowContactList}
+                    />
+                </p>
+            </div>
+
+            <div className="mt-12 md:overflow-y-scroll md:absolute md:top-0 bottom-5 md:left-0 md:right-0 md:mb-[74px] md:pr-5">
                 {
                     relatedMessages?.length > 0 ? relatedMessages.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
@@ -30,13 +43,20 @@ const Messages = () => {
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
                             return (
-                                <div key={_id} onClick={() => fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState)} className='cursor-pointer'>
-                                    <div className="flex justify-center items-center my-2">
+                                <div
+                                    key={_id}
+                                    onClick={() => {
+                                        fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState);
+                                        messagesRef.current.classList.remove('z-20');
+                                    }}
+                                    className={`cursor-pointer hover:bg-teal-100 hover:rounded-xl hover:text-teal-700 hover:pl-2 hover:duration-1000`}
+                                >
+                                    {<div className={`flex justify-between items-center my-2`}>
                                         <div>
                                             <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
                                         </div>
                                         <div className='mx-4 w-full border-b'>
-                                            <p className="font-extrabold overflow-hidden text-base">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
+                                            <p className="font-semibold overflow-hidden text-base">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
                                             <div>
                                                 <div className='flex justify-between items-center'>
                                                     <p className='mr-3 text-gray-600 w-[100px] overflow-hidden h-6'>{content}</p>
@@ -49,7 +69,7 @@ const Messages = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>}
                                 </div>
                             )
                         }
@@ -60,4 +80,4 @@ const Messages = () => {
     )
 }
 
-export default Messages
+export default Messages;
