@@ -21,40 +21,50 @@ const Contact = () => {
         }
     };
 
-    data.forEach(user => {
-        const searchData = user.username.toLowerCase().indexOf(searchValue.toLowerCase()) === -1;
-        recherche(searchData, user);
-    });
+    data.sort(
+        (a, b) => (
+            a.username[0].toLowerCase() < b.username[0].toLowerCase() ? -1 : 1)
+    )
+        .forEach(user => {
+            const searchData = user.username.toLowerCase().indexOf(searchValue.toLowerCase()) === -1;
+            recherche(searchData, user);
+        });
+
+    // console.log(data.sort((a, b) => (a.username[0].toLowerCase() < b.username[0].toLowerCase() ? -1 : 1)));
 
     const handleChangeIsFilter = useMemo(() => (e) => {
         setSearchValue(e.target.value);
     }, [searchValue]);
 
     const handleShowContactList = () => {
-        messagesRef.current.classList.remove('z-20');
         setBoolingState(prevSates => { return { ...prevSates, showContactList: false } });
     };
 
     return (
         <div className="ml-3 h-screen md:overflow-hidden relative overflow-auto md:hover:overflow-auto pb-24 z-30">
-            <div className='bg-gray-200 flex justify-between items-center relative rounded-full'>
-                <span className='absolute left-3 hover:cursor-pointer text-lg text-gray-500'>
-                    <IoIosSearch />
-                </span>
-                <input
-                    className={`focus:outline-none rounded-full border py-1 pr-4 pl-10 block appearance-none w-full`}
-                    placeholder='Search'
-                    onChange={handleChangeIsFilter}
-                >
-                </input>
-            </div>
-            <div className="flex flex-col ml-5 overflow-clip absolute right-0 top-14 bg-teal-600 text-gray-100 p-4 shadow-xl w-full rounded-xl">
+            <div className='fixed md:absolute bg-white z-10 left-4 md:left-0 right-4 mb-4 pb-2 border-b'>
                 <div
-                    className='flex self-end justify-end mb-4 px-3 rounded-full bg-teal-200 text-teal-800 hover:text-teal-200 hover:bg-teal-800 shadow-2xl cursor-pointer'
+                    className='flex self-end justify-between items-center mb-2 px-3 rounded-full text-teal-500 cursor-pointer'
                     onClick={handleShowContactList}
                 >
-                    <p className=''>Fermer</p>
+                    <p className='font-bold'>New Chat</p>
+                    <p className=''>Close</p>
                 </div>
+                <div className='bg-gray-200 flex justify-between items-center relative rounded-full'>
+                    <span className='absolute left-3 hover:cursor-pointer text-lg text-gray-500'>
+                        <IoIosSearch />
+                    </span>
+                    <input
+                        className={`focus:outline-none rounded-full border py-1 pr-4 pl-10 block appearance-none w-full`}
+                        placeholder='Search'
+                        onChange={handleChangeIsFilter}
+                    >
+                    </input>
+                </div>
+            </div>
+            <div className="mt-20 text-gray-500 md:overflow-y-scroll md:absolute md:top-10 bottom-5 md:left-0 md:right-0 md:mb-[74px] md:pr-5">
+                {/* <div className="flex flex-col ml-5 overflow-clip absolute right-0 top-16 text-gray-500 p-4 shadow-xl w-full rounded-xl"> */}
+
                 {
                     usersData.length > 0 ? usersData.map((receiver) => receiver._id !== userData._id &&
                         <div
@@ -63,10 +73,14 @@ const Contact = () => {
                             onClick={() => {
                                 fetchMessages(receiver._id, JSON.stringify(receiver), setMessagesList, setBoolingState, boolingState);
                                 handleShowContactList();
+                                messagesRef.current.classList.remove('z-20');
                             }}
                         >
                             <p className="font-semibold">{receiver.username}</p>
-                            <HiUser className="h-10 w-10 text-yellow-500 border border-teal-200 p-1 rounded-full" />
+                            {/* <HiUser className="h-10 w-10 text-yellow-500 border border-teal-200 p-1 rounded-full" /> */}
+                            <div className='h-9 w-9 border border-teal-500 rounded-full flex justify-center items-center text-teal-700 font-black text-xl'>
+                                {receiver.username[0].toUpperCase()}
+                            </div>
                         </div>) : <div className='text-red-500'>No user found</div>
                 }
             </div>
