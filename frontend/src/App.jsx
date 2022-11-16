@@ -13,7 +13,7 @@ function App() {
   const { boolingState, loginStatus, setLoginStatus } = useStateContext();
   return (
     <BrowserRouter>
-      <div className="relative left-0 right-0 w-full md:pb-20">
+      <div className="relative left-0 right-0 w-full">
 
         {
           !boolingState.isSignNotLog ?
@@ -25,15 +25,13 @@ function App() {
                 </div> :
 
                 <div className="relative flex">
-                  <div className="fixed w-full md:w-80 pr-5 pl-3 py-20 md:border-r md:shadow-2xl md:shadow-slate-200" style={{
-                    boxShadow: 'rgb(113 122 131 / 11 %) 0px 7px 30px 0px'
-                  }}>
+                  <div className="fixed w-full md:w-80 pr-5 pl-3 py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
                     <Messages />
                   </div>
                   <div className="fixed w-full z-[10000000] bg-white border-b">
                     <Navbar />
                   </div>
-                  <div className="hidden md:block mt-12 min-h-screen w-full md:ml-80">
+                  <div className="hidden absolute md:bottom-0 md:top-0 md:left-0 md:right-0 md:block min-h-screen md:ml-80 overflow-hidden">
                     <Chat />
                   </div>
                   {/* <Routes>

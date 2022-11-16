@@ -73,9 +73,9 @@ const Chat = () => {
         }}> */}
             {
                 messagesList.length > 0 ?
-                    <div className="h-full  border-gray-50 px-6 flex flex-col relative">
+                    <div className="h-full  border-gray-50 px-6 flex flex-col relative md:top-20">
                         {/* <div className="h-full  border-gray-50 px-6 flex flex-col relative"> */}
-                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-12 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'>
+                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-24 pb-36 absolute'>
                             {/* <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'> */}
 
                             {
@@ -86,7 +86,7 @@ const Chat = () => {
                                     const msgDate = new Date(message.createdAt).toLocaleDateString();
 
                                     return (
-                                        <div key={message._id} className={`py-1 px-2 my-1 relative w-64 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-slate-100 text-teal-800 rounded-l-3xl rounded-br-3xl rounded-tr-none place-self-end'} `}>
+                                        <div key={message._id} className={`py-1 px-2 my-1 relative w-64 md:w-80 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-teal-700 text-white rounded-l-2xl rounded-br-2xl rounded-tr-none place-self-end'} `}>
                                             {/* <div key={message._id} className={`py-1 px-2 my-1 relative w-64 max-w-max ${!senderId ? 'sender bg-teal-100 text-teal-800 rounded-r-2xl rounded-tl-2xl rounded-bl-none place-self-start' : 'receiver bg-slate-100 text-teal-800 rounded-l-3xl rounded-br-3xl rounded-tr-none place-self-end'} `}> */}
                                             {message.content}
                                             <p className='text-[10px] text-end'>
@@ -109,7 +109,7 @@ const Chat = () => {
                         <img src="/images/logo.png" alt="" className="rounded-full border-[1px] border-teal-100" />
                     </div>
             }
-            <div className="sticky bottom-10 left-0 right-0">
+            <div className="absolute bottom-0 left-0 right-0 z-10 bg-white pt-2">
                 {/* <div className="absolute bottom-0 left-0 right-0"> */}
                 <div className='bg-gray-200 flex justify-between items-center relative mx-4 mb-4 rounded-full'>
                     <input
