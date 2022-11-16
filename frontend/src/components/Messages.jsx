@@ -8,7 +8,7 @@ import RelatedMsg from './Loaders/RelatedMsg';
 
 const Messages = () => {
 
-    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef, chatRef } = useStateContext();
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
@@ -24,7 +24,7 @@ const Messages = () => {
                 <h1 className="text-2xl text-teal-800 font-black ">Messages</h1>
             </div>
             {/* <h1 className="text-2xl text-teal-800 font-black my-2 absolute top-14 md:top-auto left-3">Messages</h1> */}
-            <div className="mt-12 md:overflow-scroll md:absolute md:top-0 bottom-5 md:left-0 md:right-0 md:mb-[74px]">
+            <div className="mt-12 md:overflow-y-scroll md:absolute md:top-0 bottom-5 md:left-0 md:right-0 md:mb-[74px] md:pr-5">
                 {/* <div className="overflow-scroll absolute md:top-10 bottom-0 left-5 md:left-0 right-3 md:right-0 mb-[74px]"> */}
                 {
                     relatedMessages?.length > 0 ? relatedMessages.map(

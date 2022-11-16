@@ -12,6 +12,10 @@ html {
     background-color: rgb(15 118 110 / var(--tw-bg-opacity));
 }
 
+::-webkit-scrollbar-track {
+    background-color: rgb(247, 241, 241);
+}
+
 body {
     margin: 0;
     padding: 0;
