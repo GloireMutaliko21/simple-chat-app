@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
 
 const UserProfile = () => {
@@ -15,7 +16,7 @@ const UserProfile = () => {
                 boolingState.showProfileMenu &&
                 <div className="fixed flex flex-col items-center bottom-10 md:bottom-auto md:top-16 right-5 left-5 md:left-auto md:right-6 bg-teal-600 text-white shadow-md rounded px-10 py-3 z-40">
                     <ul className="list-none flex flex-col justify-center items-center">
-                        <li className="my-5 hover:border-b hover:text-yellow-100">Profile</li>
+                        <li className="my-5 hover:border-b hover:text-yellow-100"><Link to='/profile'>Profile</Link></li>
                         <li className="mb-5 hover:border-b hover:text-yellow-100">Settings</li>
                         <li
                             className="mb-5 hover:border-b hover:text-yellow-100"
