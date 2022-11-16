@@ -73,9 +73,16 @@ const Chat = () => {
         }}> */}
             {
                 messagesList.length > 0 ?
-                    <div className="h-full  border-gray-50 px-6 flex flex-col relative top-20">
+                    <div className="h-full  border-gray-50 px-6 flex flex-col relative top-0 md:top-20">
                         {/* <div className="h-full  border-gray-50 px-6 flex flex-col relative"> */}
-                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-5 md:px-24 pb-36 absolute'>
+                        {
+                            (messagesList.length > 0 || localStorage.getItem('receiver')) &&
+                            <div className="flex flex-col justify-end items-center fixed md:hidden bg-white left-0 right-0 z-10">
+                                <p className="bg-clip-text bg-gradient-to-r from-teal-900 via-yellow-900 to-emerald-500 text-transparent md:text-2xl font-black">{receiverData?.username}</p>
+                                <p className="text-xs text-emerald-600">{receiverData?.email}</p>
+                            </div>
+                        }
+                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-5 lg:px-24 pb-16 md:pb-36 mt-12 md:mt-0 absolute'>
                             {/* <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-6 mb-[74px] absolute'> */}
 
                             {

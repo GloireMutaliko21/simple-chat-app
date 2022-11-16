@@ -25,10 +25,10 @@ function App() {
                 </div> :
 
                 <div className="relative flex">
-                  <div ref={messagesRef} className="fixed z-20 w-full bg-white md:w-80 pr-5 pl-3 py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
+                  <div ref={messagesRef} className="fixed z-20 w-full bg-white md:w-80 pr-5 pl-3 py-2 md:py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
                     <Messages />
                   </div>
-                  <div className="fixed w-full z-[10000000] bg-white border-b">
+                  <div className="fixed w-full hidden md:block z-[10000000] bg-white border-b">
                     <Navbar />
                   </div>
                   <div ref={chatRef} className="block absolute bottom-0 top-0 left-0 right-0  min-h-screen md:ml-80 overflow-hidden">
