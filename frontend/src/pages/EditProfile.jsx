@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { MdArrowBackIosNew, MdPhotoCamera } from 'react-icons/md';
+import { BsEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 
 import { useStateContext } from "../context/ContextProvider";
 import Input from '../components/Input';
 import Button from '../components/Button';
 const EditProfile = () => {
-    const [userInfos, setUserInfos] = useState({});
+    const [userInfos, setUserInfos] = useState({
+        username: '',
+        email: '',
+        oldPwd: '',
+        password: '',
+    });
     const [editingMode, setEditingMode] = useState(false);
-    const { userData } = useStateContext();
+    const { userData, boolingState } = useStateContext();
+
+    const handleChange = useMemo(() =>
+        (e) => setUserInfos({ ...userInfos, [e.target.name]: e.target.value }), [userInfos]
+    );
 
     return (
         <div className="w-full md:h-screen flex flex-col justify-center py-10 md:py-0 items-center px-5 text-gray-600">
@@ -42,18 +52,34 @@ const EditProfile = () => {
                         <div>
                             <Input
                                 label='Username'
+                                type='text'
+                                onChange={handleChange}
+                                name='username'
                             />
                             <Input
                                 label='Email'
+                                type='email'
+                                onChange={handleChange}
+                                name='email'
                             />
 
                         </div>
                         <div className='md:ml-4'>
                             <Input
                                 label='Password'
+                                type={boolingState.showPassword ? 'text' : 'password'}
+                                onChange={handleChange}
+                                name="oldPwd"
+                                icon={<BsEyeFill />}
+                                iconMask={<BsFillEyeSlashFill />}
                             />
                             <Input
                                 label='New Password'
+                                type={boolingState.showPassword ? 'text' : 'password'}
+                                onChange={handleChange}
+                                name="password"
+                                icon={<BsEyeFill />}
+                                iconMask={<BsFillEyeSlashFill />}
                             />
                         </div>
                     </div>
