@@ -12,10 +12,19 @@ import messageRouter from "./routes/messages.routes.js"
 
 const app = express();
 
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().toISOString() + '-' + file.originalname);
+    }
+})
+
 //Middlewares
 app
     .use(express.urlencoded({ extended: false }))
-    .use(multer().single('image'))
+    .use(multer({ storage: fileStorage }).single('image'))
     .use(express.json())
     .use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
