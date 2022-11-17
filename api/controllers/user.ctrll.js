@@ -6,15 +6,21 @@ import userMdl from "../models/user.mdl.js";
 export const signup = async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
-        const image = req.file
+        const image = req.file;
+
+        if (!image) {
+            res.status(422).json({ err: 'File empty !' });
+        }
         const hashedPwd = await bcrypt.hash(password, 10);
+        const imageUrl = image.path;
+
         const user = await new userMdl({
             email,
             username,
             password: hashedPwd,
-            image
+            image: imageUrl
         });
-        console.log(image);
+
         try {
             await user.save();
             res.status(201).json({
