@@ -19,12 +19,22 @@ const fileStorage = multer.diskStorage({
     filename: (req, file, cb) => {
         cb(null, new Date().toISOString() + '-' + file.originalname);
     }
-})
+});
+
+const fileFilter = (req, file, cb) => {
+    const fileExtension = file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'
+    if (fileExtension) {
+        console.log(file.mimetype)
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
 
 //Middlewares
 app
     .use(express.urlencoded({ extended: false }))
-    .use(multer({ storage: fileStorage }).single('image'))
+    .use(multer({ storage: fileStorage, fileFilter }).single('image'))
     .use(express.json())
     .use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
