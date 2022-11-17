@@ -18,6 +18,11 @@ const Signup = () => {
     const [defaultUserImage, setDefaultUserImage] = useState(defaultPrfl);
     const [selectedFile, setSelectedFile] = useState();
 
+    const handleChangeImage = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+    };
+
     const [email, setEmail] = useState();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
@@ -38,11 +43,12 @@ const Signup = () => {
     formdata.append('email', email);
     formdata.append('username', username);
     formdata.append('password', password);
-    formdata.append('image', defaultUserImage);
+    formdata.append('image', selectedFile);
 
     async function handleSignUp() {
         const params = {
             method: "POST",
+            'Content-Type': 'multipart/form-data',
             body: formdata
         }
         try {
@@ -62,11 +68,6 @@ const Signup = () => {
 
     const showOpenFileDialog = () => {
         imageRef.current.click();
-    };
-
-    const handleChangeImage = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
     };
 
     useEffect(() => {

@@ -14,8 +14,8 @@ const app = express();
 
 //Middlewares
 app
-    .use(multer().single('image'))
     .use(express.urlencoded({ extended: false }))
+    .use(multer().single('image'))
     .use(express.json())
     .use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
