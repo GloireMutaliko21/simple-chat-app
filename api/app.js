@@ -1,6 +1,7 @@
 //Imports
 import express from 'express';
 import http from "http";
+import multer from 'multer'
 // import { Server } from "socket.io";
 
 import db from './config/db.config.js';
@@ -13,6 +14,7 @@ const app = express();
 
 //Middlewares
 app
+    .use(multer().single('image'))
     .use(express.urlencoded({ extended: false }))
     .use(express.json())
     .use((req, res, next) => {

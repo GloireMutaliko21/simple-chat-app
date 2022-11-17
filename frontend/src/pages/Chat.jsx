@@ -115,7 +115,7 @@ const Chat = () => {
                         <img src="/images/logo.png" alt="" className="rounded-full border-[1px] border-teal-100" />
                     </div>
             }
-            <div className="absolute bottom-0 left-0 right-0 z-10 bg-white pt-2">
+            <div className="absolute bottom-10 md:bottom-0 left-0 right-0 z-10 bg-white pt-2">
                 <div className='bg-gray-200 flex justify-between items-center relative mx-4 mb-4 rounded-full'>
                     <input
                         className={`focus:outline-none rounded-full border border-teal-200 text-teal-800 py-1 pl-4 pr-36 block appearance-none w-full`}
