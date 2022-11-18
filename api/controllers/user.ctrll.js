@@ -2,23 +2,32 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import userMdl from "../models/user.mdl.js";
+import cloudinary from "../utils/cloudinary.utl.js";
 
 export const signup = async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
-        const image = req.file;
+        const image = req.file.path;
+        console.log(image);
 
         if (!image) {
             res.status(422).json({ err: 'File empty !' });
         }
+
+        const file = await cloudinary.uploader.upload(image, {
+            folder: 'chatProfiles'
+        })
+
         const hashedPwd = await bcrypt.hash(password, 10);
-        const imageUrl = image.path;
 
         const user = await new userMdl({
             email,
             username,
             password: hashedPwd,
-            image: imageUrl
+            image: {
+                id: file.public_id,
+                url: file.secure_url
+            }
         });
 
         try {
