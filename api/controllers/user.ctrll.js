@@ -6,12 +6,21 @@ import userMdl from "../models/user.mdl.js";
 export const signup = async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
+        const image = req.file;
+
+        if (!image) {
+            res.status(422).json({ err: 'File empty !' });
+        }
         const hashedPwd = await bcrypt.hash(password, 10);
+        const imageUrl = image.path;
+
         const user = await new userMdl({
             email,
             username,
-            password: hashedPwd
+            password: hashedPwd,
+            image: imageUrl
         });
+
         try {
             await user.save();
             res.status(201).json({
@@ -79,5 +88,28 @@ export const findOneUser = async (req, res, next) => {
     } catch (err) {
         res.status(404).json({ err });
 
+    }
+};
+
+export const postEditUser = async (req, res, next) => {
+    try {
+        const { email, username, password } = req.body;
+        const hashedPwd = await bcrypt.hash(password, 10);
+        const user = await userMdl.findById(req.params.id);
+        user.email = email;
+        user.username = username;
+        user.password = hashedPwd;
+
+        await user.save();
+        res.status(201).json({
+            message: 'Updated',
+            user,
+            token: jwt.sign(
+                { userId: user._id }, process.env.TOKEN_KEY, { expiresIn: '6h' }
+            )
+        });
+
+    } catch (err) {
+        res.status(500).json({ err });
     }
 };

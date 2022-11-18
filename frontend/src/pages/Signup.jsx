@@ -1,15 +1,27 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { BsEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import { MdPhotoCamera } from "react-icons/md";
 
 import { useStateContext } from "../context/ContextProvider";
 import Button from '../components/Button';
 import Input from '../components/Input';
 import { API_URL } from '../constants/apiUrl';
+import defaultPrfl from '../../public/images/defaultPrfl.png'
+
 const Signup = () => {
     const { boolingState, setBoolingState, setLoginStatus } = useStateContext();
     const handleLoadLogin = () => {
         setBoolingState({ ...boolingState, isSignNotLog: false })
     }
+
+    const imageRef = useRef();
+    const [defaultUserImage, setDefaultUserImage] = useState(defaultPrfl);
+    const [selectedFile, setSelectedFile] = useState();
+
+    const handleChangeImage = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+    };
 
     const [email, setEmail] = useState();
     const [username, setUsername] = useState();
@@ -27,25 +39,25 @@ const Signup = () => {
             }
         }, [email, username, password]);
 
+    const formdata = new FormData();
+    formdata.append('email', email);
+    formdata.append('username', username);
+    formdata.append('password', password);
+    formdata.append('image', selectedFile);
+
     async function handleSignUp() {
         const params = {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email,
-                username,
-                password
-            })
+            'Content-Type': 'multipart/form-data',
+            body: formdata
         }
         try {
             const response = await fetch(`${API_URL}/users/signup`, params);
             const responseData = await response.json();
             if (response.status === 201) {
-                localStorage.setItem('token', responseData.token);
-                localStorage.setItem('user', JSON.stringify(responseData.user));
-                setLoginStatus(true);
+                // localStorage.setItem('token', responseData.token);
+                // localStorage.setItem('user', JSON.stringify(responseData.user));
+                // setLoginStatus(true);
                 handleLoadLogin();
                 console.log(responseData);
             }
@@ -54,6 +66,18 @@ const Signup = () => {
         }
     }
 
+    const showOpenFileDialog = () => {
+        imageRef.current.click();
+    };
+
+    useEffect(() => {
+        if (selectedFile) {
+            const objectURL = URL.createObjectURL(selectedFile);
+            setDefaultUserImage(objectURL);
+            return () => URL.revokeObjectURL(objectURL);
+        }
+    }, [selectedFile]);
+
     return (
         <div className='flex flex-col justify-center min-w-[400px] max-w-max shadow-gray-200 p-10 text-teal-800 rounded-md text-left'>
             <div className='flex flex-col items-center  mb-5'>
@@ -61,6 +85,14 @@ const Signup = () => {
                 <p className='mb-2'>Welcome</p>
             </div>
             <div className=''>
+                <div className="relative flex justify-center items-center">
+                    <input ref={imageRef} type="file" name="image" id="image" className="hidden" onChange={handleChangeImage}>
+                    </input>
+                    <div className="relative">
+                        <img src={defaultUserImage} alt="image" className="w-24 h-24 rounded-full border object-cover" />
+                        <div onClick={showOpenFileDialog} className="absolute bottom-0 right-0 text-2xl text-teal-900"><MdPhotoCamera className='' /></div>
+                    </div>
+                </div>
                 <Input
                     label='Username'
                     type='text'

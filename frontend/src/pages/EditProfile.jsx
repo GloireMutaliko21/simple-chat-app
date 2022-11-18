@@ -1,14 +1,53 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { MdArrowBackIosNew, MdPhotoCamera } from 'react-icons/md';
+import { BsEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 
 import { useStateContext } from "../context/ContextProvider";
 import Input from '../components/Input';
 import Button from '../components/Button';
+import { API_URL } from '../constants/apiUrl';
 const EditProfile = () => {
-    const [userInfos, setUserInfos] = useState({});
+    const [userInfos, setUserInfos] = useState({
+        username: '',
+        email: '',
+        oldPwd: '',
+        password: '',
+    });
     const [editingMode, setEditingMode] = useState(false);
-    const { userData } = useStateContext();
+    const { userData, boolingState } = useStateContext();
+
+    const handleChange = useMemo(() =>
+        (e) => setUserInfos({ ...userInfos, [e.target.name]: e.target.value }), [userInfos]
+    );
+
+    async function handleEditProfile() {
+        const params = {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                email: userInfos.email,
+                username: userInfos.username,
+                password: userInfos.password
+            })
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/users/edit/${userData._id}`, params);
+            console.log(response);
+            const responseData = await response.json();
+            if (response.status === 201) {
+                localStorage.setItem('token', responseData.token);
+                localStorage.setItem('user', JSON.stringify(responseData.user));
+                console.log(responseData);
+            }
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
 
     return (
         <div className="w-full md:h-screen flex flex-col justify-center py-10 md:py-0 items-center px-5 text-gray-600">
@@ -19,7 +58,7 @@ const EditProfile = () => {
             </div>
             <div className='flex md:justify-center items-center mt-2 w-full '>
                 <div className='h-28 w-28 relative flex justify-center items-center border rounded-full'>
-                    <p className='text-7xl font-black'>{userData.username[0]}</p>
+                    <p className='text-7xl font-black'>{userData?.username[0]}</p>
                     {
                         editingMode && <MdPhotoCamera className='absolute bottom-3 right-1 text-gray-500' />
                     }
@@ -42,24 +81,41 @@ const EditProfile = () => {
                         <div>
                             <Input
                                 label='Username'
+                                type='text'
+                                onChange={handleChange}
+                                name='username'
                             />
                             <Input
                                 label='Email'
+                                type='email'
+                                onChange={handleChange}
+                                name='email'
                             />
 
                         </div>
                         <div className='md:ml-4'>
                             <Input
                                 label='Password'
+                                type={boolingState.showPassword ? 'text' : 'password'}
+                                onChange={handleChange}
+                                name="oldPwd"
+                                icon={<BsEyeFill />}
+                                iconMask={<BsFillEyeSlashFill />}
                             />
                             <Input
                                 label='New Password'
+                                type={boolingState.showPassword ? 'text' : 'password'}
+                                onChange={handleChange}
+                                name="password"
+                                icon={<BsEyeFill />}
+                                iconMask={<BsFillEyeSlashFill />}
                             />
                         </div>
                     </div>
                     <Button
                         label='Send'
                         style='flex justify-center w-full bg-teal-800 hover:bg-teal-700 text-white font-semibold p-3 mt-5'
+                        onClick={handleEditProfile}
                     />
                 </div>
             }

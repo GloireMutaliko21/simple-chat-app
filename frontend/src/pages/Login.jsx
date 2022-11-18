@@ -86,7 +86,7 @@ const Login = () => {
                     name="email"
                 />
                 <Input
-                    label='Mot de passe'
+                    label='Password'
                     type={boolingState.showPassword ? 'text' : 'password'}
                     onChange={handleChange}
                     name="password"
