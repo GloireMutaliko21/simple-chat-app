@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdArrowBackIosNew, MdPhotoCamera } from 'react-icons/md';
 import { BsEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
@@ -7,6 +7,8 @@ import { useStateContext } from "../context/ContextProvider";
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { API_URL } from '../constants/apiUrl';
+import defaultPrfl from '../../public/images/defaultPrfl.png'
+
 const EditProfile = () => {
     const [userInfos, setUserInfos] = useState({
         username: '',
@@ -14,6 +16,28 @@ const EditProfile = () => {
         oldPwd: '',
         password: '',
     });
+
+    const imageRef = useRef();
+    const [defaultUserImage, setDefaultUserImage] = useState(defaultPrfl);
+    const [selectedFile, setSelectedFile] = useState();
+
+    const handleChangeImage = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+    };
+
+    const showOpenFileDialog = () => {
+        imageRef.current.click();
+    };
+
+    useEffect(() => {
+        if (selectedFile) {
+            const objectURL = URL.createObjectURL(selectedFile);
+            setDefaultUserImage(objectURL);
+            return () => URL.revokeObjectURL(objectURL);
+        }
+    }, [selectedFile]);
+
     const [editingMode, setEditingMode] = useState(false);
     const { userData, boolingState } = useStateContext();
 
@@ -21,18 +45,20 @@ const EditProfile = () => {
         (e) => setUserInfos({ ...userInfos, [e.target.name]: e.target.value }), [userInfos]
     );
 
+    const formdata = new FormData();
+    formdata.append('email', userInfos.email);
+    formdata.append('username', userInfos.username);
+    formdata.append('password', userInfos.password);
+    formdata.append('image', selectedFile);
+
+    console.log(localStorage.getItem('token'));
     async function handleEditProfile() {
         const params = {
             method: "PUT",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
-            body: JSON.stringify({
-                email: userInfos.email,
-                username: userInfos.username,
-                password: userInfos.password
-            })
+            body: formdata
         }
 
         try {
@@ -58,10 +84,14 @@ const EditProfile = () => {
             </div>
             <div className='flex md:justify-center items-center mt-2 w-full '>
                 <div className='h-28 w-28 relative flex justify-center items-center border rounded-full'>
-                    <p className='text-7xl font-black'>{userData?.username[0]}</p>
-                    {
-                        editingMode && <MdPhotoCamera className='absolute bottom-3 right-1 text-gray-500' />
-                    }
+                    <div className="relative flex justify-center items-center">
+                        <input ref={imageRef} type="file" name="image" id="image" className="hidden" onChange={handleChangeImage}>
+                        </input>
+                        <div className="relative">
+                            <img src={defaultUserImage} alt="image" className="w-24 h-24 rounded-full border object-cover" />
+                            <div onClick={showOpenFileDialog} className="absolute bottom-0 right-0 text-2xl text-teal-900"><MdPhotoCamera className='' /></div>
+                        </div>
+                    </div>
                 </div>
                 <div className='ml-5'>
                     <p className='text-3xl'>{userData?.username}</p>

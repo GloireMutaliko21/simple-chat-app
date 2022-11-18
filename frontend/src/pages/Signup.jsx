@@ -55,9 +55,9 @@ const Signup = () => {
             const response = await fetch(`${API_URL}/users/signup`, params);
             const responseData = await response.json();
             if (response.status === 201) {
-                // localStorage.setItem('token', responseData.token);
-                // localStorage.setItem('user', JSON.stringify(responseData.user));
-                // setLoginStatus(true);
+                localStorage.setItem('token', responseData.token);
+                localStorage.setItem('user', JSON.stringify(responseData.user));
+                setLoginStatus(true);
                 handleLoadLogin();
                 console.log(responseData);
             }

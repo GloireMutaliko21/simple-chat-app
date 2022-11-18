@@ -4,6 +4,7 @@ import { IoCreateOutline } from 'react-icons/io5';
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages } from '../hook/useFecth';
 import RelatedMsg from './Loaders/RelatedMsg';
+import defaultPrfl from '../../public/images/defaultPrfl.png'
 
 const Messages = () => {
 
@@ -53,7 +54,13 @@ const Messages = () => {
                                 >
                                     {<div className={`flex justify-between items-center my-2`}>
                                         <div>
-                                            <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
+                                            {/* <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" /> */}
+                                            {
+                                                <img
+                                                    src={talkers[0] === userId ? receiverId.image : senderId.image} alt={talkers[0] === userId ? receiverId.username[0] : senderId.username[0]}
+                                                    className="h-12 w-12 text-gray-500 border p-1 rounded-full"
+                                                />
+                                            }
                                         </div>
                                         <div className='mx-4 w-full border-b'>
                                             <p className="font-semibold overflow-hidden text-base">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
