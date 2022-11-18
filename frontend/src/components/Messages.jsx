@@ -1,9 +1,9 @@
-import { HiUser } from 'react-icons/hi';
 import { IoCreateOutline } from 'react-icons/io5';
 
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages } from '../hook/useFecth';
 import RelatedMsg from './Loaders/RelatedMsg';
+import defaultPrfl from '../../public/images/defaultPrfl.png';
 
 const Messages = () => {
 
@@ -42,6 +42,10 @@ const Messages = () => {
                             const msgDate = new Date(createdAt).toLocaleDateString();
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
+                            const userImage = talkers[0] === userId ?
+                                receiverId.image?.toString().substring(6, receiverId.image.length) :
+                                senderId.image?.toString().substring(6, senderId.image.length);
+
                             return (
                                 <div
                                     key={_id}
@@ -52,8 +56,12 @@ const Messages = () => {
                                     className={`cursor-pointer hover:bg-teal-100 hover:rounded-xl hover:text-teal-700 hover:pl-2 hover:duration-1000`}
                                 >
                                     {<div className={`flex justify-between items-center my-2`}>
-                                        <div>
-                                            <HiUser className="h-12 w-12 text-gray-500 border p-1 rounded-full" />
+                                        <div className='h-12 w-12 flex justify-center items-center'>
+
+                                            <img
+                                                src={`${userImage ? `http://localhost:${import.meta.env.VITE_API_PORT}${userImage}` : `${defaultPrfl}`}`} alt={talkers[0] === userId ? receiverId.username[0] : senderId.username[0]}
+                                                className="h-10 w-10 border rounded-full object-cover object-center"
+                                            />
                                         </div>
                                         <div className='mx-4 w-full border-b'>
                                             <p className="font-semibold overflow-hidden text-base">{talkers[0] === userId ? receiverId.username : senderId.username}</p>

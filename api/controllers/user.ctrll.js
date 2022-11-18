@@ -94,11 +94,16 @@ export const findOneUser = async (req, res, next) => {
 export const postEditUser = async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
+        const image = req.file;
         const hashedPwd = await bcrypt.hash(password, 10);
         const user = await userMdl.findById(req.params.id);
         user.email = email;
         user.username = username;
         user.password = hashedPwd;
+
+        if (image) {
+            user.image = image.path;
+        }
 
         await user.save();
         res.status(201).json({
