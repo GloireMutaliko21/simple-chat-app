@@ -118,9 +118,7 @@ export const postEditUser = async (req, res, next) => {
             user.image = {
                 id: file.public_id,
                 url: file.secure_url
-            }
-            // user.image.id = file.public_id;
-            // user.image.url = file.secure_url;
+            };
         }
 
         await user.save();
