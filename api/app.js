@@ -2,7 +2,11 @@
 import express from 'express';
 import http from "http";
 import multer from 'multer'
-// import { Server } from "socket.io";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import db from './config/db.config.js';
 import Io from './socket.io.js'
@@ -36,6 +40,7 @@ app
     .use(express.urlencoded({ extended: false }))
     .use(multer({ storage: fileStorage, fileFilter }).single('image'))
     .use(express.json())
+    .use('/', express.static(path.join(__dirname, 'public')))
     .use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');

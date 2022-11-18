@@ -78,9 +78,10 @@ const Contact = () => {
                             {/* <HiUser className="h-10 w-10 text-yellow-500 border border-teal-200 p-1 rounded-full" /> */}
                             <div className='h-9 w-9 flex justify-center items-center text-teal-700'>
                                 {/* {receiver.username[0].toUpperCase()} */}
-                                <img src={receiver.image} alt={receiver.username[0]} className="h-9 w-9 text-gray-500 border p-1 rounded-full" />
+                                <img src={`http://localhost:${import.meta.env.VITE_API_PORT}${receiver.image?.toString().substring(6, receiver.image.length)}`} alt={receiver.username[0]} className="h-9 w-9 text-gray-500 border rounded-full" />
                             </div>
-                        </div>) : <div className='text-red-500'>No user found</div>
+                        </div>
+                    ) : <div className='text-red-500'>No user found</div>
                 }
             </div>
         </div>
