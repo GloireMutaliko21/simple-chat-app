@@ -77,8 +77,8 @@ const Chat = () => {
                 <div className='bg-teal-100 rounded-full w-8 h-8 flex justify-center items-center text-teal-800 font-black text-xl'>
                     {/*  */}
                     {
-                        receiverData.image ?
-                            <img src={`http://localhost:${import.meta.env.VITE_API_PORT}${receiverData.image?.toString().substring(6, receiverData.image.length)}`} alt="" className='rounded-full' /> :
+                        receiverData ?
+                            <img src={`${receiverData?.image.url}`} alt="" className='rounded-full' /> :
                             receiverData?.username[0].toUpperCase()
                     }
                 </div>

@@ -16,7 +16,7 @@ export const signup = async (req, res, next) => {
 
         const file = await cloudinary.uploader.upload(image, {
             folder: 'chatProfiles'
-        })
+        });
 
         const hashedPwd = await bcrypt.hash(password, 10);
 
@@ -103,7 +103,7 @@ export const findOneUser = async (req, res, next) => {
 export const postEditUser = async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
-        const image = req.file;
+        const image = req.file.path;
         const hashedPwd = await bcrypt.hash(password, 10);
         const user = await userMdl.findById(req.params.id);
         user.email = email;
@@ -111,7 +111,14 @@ export const postEditUser = async (req, res, next) => {
         user.password = hashedPwd;
 
         if (image) {
-            user.image = image.path;
+            const file = await cloudinary.uploader.upload(image, {
+                folder: 'chatProfiles'
+            });
+
+            user.image = {
+                id: file.public_id,
+                url: file.secure_url
+            };
         }
 
         await user.save();
