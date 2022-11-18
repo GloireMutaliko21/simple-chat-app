@@ -74,8 +74,13 @@ const Chat = () => {
                     <p className="bg-clip-text bg-gradient-to-r from-teal-900 via-yellow-900 to-emerald-500 text-transparent md:text-2xl font-black">{receiverData?.username}</p>
                     <p className="text-xs text-emerald-600">{receiverData?.email}</p>
                 </div>
-                <div className='bg-teal-100 border border-teal-500 rounded-full w-8 h-8 flex justify-center items-center text-teal-800 font-black text-xl'>
-                    {receiverData?.username[0].toUpperCase()}
+                <div className='bg-teal-100 rounded-full w-8 h-8 flex justify-center items-center text-teal-800 font-black text-xl'>
+                    {/*  */}
+                    {
+                        receiverData.image ?
+                            <img src={`http://localhost:${import.meta.env.VITE_API_PORT}${receiverData.image?.toString().substring(6, receiverData.image.length)}`} alt="" className='rounded-full' /> :
+                            receiverData?.username[0].toUpperCase()
+                    }
                 </div>
             </div>
             {
