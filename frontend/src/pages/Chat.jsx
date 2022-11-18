@@ -85,7 +85,7 @@ const Chat = () => {
 
 
                         }
-                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-5 lg:px-24 pb-16 md:pb-36 mt-12 md:mt-0 absolute'>
+                        <div ref={chatRef} className='min-w-max flex flex-col top-0 bottom-0 left-0 right-0 overflow-y-scroll overflow-x-clip px-5 lg:px-24 pb-24 md:pb-36 mt-12 md:mt-0 absolute'>
                             {
                                 messagesList.map(message => {
                                     const senderId = message.talkers[0] === userId;

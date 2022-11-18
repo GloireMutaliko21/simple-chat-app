@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
-import { HiUser } from "react-icons/hi";
 import { IoIosSearch } from "react-icons/io";
 
 import { useStateContext } from "../context/ContextProvider";
 import { fetchData, fetchMessages } from "../hook/useFecth";
+import defaultPrfl from '../../public/images/defaultPrfl.png';
 
 const Contact = () => {
     const { users, setUsers, setMessagesList, boolingState, setBoolingState, userData, messagesRef } = useStateContext();
@@ -78,7 +78,7 @@ const Contact = () => {
                             {/* <HiUser className="h-10 w-10 text-yellow-500 border border-teal-200 p-1 rounded-full" /> */}
                             <div className='h-9 w-9 flex justify-center items-center text-teal-700'>
                                 {/* {receiver.username[0].toUpperCase()} */}
-                                <img src={`http://localhost:${import.meta.env.VITE_API_PORT}${receiver.image?.toString().substring(6, receiver.image.length)}`} alt={receiver.username[0]} className="h-9 w-9 text-gray-500 border rounded-full" />
+                                <img src={`${receiver.image ? `http://localhost:${import.meta.env.VITE_API_PORT}${receiver.image?.toString().substring(6, receiver.image.length)}` : `${defaultPrfl}`}`} alt={receiver.username[0]} className="h-9 w-9 border rounded-full object-cover" />
                             </div>
                         </div>
                     ) : <div className='text-red-500'>No user found</div>
