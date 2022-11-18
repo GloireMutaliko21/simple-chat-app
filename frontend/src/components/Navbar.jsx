@@ -1,4 +1,3 @@
-import { HiUser } from 'react-icons/hi';
 import { IoIosArrowDown } from 'react-icons/io';
 
 import { useStateContext } from "../context/ContextProvider";
@@ -21,7 +20,6 @@ const Navbar = () => {
                 className="flex flex-col items-center cursor-pointer"
                 onClick={handleChangeShowProfMenu}
             >
-                {/* <HiUser className="h-8 w-8 text-teal-800 border p-1 rounded-full" /> */}
                 <img src={userData.image.url} alt="" className='w-8 h-8 rounded-full' />
 
                 <div className="md:flex items-center text-teal-700 hidden">

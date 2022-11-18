@@ -88,7 +88,7 @@ const EditProfile = () => {
                         <input ref={imageRef} type="file" name="image" id="image" className="hidden" onChange={handleChangeImage}>
                         </input>
                         <div className="relative">
-                            <img src={userData?.image} alt="image" className="w-24 h-24 rounded-full border object-cover" />
+                            <img src={!selectedFile ? userData?.image.url : defaultUserImage} alt="image" className="w-24 h-24 rounded-full border object-cover" />
                             <div onClick={showOpenFileDialog} className="absolute bottom-0 right-0 text-2xl text-teal-900"><MdPhotoCamera className='' /></div>
                         </div>
                     </div>
