@@ -43,8 +43,8 @@ const Messages = () => {
                             const user = talkers[0] === userId ? receiverId._id : senderId._id;
                             const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
                             const userImage = talkers[0] === userId ?
-                                receiverId.image?.toString().substring(6, receiverId.image.length) :
-                                senderId.image?.toString().substring(6, senderId.image.length);
+                                receiverId.image?.url :
+                                senderId.image?.url;
 
                             return (
                                 <div
@@ -59,7 +59,7 @@ const Messages = () => {
                                         <div className='h-12 w-12 flex justify-center items-center'>
 
                                             <img
-                                                src={`${userImage ? `http://localhost:${import.meta.env.VITE_API_PORT}${userImage}` : `${defaultPrfl}`}`} alt={talkers[0] === userId ? receiverId.username[0] : senderId.username[0]}
+                                                src={`${userImage ? `${userImage}` : `${defaultPrfl}`}`} alt={talkers[0] === userId ? receiverId.username[0] : senderId.username[0]}
                                                 className="h-10 w-10 border rounded-full object-cover object-center"
                                             />
                                         </div>
