@@ -77,8 +77,8 @@ const Chat = () => {
                 <div className='bg-teal-100 rounded-full w-8 h-8 flex justify-center items-center text-teal-800 font-black text-xl'>
                     {/*  */}
                     {
-                        receiverData ?
-                            <img src={`${receiverData?.image.url}`} alt="" className='rounded-full' /> :
+                        receiverData?.image?.url ?
+                            <img src={`${receiverData.image?.url ? receiverData?.image.url : ''}`} alt="" className='rounded-full' /> :
                             receiverData?.username[0].toUpperCase()
                     }
                 </div>
