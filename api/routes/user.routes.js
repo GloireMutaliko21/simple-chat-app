@@ -14,6 +14,6 @@ router
 
     .get('/:id', auth, findOneUser)
 
-    .put('/edit/:id', auth, postEditUser);
+    .put('/edit', auth, postEditUser);
 
 export default router;
