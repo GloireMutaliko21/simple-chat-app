@@ -105,7 +105,7 @@ export const postEditUser = async (req, res, next) => {
         const { email, username, password } = req.body;
         const image = req.file.path;
         const hashedPwd = await bcrypt.hash(password, 10);
-        const user = await userMdl.findById(req.params.id);
+        const user = await userMdl.findById(req.user._id);
         user.email = email;
         user.username = username;
         user.password = hashedPwd;

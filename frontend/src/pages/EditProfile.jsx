@@ -62,7 +62,7 @@ const EditProfile = () => {
         }
 
         try {
-            const response = await fetch(`${API_URL}/users/edit/${userData._id}`, params);
+            const response = await fetch(`${API_URL}/users/edit`, params);
             console.log(response);
             const responseData = await response.json();
             if (response.status === 201) {
