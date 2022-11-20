@@ -20,7 +20,7 @@ const Navbar = () => {
                 className="flex flex-col items-center cursor-pointer"
                 onClick={handleChangeShowProfMenu}
             >
-                <img src={userData.image.url} alt="" className='w-8 h-8 rounded-full' />
+                <img src={userData?.image?.url} alt="" className='w-8 h-8 rounded-full' />
 
                 <div className="md:flex items-center text-teal-700 hidden">
                     <p className="text-xs mr-2">{userData.username}</p>
