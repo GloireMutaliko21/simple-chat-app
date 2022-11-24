@@ -9,6 +9,7 @@ import { API_URL } from '../constants/apiUrl';
 
 const Chat = () => {
     const [msgContent, setMsgContent] = useState('');
+    const [errorMessage, setErrorMessage] = useState('')
 
     const { relatedUsers, messagesList, userData, receiverData, messagesRef, chatRef } = useStateContext();
 
@@ -46,11 +47,15 @@ const Chat = () => {
         }
         try {
             const response = await fetch(`${API_URL}/messages/send/${receiverId}`, params);
+            if (response.status === 401 || response.status === 500) {
+                setErrorMessage('Network or authorisation error');
+            }
             if (response.status === 201) {
                 setMsgContent('');
+                setErrorMessage('');
             }
         } catch (err) {
-            console.log(err);
+            console.log(err.status);
         }
     }
 
@@ -75,7 +80,6 @@ const Chat = () => {
                     <p className="text-xs text-emerald-600">{receiverData?.email}</p>
                 </div>
                 <div className='bg-teal-100 rounded-full w-8 h-8 flex justify-center items-center text-teal-800 font-black text-xl'>
-                    {/*  */}
                     {
                         receiverData?.image?.url ?
                             <img src={`${receiverData.image?.url ? receiverData?.image.url : ''}`} alt="" className='rounded-full' /> :
@@ -111,6 +115,7 @@ const Chat = () => {
                                     )
                                 })
                             }
+                            <p>{errorMessage}</p>
                         </div>
 
                     </div> :
