@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
 
 import { useStateContext } from '../context/ContextProvider';
@@ -6,6 +7,7 @@ import RelatedMsg from './Loaders/RelatedMsg';
 import defaultPrfl from '../../public/images/defaultPrfl.png';
 
 const Messages = () => {
+    const [selected, setSelected] = useState(false);
 
     const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef } = useStateContext();
 
@@ -36,7 +38,7 @@ const Messages = () => {
             <div className="mt-12 md:overflow-y-scroll md:absolute md:top-0 bottom-5 md:left-0 md:right-0 md:mb-[74px] md:pr-5">
                 {
                     relatedMessages?.length > 0 ? relatedMessages.map(
-                        ({ _id, senderId, receiverId, talkers, content, createdAt }) => {
+                        ({ _id, senderId, receiverId, talkers, content, createdAt }, idx) => {
                             const msgCompleteDate = new Date(createdAt);
                             const msgTime = new Date(createdAt).toLocaleTimeString();
                             const msgDate = new Date(createdAt).toLocaleDateString();
@@ -52,8 +54,9 @@ const Messages = () => {
                                     onClick={() => {
                                         fetchMessages(user, receiver, setMessagesList, setBoolingState, boolingState);
                                         messagesRef.current.classList.remove('z-20');
+                                        setSelected(idx);
                                     }}
-                                    className={`cursor-pointer hover:bg-teal-100 hover:rounded-xl hover:text-teal-700 hover:pl-2 hover:duration-1000`}
+                                    className={`cursor-pointer md:py-px md:pl-2 hover:bg-teal-100 hover:text-teal-700 hover:pl-2 hover:duration-300 ${idx === selected ? 'bg-teal-50 text-teal-700' : 'bg-stone-50'}`}
                                 >
                                     {<div className={`flex justify-between items-center my-2`}>
                                         <div className='h-12 w-12 flex justify-center items-center'>

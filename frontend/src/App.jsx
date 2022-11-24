@@ -26,14 +26,14 @@ function App() {
                   </div> :
 
                   <div className="relative flex">
-                    <div ref={messagesRef} className="fixed z-20 w-full bg-white md:w-80 pr-5 pl-3 py-2 md:py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
+                    <div ref={messagesRef} className="fixed z-20 w-full bg-white md:w-[420px] pr-5 md:pr-0 pl-3 md:pl-0 py-2 md:py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
                       {boolingState.showContactList ? <Contact /> : <Messages />}
                       <Messages />
                     </div>
                     <div className="fixed w-full 2xl:w-[1290px] z-[10000000] bg-white border-t md:border-t-0 md:border-b bottom-0 md:bottom-auto md:top-0 md">
                       <Navbar />
                     </div>
-                    <div ref={chatRef} className="block absolute bottom-0 top-0 left-0 right-0  min-h-screen md:ml-80 overflow-hidden">
+                    <div ref={chatRef} className="block absolute bottom-0 top-0 left-0 right-0  min-h-screen md:ml-[420px] overflow-hidden">
                       <Chat />
                     </div>
                   </div>
