@@ -9,7 +9,7 @@ import { useStateContext } from "../context/ContextProvider";
 import openSocket from 'socket.io-client';
 
 const Login = () => {
-    const { boolingState, setBoolingState, setLoginStatus, rememberMe } = useStateContext();
+    const { boolingState, setBoolingState, setLoginStatus, rememberMe, users, setUsers, } = useStateContext();
 
     const handleLoadSignUp = () => {
         setBoolingState({ ...boolingState, isSignNotLog: true })
@@ -19,20 +19,6 @@ const Login = () => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-
-    useEffect(() => {
-        const socket = openSocket('http://localhost:5501');
-
-        socket.connect();
-
-        socket.on('login', isLogged => {
-            console.log(isLogged);
-        })
-
-        return () => {
-            socket.disconnect()
-        }
-    }, [])
 
     const handleChange = useMemo(() =>
         (e) => {

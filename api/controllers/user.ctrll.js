@@ -62,7 +62,10 @@ export const login = async (req, res, next) => {
                 res.status(401).json({ error: 'Invalid authentication params 2' });
                 return;
             }
-            IO.getIO().emit('login', { isLogged: true });
+            user.isLogged = true;
+            await user.save();
+            // delete user.password;
+            IO.getIO().emit('login');
             res.status(200).json({
                 user,
                 token: jwt.sign(

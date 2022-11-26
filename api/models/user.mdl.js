@@ -14,7 +14,8 @@ const userSchema = mongoose.Schema({
             type: String,
             required: true
         }
-    }
+    },
+    isLogged: { type: Boolean, default: false }
 });
 
 userSchema.plugin(mongooseUniqueValidator);
