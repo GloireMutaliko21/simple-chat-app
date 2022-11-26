@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 import userMdl from "../models/user.mdl.js";
 import cloudinary from "../utils/cloudinary.utl.js";
+import IO from "../socket.io.js"
 
 export const signup = async (req, res, next) => {
     try {
@@ -61,6 +62,7 @@ export const login = async (req, res, next) => {
                 res.status(401).json({ error: 'Invalid authentication params 2' });
                 return;
             }
+            IO.getIO().emit('login', { isLogged: true });
             res.status(200).json({
                 user,
                 token: jwt.sign(

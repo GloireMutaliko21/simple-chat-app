@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc'
 import { BsEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import { API_URL } from '../constants/apiUrl';
 import { useStateContext } from "../context/ContextProvider";
+import openSocket from 'socket.io-client';
 
 const Login = () => {
     const { boolingState, setBoolingState, setLoginStatus, rememberMe } = useStateContext();
@@ -18,6 +19,21 @@ const Login = () => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+
+    useEffect(() => {
+        const socket = openSocket('http://localhost:5501');
+
+        socket.connect();
+
+        socket.on('login', isLogged => {
+            console.log(isLogged);
+        })
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
+
     const handleChange = useMemo(() =>
         (e) => {
             if (e.target.name === "email") {

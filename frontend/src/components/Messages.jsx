@@ -56,7 +56,7 @@ const Messages = () => {
                                         messagesRef.current.classList.remove('z-20');
                                         setSelected(idx);
                                     }}
-                                    className={`cursor-pointer md:py-px md:pl-2 hover:bg-teal-100 hover:text-teal-700 hover:pl-2 hover:duration-300 ${idx === selected ? 'bg-teal-50 text-teal-700' : 'bg-stone-50'}`}
+                                    className={`cursor-pointer md:py-px md:pl-2 hover:bg-teal-50 hover:text-teal-700 hover:pl-2 hover:duration-300 ${idx === selected ? 'bg-teal-50 text-teal-700' : 'bg-stone-50'}`}
                                 >
                                     {<div className={`flex justify-between items-center my-2`}>
                                         <div className='h-12 w-12 flex justify-center items-center'>
