@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 import userMdl from "../models/user.mdl.js";
 import cloudinary from "../utils/cloudinary.utl.js";
+import IO from "../socket.io.js"
 
 export const signup = async (req, res, next) => {
     try {
@@ -27,11 +28,13 @@ export const signup = async (req, res, next) => {
             image: {
                 id: file.public_id,
                 url: file.secure_url
-            }
+            },
+            isLogged: true
         });
 
         try {
             await user.save();
+            IO.getIO().emit('login');
             res.status(201).json({
                 message: 'Registered',
                 user,
@@ -61,6 +64,9 @@ export const login = async (req, res, next) => {
                 res.status(401).json({ error: 'Invalid authentication params 2' });
                 return;
             }
+            user.isLogged = true;
+            await user.save();
+            IO.getIO().emit('login');
             res.status(200).json({
                 user,
                 token: jwt.sign(
@@ -72,6 +78,23 @@ export const login = async (req, res, next) => {
         }
     } catch (err) {
         res.status(500).json({ err });
+    }
+};
+
+export const logout = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+        const user = await userMdl.findById(userId);
+        if (!user) {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+        user.isLogged = false;
+        await user.save();
+        IO.getIO().emit('login');
+        res.status(204).json({ message: 'No content' });
+    } catch (err) {
+        res.status(500).json(err)
     }
 };
 

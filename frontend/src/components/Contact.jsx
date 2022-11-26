@@ -1,15 +1,46 @@
-import { useState, useMemo } from 'react';
+import openSocket from 'socket.io-client';
+import { useEffect, useState, useMemo } from 'react';
 import { IoIosSearch } from "react-icons/io";
+import { BsDot } from 'react-icons/bs';
 
 import { useStateContext } from "../context/ContextProvider";
 import { fetchData, fetchMessages } from "../hook/useFecth";
 import defaultPrfl from '../../public/images/defaultPrfl.png';
+import { API_URL } from '../constants/apiUrl';
 
 const Contact = () => {
     const { users, setUsers, setMessagesList, boolingState, setBoolingState, userData, messagesRef } = useStateContext();
     const [searchValue, setSearchValue] = useState('');
 
     const [data] = fetchData(users, setUsers, '/users');
+
+    useEffect(() => {
+        const socket = openSocket('http://localhost:5501');
+
+        socket.connect();
+        socket.on('login', async () => {
+            try {
+                const response = await fetch(`${API_URL}/users`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                if (response.status === 200) {
+                    const responseData = await response.json();
+                    setUsers(responseData.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+
+        })
+
+        return () => {
+            socket.disconnect();
+        }
+    }, [...users, users]);
 
     const usersData = []
     const recherche = (condition, datas) => {
@@ -61,8 +92,6 @@ const Contact = () => {
                 </div>
             </div>
             <div className="mt-20 text-gray-500 md:overflow-y-scroll md:absolute md:top-10 bottom-5 md:left-0 md:right-0 md:mb-[74px] md:pr-5">
-                {/* <div className="flex flex-col ml-5 overflow-clip absolute right-0 top-16 text-gray-500 p-4 shadow-xl w-full rounded-xl"> */}
-
                 {
                     usersData.length > 0 ? usersData.map((receiver) => receiver._id !== userData._id &&
                         <div
@@ -75,10 +104,9 @@ const Contact = () => {
                             }}
                         >
                             <p className="font-semibold">{receiver.username}</p>
-                            {/* <HiUser className="h-10 w-10 text-yellow-500 border border-teal-200 p-1 rounded-full" /> */}
-                            <div className='h-9 w-9 flex justify-center items-center text-teal-700'>
-                                {/* {receiver.username[0].toUpperCase()} */}
+                            <div className='relative h-9 w-9 text-teal-700'>
                                 <img src={`${receiver.image ? `${receiver.image?.url}` : `${defaultPrfl}`}`} alt={receiver.username[0]} className="h-9 w-9 border rounded-full object-cover" />
+                                {receiver.isLogged === true && <BsDot className='absolute top-2 left-3  text-green-400 h-10 w-10' />}
                             </div>
                         </div>
                     ) : <div className='text-red-500'>No user found</div>

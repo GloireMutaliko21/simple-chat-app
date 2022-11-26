@@ -8,7 +8,7 @@ import { API_URL } from '../constants/apiUrl';
 import { useStateContext } from "../context/ContextProvider";
 
 const Login = () => {
-    const { boolingState, setBoolingState, setLoginStatus, rememberMe } = useStateContext();
+    const { boolingState, setBoolingState, setLoginStatus, rememberMe, users, setUsers, } = useStateContext();
 
     const handleLoadSignUp = () => {
         setBoolingState({ ...boolingState, isSignNotLog: true })
@@ -18,6 +18,7 @@ const Login = () => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+
     const handleChange = useMemo(() =>
         (e) => {
             if (e.target.name === "email") {

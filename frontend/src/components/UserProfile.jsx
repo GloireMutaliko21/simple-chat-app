@@ -1,13 +1,28 @@
 
 import { Link } from "react-router-dom";
 import { useStateContext } from "../context/ContextProvider";
+import { API_URL } from '../constants/apiUrl';
 
 const UserProfile = () => {
     const { boolingState, handleChangeShowProfMenu, setLoginStatus } = useStateContext();
-    const handleLogout = () => {
-        setLoginStatus(false);
-        localStorage.removeItem('isLogged');
-        localStorage.removeItem('receiver');
+    const handleLogout = async () => {
+        try {
+            const response = await fetch(`${API_URL}/users/logout`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            if (response.status === 204) {
+                setLoginStatus(false);
+                localStorage.removeItem('isLogged');
+                localStorage.removeItem('receiver');
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (

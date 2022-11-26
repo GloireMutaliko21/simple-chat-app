@@ -20,6 +20,7 @@ export const ContextProvider = memo(({ children }) => {
     const [loginStatus, setLoginStatus] = useState(false);
     const [relatedUsers, serRelatedUsers] = useState([]);
     const [messagesList, setMessagesList] = useState([]);
+    const [connectedUsers, setConnectedUsers] = useState([])
 
     const handleChangeShowProfMenu = () => {
         setBoolingState(prevState => { return { ...prevState, showProfileMenu: !prevState.showProfileMenu } })
@@ -40,6 +41,7 @@ export const ContextProvider = memo(({ children }) => {
                 relatedUsers, serRelatedUsers,
                 rememberMe, messagesRef, chatRef,
                 messagesList, setMessagesList,
+                connectedUsers, setConnectedUsers,
             }}
         >
             {children}
