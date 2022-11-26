@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { FcGoogle } from 'react-icons/fc'
 import { BsEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 
@@ -6,7 +6,6 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import { API_URL } from '../constants/apiUrl';
 import { useStateContext } from "../context/ContextProvider";
-import openSocket from 'socket.io-client';
 
 const Login = () => {
     const { boolingState, setBoolingState, setLoginStatus, rememberMe, users, setUsers, } = useStateContext();

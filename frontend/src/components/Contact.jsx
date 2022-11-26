@@ -18,7 +18,6 @@ const Contact = () => {
         const socket = openSocket('http://localhost:5501');
 
         socket.connect();
-        // (async function () {
         socket.on('login', async () => {
             try {
                 const response = await fetch(`${API_URL}/users`, {
@@ -38,24 +37,6 @@ const Contact = () => {
             }
 
         })
-        // })();
-        // socket.on('login', () => {
-        //     console.log('Logged In');
-        //     fetch(`${API_URL}/users`, {
-        //         method: 'GET',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //         }
-        //     })
-        //         .then(response => response.json())
-        //         .then(responseData => {
-        //             console.log(responseData)
-        //             setUsers(responseData.data);
-        //             return;
-        //         })
-        //         .catch(err => console.log(err));
-        // })
 
         return () => {
             socket.disconnect();
@@ -124,7 +105,6 @@ const Contact = () => {
                             }}
                         >
                             <p className="font-semibold">{receiver.username}</p>
-                            {/* <HiUser className="h-10 w-10 text-yellow-500 border border-teal-200 p-1 rounded-full" /> */}
                             <div className='relative h-9 w-9 text-teal-700'>
                                 <img src={`${receiver.image ? `${receiver.image?.url}` : `${defaultPrfl}`}`} alt={receiver.username[0]} className="h-9 w-9 border rounded-full object-cover" />
                                 {receiver.isLogged === true && <BsDot className='absolute top-2 left-3  text-green-400 h-10 w-10' />}

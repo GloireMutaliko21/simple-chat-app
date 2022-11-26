@@ -28,11 +28,13 @@ export const signup = async (req, res, next) => {
             image: {
                 id: file.public_id,
                 url: file.secure_url
-            }
+            },
+            isLogged: true
         });
 
         try {
             await user.save();
+            IO.getIO().emit('login');
             res.status(201).json({
                 message: 'Registered',
                 user,
@@ -64,7 +66,6 @@ export const login = async (req, res, next) => {
             }
             user.isLogged = true;
             await user.save();
-            // delete user.password;
             IO.getIO().emit('login');
             res.status(200).json({
                 user,
