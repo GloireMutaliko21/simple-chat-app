@@ -81,6 +81,23 @@ export const login = async (req, res, next) => {
     }
 };
 
+export const logout = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+        const user = await userMdl.findById(userId);
+        if (!user) {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+        user.isLogged = false;
+        await user.save();
+        IO.getIO().emit('login');
+        res.status(204).json({ message: 'No content' });
+    } catch (err) {
+        res.status(500).json(err)
+    }
+};
+
 export const findAllUsers = async (req, res, next) => {
     try {
         const users = await userMdl.find();

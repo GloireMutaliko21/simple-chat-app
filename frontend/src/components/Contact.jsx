@@ -27,7 +27,6 @@ const Contact = () => {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                console.log(response);
                 if (response.status === 200) {
                     const responseData = await response.json();
                     setUsers(responseData.data)
