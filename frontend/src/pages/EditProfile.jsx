@@ -6,8 +6,8 @@ import { BsEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { useStateContext } from "../context/ContextProvider";
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { API_URL } from '../constants/apiUrl';
 import defaultPrfl from '../../public/images/defaultPrfl.png'
+import { postUser } from '../Api/api';
 
 const EditProfile = () => {
     const [userInfos, setUserInfos] = useState({
@@ -50,27 +50,6 @@ const EditProfile = () => {
     formdata.append('username', userInfos.username);
     formdata.append('password', userInfos.password);
     formdata.append('image', selectedFile);
-
-    async function handleEditProfile() {
-        const params = {
-            method: "PUT",
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: formdata
-        }
-
-        try {
-            const response = await fetch(`${API_URL}/users/edit`, params);
-            const responseData = await response.json();
-            if (response.status === 201) {
-                localStorage.setItem('token', responseData.token);
-                localStorage.setItem('user', JSON.stringify(responseData.user));
-            }
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
 
     return (
         <div className="w-full md:h-screen flex flex-col justify-center py-10 md:py-0 items-center px-5 text-gray-600">
@@ -142,7 +121,10 @@ const EditProfile = () => {
                     <Button
                         label='Send'
                         style='flex justify-center w-full bg-teal-800 hover:bg-teal-700 text-white font-semibold p-3 mt-5'
-                        onClick={handleEditProfile}
+                        onClick={() => postUser(
+                            { method: "PUT", headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }, body: formdata },
+                            '/users/edit'
+                        )}
                     />
                 </div>
             }

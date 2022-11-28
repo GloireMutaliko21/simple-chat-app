@@ -7,7 +7,6 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import defaultPrfl from '../../public/images/defaultPrfl.png'
 import { postUser } from "../Api/api";
-import { API_URL } from "../constants/apiUrl";
 
 const Signup = () => {
     const { boolingState, setBoolingState, setLoginStatus } = useStateContext();
