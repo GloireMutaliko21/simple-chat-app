@@ -1,12 +1,10 @@
-import openSocket from 'socket.io-client';
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import { BsDot } from 'react-icons/bs';
 
 import { useStateContext } from "../context/ContextProvider";
-import { fetchData, fetchMessages } from "../hook/useFecth";
+import { fetchData, fetchMessages, onlineSocket } from "../hook/useFecth";
 import defaultPrfl from '../../public/images/defaultPrfl.png';
-import { API_URL } from '../constants/apiUrl';
 
 const Contact = () => {
     const { users, setUsers, setMessagesList, boolingState, setBoolingState, userData, messagesRef } = useStateContext();
@@ -14,33 +12,7 @@ const Contact = () => {
 
     const [data] = fetchData(users, setUsers, '/users');
 
-    useEffect(() => {
-        const socket = openSocket('http://localhost:5501');
-
-        socket.connect();
-        socket.on('login', async () => {
-            try {
-                const response = await fetch(`${API_URL}/users`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                if (response.status === 200) {
-                    const responseData = await response.json();
-                    setUsers(responseData.data)
-                }
-            } catch (error) {
-                console.log(error)
-            }
-
-        })
-
-        return () => {
-            socket.disconnect();
-        }
-    }, [...users, users]);
+    onlineSocket();
 
     const usersData = []
     const recherche = (condition, datas) => {
