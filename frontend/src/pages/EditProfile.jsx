@@ -51,7 +51,6 @@ const EditProfile = () => {
     formdata.append('password', userInfos.password);
     formdata.append('image', selectedFile);
 
-    console.log(localStorage.getItem('token'));
     async function handleEditProfile() {
         const params = {
             method: "PUT",
@@ -63,12 +62,10 @@ const EditProfile = () => {
 
         try {
             const response = await fetch(`${API_URL}/users/edit`, params);
-            console.log(response);
             const responseData = await response.json();
             if (response.status === 201) {
                 localStorage.setItem('token', responseData.token);
                 localStorage.setItem('user', JSON.stringify(responseData.user));
-                console.log(responseData);
             }
         } catch (err) {
             console.log(err.message);
