@@ -96,7 +96,7 @@ export async function fetchMessages(userId, receiver, setMessagesList, setBoolin
 }
 
 export const onlineSocket = () => {
-    const { users, setUsers } = useStateContext();
+    const { users, setUsers, messagesList, setMessagesList, } = useStateContext();
 
     useEffect(() => {
         const socket = openSocket('http://localhost:5501');
@@ -113,7 +113,8 @@ export const onlineSocket = () => {
                 });
                 if (response.status === 200) {
                     const responseData = await response.json();
-                    setUsers(responseData.data)
+                    setUsers(responseData.data);
+                    setMessagesList([...messagesList])
                 }
             } catch (error) {
                 console.log(error)
@@ -124,5 +125,5 @@ export const onlineSocket = () => {
         return () => {
             socket.disconnect();
         }
-    }, [...users, users]);
+    }, [...users, users,]);
 }

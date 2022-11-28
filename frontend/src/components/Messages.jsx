@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { BsDot } from 'react-icons/bs';
 
@@ -6,43 +6,15 @@ import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages, onlineSocket } from '../hook/useFecth';
 import RelatedMsg from './Loaders/RelatedMsg';
 import defaultPrfl from '../../public/images/defaultPrfl.png';
-import { API_URL } from '../constants/apiUrl';
-import openSocket from 'socket.io-client';
 
 const Messages = () => {
+
     const [selected, setSelected] = useState(false);
 
-    const { users, setUsers, relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef } = useStateContext();
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
-    useEffect(() => {
-        const socket = openSocket('http://localhost:5501');
-
-        socket.connect();
-        socket.on('login', async () => {
-            try {
-                const response = await fetch(`${API_URL}/users`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                if (response.status === 200) {
-                    const responseData = await response.json();
-                    setUsers(responseData.data)
-                }
-            } catch (error) {
-                console.log(error)
-            }
-
-        })
-
-        return () => {
-            socket.disconnect();
-        }
-    }, [...users, users]);
 
     const userId = userData._id;
 
@@ -53,6 +25,7 @@ const Messages = () => {
     const handleShowContactList = () => {
         setBoolingState(prevSates => { return { ...prevSates, showContactList: true } });
     };
+    onlineSocket();
 
     return (
         <div className='ml-3 h-screen md:overflow-hidden relative overflow-auto md:hover:overflow-auto pb-24'>

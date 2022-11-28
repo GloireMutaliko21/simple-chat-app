@@ -1,12 +1,10 @@
-import openSocket from 'socket.io-client';
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import { BsDot } from 'react-icons/bs';
 
 import { useStateContext } from "../context/ContextProvider";
 import { fetchData, fetchMessages, onlineSocket } from "../hook/useFecth";
 import defaultPrfl from '../../public/images/defaultPrfl.png';
-import { API_URL } from '../constants/apiUrl';
 
 const Contact = () => {
     const { users, setUsers, setMessagesList, boolingState, setBoolingState, userData, messagesRef } = useStateContext();
