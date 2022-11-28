@@ -41,16 +41,16 @@ const Messages = () => {
 
             <div className="mt-12 md:overflow-y-scroll md:absolute md:top-0 bottom-5 md:left-0 md:right-0 md:mb-[74px] md:pr-5">
                 {
-                    relatedMessages?.length > 0 ? relatedMessages.map(
+                    relatedMessages?.length > 0 ? relatedMessages?.map(
                         ({ _id, senderId, receiverId, talkers, content, createdAt }, idx) => {
                             const msgCompleteDate = new Date(createdAt);
                             const msgTime = new Date(createdAt).toLocaleTimeString();
                             const msgDate = new Date(createdAt).toLocaleDateString();
-                            const user = talkers[0] === userId ? receiverId._id : senderId._id;
+                            const user = talkers[0] === userId ? receiverId?._id : senderId?._id;
                             const receiver = talkers[0] === userId ? JSON.stringify(receiverId) : JSON.stringify(senderId);
                             const userImage = talkers[0] === userId ?
-                                receiverId.image?.url :
-                                senderId.image?.url;
+                                receiverId?.image?.url :
+                                senderId?.image?.url;
                             const isLogged = talkers[0] === userId ? receiverId : senderId;
 
                             return (
@@ -67,13 +67,13 @@ const Messages = () => {
                                         <div className='h-12 w-12 relative'>
 
                                             <img
-                                                src={`${userImage ? `${userImage}` : `${defaultPrfl}`}`} alt={talkers[0] === userId ? receiverId.username[0] : senderId.username[0]}
+                                                src={`${userImage ? `${userImage}` : `${defaultPrfl}`}`} alt={talkers[0] === userId ? receiverId?.username[0] : senderId?.username[0]}
                                                 className="h-10 w-10 border rounded-full object-cover object-center"
                                             />
-                                            {isLogged.isLogged === true && <BsDot className='absolute left-3 top-2 text-green-400 h-12 w-12' />}
+                                            {isLogged?.isLogged === true && <BsDot className='absolute left-3 top-2 text-green-400 h-12 w-12' />}
                                         </div>
                                         <div className='mx-4 w-full border-b'>
-                                            <p className="font-semibold overflow-hidden text-base">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
+                                            <p className="font-semibold overflow-hidden text-base">{talkers[0] === userId ? receiverId?.username : senderId?.username}</p>
                                             <div>
                                                 <div className='flex justify-between items-center'>
                                                     <p className='mr-3 text-gray-600 w-[100px] overflow-hidden h-6'>{content}</p>

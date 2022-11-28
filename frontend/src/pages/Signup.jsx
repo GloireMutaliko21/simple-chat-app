@@ -5,8 +5,8 @@ import { MdPhotoCamera } from "react-icons/md";
 import { useStateContext } from "../context/ContextProvider";
 import Button from '../components/Button';
 import Input from '../components/Input';
-import { API_URL } from '../constants/apiUrl';
 import defaultPrfl from '../../public/images/defaultPrfl.png'
+import { postUser } from "../Api/api";
 
 const Signup = () => {
     const { boolingState, setBoolingState, setLoginStatus } = useStateContext();
@@ -44,27 +44,6 @@ const Signup = () => {
     formdata.append('username', username);
     formdata.append('password', password);
     formdata.append('image', selectedFile);
-
-    async function handleSignUp() {
-        const params = {
-            method: "POST",
-            'Content-Type': 'multipart/form-data',
-            body: formdata
-        }
-        try {
-            const response = await fetch(`${API_URL}/users/signup`, params);
-            const responseData = await response.json();
-            if (response.status === 201) {
-                localStorage.setItem('token', responseData.token);
-                localStorage.setItem('user', JSON.stringify(responseData.user));
-                setLoginStatus(true);
-                handleLoadLogin();
-                console.log(responseData);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
 
     const showOpenFileDialog = () => {
         imageRef.current.click();
@@ -129,7 +108,11 @@ const Signup = () => {
                 <Button
                     label='Sign Up'
                     style='flex justify-center w-full bg-teal-800 hover:bg-teal-700 text-white font-semibold p-3'
-                    onClick={handleSignUp}
+                    onClick={() => postUser(
+                        { method: "POST", 'Content-Type': 'multipart/form-data', body: formdata },
+                        '/users/signup',
+                        setLoginStatus, true, handleLoadLogin
+                    )}
                 />
                 <div className='flex justify-between items-center w-full text-center'>
                     <div className='border-t w-1/3'></div>
