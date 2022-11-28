@@ -11,7 +11,7 @@ const Messages = () => {
 
     const [selected, setSelected] = useState(false);
 
-    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef } = useStateContext();
+    const { relatedUsers, serRelatedUsers, setMessagesList, setBoolingState, boolingState, userData, messagesRef, contactsShown, setContactsShown } = useStateContext();
 
     const [messages] = fetchData(relatedUsers, serRelatedUsers, `/messages/messages`);
 
@@ -23,7 +23,7 @@ const Messages = () => {
     const completeDate = new Date();
 
     const handleShowContactList = () => {
-        setBoolingState(prevSates => { return { ...prevSates, showContactList: true } });
+        setContactsShown(true);
     };
     onlineSocket();
 

@@ -18,6 +18,7 @@ export const ContextProvider = memo(({ children }) => {
 
     const [users, setUsers] = useState([]);
     const [loginStatus, setLoginStatus] = useState(false);
+    const [contactsShown, setContactsShown] = useState(false);
     const [relatedUsers, serRelatedUsers] = useState([]);
     const [messagesList, setMessagesList] = useState([]);
     const [connectedUsers, setConnectedUsers] = useState([])
@@ -42,6 +43,8 @@ export const ContextProvider = memo(({ children }) => {
                 rememberMe, messagesRef, chatRef,
                 messagesList, setMessagesList,
                 connectedUsers, setConnectedUsers,
+
+                contactsShown, setContactsShown,
             }}
         >
             {children}
