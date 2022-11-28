@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
+import { BsDot } from 'react-icons/bs';
 
 import { useStateContext } from '../context/ContextProvider';
 import { fetchData, fetchMessages } from '../hook/useFecth';
@@ -47,6 +48,7 @@ const Messages = () => {
                             const userImage = talkers[0] === userId ?
                                 receiverId.image?.url :
                                 senderId.image?.url;
+                            const isLogged = talkers[0] === userId ? receiverId : senderId;
 
                             return (
                                 <div
@@ -59,12 +61,13 @@ const Messages = () => {
                                     className={`cursor-pointer md:py-px md:pl-2 hover:bg-teal-50 hover:text-teal-700 hover:pl-2 hover:duration-300 ${idx === selected ? 'bg-teal-50 text-teal-700' : 'bg-stone-50'}`}
                                 >
                                     {<div className={`flex justify-between items-center my-2`}>
-                                        <div className='h-12 w-12 flex justify-center items-center'>
+                                        <div className='h-12 w-12 relative'>
 
                                             <img
                                                 src={`${userImage ? `${userImage}` : `${defaultPrfl}`}`} alt={talkers[0] === userId ? receiverId.username[0] : senderId.username[0]}
                                                 className="h-10 w-10 border rounded-full object-cover object-center"
                                             />
+                                            {isLogged.isLogged === true && <BsDot className='absolute left-3 top-2 text-green-400 h-12 w-12' />}
                                         </div>
                                         <div className='mx-4 w-full border-b'>
                                             <p className="font-semibold overflow-hidden text-base">{talkers[0] === userId ? receiverId.username : senderId.username}</p>
