@@ -7,7 +7,7 @@ import { fetchData, fetchMessages, onlineSocket } from "../hook/useFecth";
 import defaultPrfl from '../../public/images/defaultPrfl.png';
 
 const Contact = () => {
-    const { users, setUsers, setMessagesList, boolingState, setBoolingState, userData, messagesRef } = useStateContext();
+    const { users, setUsers, setMessagesList, boolingState, setBoolingState, userData, messagesRef, setContactsShown } = useStateContext();
     const [searchValue, setSearchValue] = useState('');
 
     const [data] = fetchData(users, setUsers, '/users');
@@ -38,7 +38,7 @@ const Contact = () => {
     }, [searchValue]);
 
     const handleShowContactList = () => {
-        setBoolingState(prevSates => { return { ...prevSates, showContactList: false } });
+        setContactsShown(false);
     };
 
     return (

@@ -11,7 +11,7 @@ import Contact from "./components/Contact";
 import EditProfile from "./pages/EditProfile";
 
 function App() {
-  const { boolingState, loginStatus, messagesRef, chatRef } = useStateContext();
+  const { boolingState, loginStatus, messagesRef, chatRef, contactsShown, } = useStateContext();
   return (
     <BrowserRouter>
       <div className="relative left-0 right-0 w-full 2xl:w-[1290px]">
@@ -27,7 +27,7 @@ function App() {
 
                   <div className="relative flex">
                     <div ref={messagesRef} className="fixed z-20 w-full bg-white md:w-[420px] pr-5 md:pr-0 pl-3 md:pl-0 py-2 md:py-20 md:border-r md:shadow-2xl md:shadow-slate-200">
-                      {boolingState.showContactList ? <Contact /> : <Messages />}
+                      {contactsShown ? <Contact /> : <Messages />}
                       <Messages />
                     </div>
                     <div className="fixed w-full 2xl:w-[1290px] z-[10000000] bg-white border-t md:border-t-0 md:border-b bottom-0 md:bottom-auto md:top-0 md">
