@@ -94,3 +94,35 @@ export async function fetchMessages(userId, receiver, setMessagesList, setBoolin
         localStorage.removeItem('isLogged');
     }
 }
+
+export const onlineSocket = () => {
+    const { users, setUsers } = useStateContext();
+
+    useEffect(() => {
+        const socket = openSocket('http://localhost:5501');
+
+        socket.connect();
+        socket.on('login', async () => {
+            try {
+                const response = await fetch(`${API_URL}/users`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                if (response.status === 200) {
+                    const responseData = await response.json();
+                    setUsers(responseData.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+
+        })
+
+        return () => {
+            socket.disconnect();
+        }
+    }, [...users, users]);
+}
