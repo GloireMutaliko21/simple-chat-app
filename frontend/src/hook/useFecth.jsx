@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import openSocket from "socket.io-client";
 
 import { useStateContext } from "../context/ContextProvider";
-import { API_URL } from '../constants/apiUrl';
+import { API_URL, SOCKET_URL } from '../constants/apiUrl';
 
 export function fetchData(data, setData, url) {
     const { boolingState, setBoolingState, messagesList, setMessagesList, receiverData } = useStateContext();
@@ -11,7 +11,7 @@ export function fetchData(data, setData, url) {
         const controller = new AbortController();
         const signal = controller.signal;
 
-        const socket = openSocket(`http://localhost:5501`);
+        const socket = openSocket(`${SOCKET_URL}`);
 
         socket.connect();
 
@@ -99,7 +99,7 @@ export const onlineSocket = () => {
     const { users, setUsers, messagesList, setMessagesList, } = useStateContext();
 
     useEffect(() => {
-        const socket = openSocket('http://localhost:5501');
+        const socket = openSocket(`${SOCKET_URL}`);
 
         socket.connect();
         socket.on('login', async () => {
