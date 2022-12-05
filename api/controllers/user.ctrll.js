@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { validationResult } from 'express-validator';
 
 import userMdl from "../models/user.mdl.js";
 import cloudinary from "../utils/cloudinary.utl.js";
 import IO from "../socket.io.js"
-import { resultsValidation } from "../middlewares/validators.mid.js";
 
 export const signup = async (req, res, next) => {
     try {
@@ -56,7 +56,11 @@ export const login = async (req, res, next) => {
         const { email, password } = req.body;
 
         //ValidatorsResults
-        resultsValidation(req, res, next);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ error: errors.array()[0].msg });
+            return;
+        }
 
         const user = await userMdl.findOne({ email });
         if (!user) {

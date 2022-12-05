@@ -1,4 +1,4 @@
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
 
 export const validators = (field, message, action) => {
     // login validation
@@ -11,14 +11,5 @@ export const validators = (field, message, action) => {
             return body(field, message)
                 .trim();
         }
-    }
-};
-
-export const resultsValidation = (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        console.log(errors.array()[0].msg);
-        res.status(422).json({ error: errors.array()[0].msg });
-        next()
     }
 };
