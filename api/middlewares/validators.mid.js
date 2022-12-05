@@ -42,5 +42,19 @@ export const validators = (field, message, action) => {
         return body(field, message)
             .trim()
             .isLength({ min: 1 })
+    } else if (action === 'editProfile') {
+        if (field === 'email') {
+            return body(field, message)
+                .isEmail().
+                custom(async (value, { req }) => {
+                    if (req.user.email !== value) {
+                        const user = await userMdl.findOne({ email: value });
+                        if (user) {
+                            return Promise.reject('Email already taken');
+                        }
+                    }
+                })
+                .normalizeEmail();
+        }
     }
 };

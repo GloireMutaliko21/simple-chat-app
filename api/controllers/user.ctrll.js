@@ -142,6 +142,13 @@ export const postEditUser = async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
         const image = req.file.path;
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ error: errors.array()[0].msg });
+            return;
+        }
+
         const hashedPwd = await bcrypt.hash(password, 10);
         const user = await userMdl.findById(req.user._id);
         user.email = email;

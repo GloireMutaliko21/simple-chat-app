@@ -32,6 +32,13 @@ router
 
     .get('/:id', auth, findOneUser)
 
-    .put('/edit', auth, postEditUser);
+    .put(
+        '/edit',
+        auth,
+        [
+            validators('email', 'Enter a valid e-mail', 'editProfile')
+        ],
+        postEditUser
+    );
 
 export default router;
