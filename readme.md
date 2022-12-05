@@ -162,3 +162,23 @@ Vous lirez ici les informations nécessaires pour l'utilisation de l'API implém
     Cette dernière syntaxe me parait un peu fastidieux...
 
     Juste avant d'envoyer le résultat, nous appliquons la méthode `populate` de mongoose. Cette méthode, comme signlé avant, qui nous permettra d'avoir toutes les autres propriétés des deux utilisateurs.
+
+  - getRelatedMessages
+    Ce controller permet pour un utlisateur de récupérer les utilisateur avec lesquels il a déjà eu à échanger et afficher leurs noms et leurs derniers messages dans la barre latérale gauche de l'interface utilisateur.
+    Pour ça, nous allons passer presque la même requête que dans le controller précédent sauf qu'ici, dans le tableau `talkers` nous passerons deux fois le même identifiant : celui de l'utilisateur qui envoie la requête. Cela nous retournera tous les messages dans lesquels cet utilisateur est intervenu en tant qu'envoyeur ou en tant que receveur.
+
+    Il nous faudra ensuite récupérer les identifiants de ses interlocuteurs que nous allons stocker dans le tableau `userIds`. Pour les avoirs, nous allons 'maper' sur les messages retournés et à chaque message, nous recherchons dans le tableau `talkers` l'identifiant différent de celui de notre utilisateur pour l'ajouter en fin du tableau `userIds` :
+
+    ```
+    const userIds = [];
+    messages.map(message => {
+        const idUser = message.talkers.find(id => id.toString() !== senderId.toString());
+        userIds.push(idUser.toString());
+    });
+    ```
+
+    Ayant déjà les identifiants des interlocuteurs, il faut maintenant éliminer les doublons puis chaque identifiant, rechercher le dernier message de la conversation entre cet identifiant et l'utilisateur. Nous aurons un tableau `messagesTosend` qui contiendra tous ces derniers messages entre notre utilisateur et chacun de ses interlocuteurs. Il nous faudra donc 'maper' sur le tableau des identifiants qui ne contient plus des doublons. Pour éliminer les doublons, on utiliser l'objet JS `Set`. Sur ce nouveau tableau, nous 'mapons' et recherchons un message avec la méthode `findOne` et notre filtre des `talkers` comprend l'identifiant de l'utilisateur et l'identifiant en cours de map.
+    Pour avoir le dernier message nous faisons un `sort` avec le critère `createdAt`.
+
+    Avant d'envoyer ces messages ainsi récupérés nous les trions encore de sorte de pouvoir avoir le plus recent en tête de liste :
+    `messagesTosend.sort((oldMsg, recentMsg) => recentMsg.createdAt.getTime() - oldMsg.createdAt.getTime());`
