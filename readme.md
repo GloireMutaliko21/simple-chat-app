@@ -190,3 +190,23 @@ Dans chacun des fichiers nous avons besoin du paquêt `express` pour utiliser sa
 Pour le reste, il suffira d'utiliser cette fonction puis lui appliquer chaque fois la méthode (post, get, put, ...) qui correspond qui prendra obligatoirement la route en premier paramètre, puis les validateurs (s'il le faut), la fonction d'authentification `auth` (pour les routes protégées) et enfin le controller (obligatoiremet) lié à cette route.
 
 Enfin, il faudra exporter cette fonction router et l'importer dans le fichier `app.js`.
+
+### utils
+
+Dans ce fichier nous avons un seul fichier `cloudinary.utl.js` qui comprends nos configurations de cloudinary.
+Nous avons deux paquêts :
+
+- `cloudinaryModule` : Pour la configuration de cloudinary
+- `dotenv` : pour la configuration et l'utilisation des variables d'environnement
+
+Ensuite nous initialisons notre contante `cloudinary` auquel nous passons les configurations suivantes avant de l'exporter :
+
+```
+  cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.CLOUD_API_KEY,
+      api_secret: process.env.CLOUD_API_SECRET_KEY
+  });
+```
+
+Les informations passéew aux paramètres sont disponibles dans le fichier `.env` on les obtient seulement après s'être créé un compte sur https://cloudinary.com/
