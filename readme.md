@@ -74,6 +74,28 @@ Vous lirez ici les informations nécessaires pour l'utilisation de l'API implém
     Ici nous exigeons que la longueur du message soit d'au moins 1 caractère sans compter les espaces de gauche et de droite
 
   - Validation modification Profile
-    Pour le mail, nous testons tout d'abord si le mail est un mail valide, ensuite, nous personnalisons une validation dans laquelle nous testons d'abord si le mail de l'utilisateur qui envoi la requête est le différent de celui entré sur le formulaire. Si c'est le cas, c'est que l'utilisateur veut changer son e-mail et donc nous devons vérifier si celui qu'il veut utiliser n'est pas déjà lié à un autre utilisateur.
+    Pour le mail, nous testons tout d'abord si le mail est un mail valide, ensuite, nous personnalisons une validation dans laquelle nous testons d'abord si le mail de l'utilisateur qui envoi la requête est le différent de celui entré sur le formulaire. Si c'est le cas, c'est que l'utilisateur veut changer son e-mail et donc nous devons vérifier si celui qu'il veut utiliser n'est pas déjà lié à un autre utilisateur. Enfin nous normalisons ce mail
 
     Pour le mot de passe, nous nous rassurons aussi qu'il doit entrer son ancien mot de passe avant toute modification.
+
+### controllers
+
+- `user.ctrl.js`
+
+  - signup
+    Tout d'abord nous récupérons les informations que l'utilisateur enverra dans le corps de la requête mais aussi le chemin du fichier dans la propriété `file` de la requête.
+
+    Ensuite nous testons si ces données sont invalides. Si c'est cas nous renvoyons directement la réponse avec un status `422`.
+
+    Si tout est bon, nous téléchargeons l'image sur cloudinary (Nous verrons les configurations ci-bas) puis nous créons un nouvel utilisateur en nous basant sur notre modèle.
+    Après création de l'utilisateur avec un mot de passe hashé d'avance (`const hashedPwd = await bcrypt.hash(password, 10)`), nous l'enregistrons avec la méthode `save()` de mongoose. Nous emettons un événement socket qui se charge de dire aux autres utilisateurs que celui qui vient de s'enregistrer est en ligne : Par la mếme occasion nous assignons donc un token à cet utilisateur, ce qui lui permettra d'être connecté du côté front-end. Dans ce controlleur nous ne vérifions plus si l'e-mail qu'il a choisi existe déjà puis que la validation s'en charge déjà.
+
+  - Login
+    Nous récupérons d'abord les informations que l'utilisateur enverra dans le corps de la requête et nous testons leur validité. Puis ensuite, nous cherchons s'il y un utilisateur lié au mail que l'utilisateur nous envoie avec la méthode `findOne()` de mongoose. Si aucun utilisateur n'est trouvé, nous renvoyons une reponse 'Non authorisé'; sinl'utilisateur est trouvé, nous testons maintenant la conformité des mots de passe : celui stocké et celui envoyé par l'utilisateur avec ` const isValidPwd = await bcrypt.compare(password, user.password)`. Si les mots de passe ne correspondent pas, nous renvoyons encore une réponse 'Non authorisé'. Par contre, si tout est bon, nous changeons son statut de connexion et l'enregistrons, puis nous émettons l'événement de connexion et enfin lui assignons un token.
+
+  - Logout
+    Ici nous récupérons l'identifiant de l'utilisateur qui envoie la requête, recherchons l'utilisateur portant cet identifiant, changeons son état de connexion s'il est trouvé, puis nous sauvegardons et émettons l'événement de connexion.
+
+  - Edit user
+    Ce controlleur permet à un utilisateur de modifier les informations de son profile.
+    Dédans, nous récupérons les éléments du corps de la requête mais aussi le fichier de l'image avant de passer à la validation. Le reste des opérqtions consistent en la modification des informations à leur sauvegarde ainsi qu'à l'assignation d'un nouveau token.
