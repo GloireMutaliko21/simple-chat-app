@@ -10,10 +10,16 @@ export const signup = async (req, res, next) => {
     try {
         const { email, username, password } = req.body;
         const image = req.file.path;
-        console.log(image);
+
+        //ValidatorsResults
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ error: errors.array()[0].msg });
+            return;
+        }
 
         if (!image) {
-            res.status(422).json({ err: 'File empty !' });
+            res.status(422).json({ error: 'File empty !' });
         }
 
         const file = await cloudinary.uploader.upload(image, {

@@ -7,7 +7,13 @@ import { validators } from '../middlewares/validators.mid.js';
 const router = express.Router();
 
 router
-    .post('/signup', signup)
+    .post(
+        '/signup',
+        [
+            validators('email', 'Please enter a valid e-mail', 'signup')
+        ],
+        signup
+    )
 
     .post(
         '/login',
