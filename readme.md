@@ -182,3 +182,11 @@ Vous lirez ici les informations nécessaires pour l'utilisation de l'API implém
 
     Avant d'envoyer ces messages ainsi récupérés nous les trions encore de sorte de pouvoir avoir le plus recent en tête de liste :
     `messagesTosend.sort((oldMsg, recentMsg) => recentMsg.createdAt.getTime() - oldMsg.createdAt.getTime());`
+
+### routes
+
+Dans ce dossier nous avons deux fichiers : `user.routes.js` et `messages.routes.js`.
+Dans chacun des fichiers nous avons besoin du paquêt `express` pour utiliser sa fonction `Router`.
+Pour le reste, il suffira d'utiliser cette fonction puis lui appliquer chaque fois la méthode (post, get, put, ...) qui correspond qui prendra obligatoirement la route en premier paramètre, puis les validateurs (s'il le faut), la fonction d'authentification `auth` (pour les routes protégées) et enfin le controller (obligatoiremet) lié à cette route.
+
+Enfin, il faudra exporter cette fonction router et l'importer dans le fichier `app.js`.
