@@ -210,3 +210,34 @@ Ensuite nous initialisons notre contante `cloudinary` auquel nous passons les co
 ```
 
 Les informations passéew aux paramètres sont disponibles dans le fichier `.env` on les obtient seulement après s'être créé un compte sur https://cloudinary.com/
+
+### Autres fichiers
+
+- `socket.io.js`
+  C'est dans ce fichier que nous configurons socket avant de l'appeler dans `app.js`.
+  Dedans, nous exportons un objet ayant comme paramètres :
+
+  - `init` : c'est une fonction prenant en paramètre un `server` (nous passerons cet argument dans `app.js` et il correspondra au serveur de notre application) et qui utilise la classe `Server` de socket.io. Elle retourne donc ce serveur socket
+  - `getIO`: également une fonction qui retourne socket et qui nous a permis d'emettre des événéments dans nos controllers
+
+- `app.js`
+  Ce fichier constitue le point d'entrée de notre application.
+  Entre autres, nous faisons ce qui suit :
+
+  - `__filename` et `__dirname` : pour la configuration des fichiers distribués statiquement
+  - `fileFilter` : permet de filtrer les types de fichiers à envoyer sur cloudinary
+  - `Middlewares` : Des fonctions qui s'exécuteront à chaque requête :
+    - `express.urlencoded` : Nous permet d'avoir accès au body de la requête
+    - `multer`: upload des fichiers
+    - `express.json()` : nous permet de pouvoir envoyer des réponses en json
+    - Le dernier permet d'authoriser les requêtes de différentes origines, leurs headers et de méthodes
+  - Ensuite nous utilisons nos `routes`
+  - Nous importons notre `db` pour la connexion BDD, nous initialisons le serveur, enfin le socket
+
+- `.env`
+  CONNECTION_STRING = ...
+  PORT = ...
+  TOKEN_KEY = ...
+  CLOUD_NAME = ...
+  CLOUD_API_KEY = ...
+  CLOUD_API_SECRET_KEY = ...
