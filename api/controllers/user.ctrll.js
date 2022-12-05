@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { validationResult } from 'express-validator';
 
 import userMdl from "../models/user.mdl.js";
 import cloudinary from "../utils/cloudinary.utl.js";
@@ -53,6 +54,14 @@ export const signup = async (req, res, next) => {
 export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+
+        //ValidatorsResults
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ error: errors.array()[0].msg });
+            return;
+        }
+
         const user = await userMdl.findOne({ email });
         if (!user) {
             res.status(401).json({ error: 'Invalid authentication params 1' });
