@@ -49,6 +49,7 @@ const EditProfile = () => {
     formdata.append('email', userInfos.email);
     formdata.append('username', userInfos.username);
     formdata.append('password', userInfos.password);
+    formdata.append('oldPwd', userInfos.oldPwd);
     formdata.append('image', selectedFile);
 
     return (

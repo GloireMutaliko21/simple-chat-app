@@ -36,7 +36,8 @@ router
         '/edit',
         auth,
         [
-            validators('email', 'Enter a valid e-mail', 'editProfile')
+            validators('email', 'Enter a valid e-mail', 'editProfile'),
+            validators('oldPwd', '', 'editProfile')
         ],
         postEditUser
     );
