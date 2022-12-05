@@ -1,7 +1,5 @@
 # SIMPLE CHAT APP : MERN
 
-### Par GloireMutaliko21
-
 ## BACKEND
 
 Vous lirez ici les informations nécessaires pour l'utilisation de l'API implémentée pour cette fin
