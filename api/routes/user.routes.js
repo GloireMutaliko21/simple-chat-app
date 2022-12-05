@@ -37,7 +37,9 @@ router
         auth,
         [
             validators('email', 'Enter a valid e-mail', 'editProfile'),
-            validators('oldPwd', '', 'editProfile')
+            validators('oldPwd', '', 'editProfile'),
+            validators('password', 'Password must have 6 characters or more', 'signup'),
+            validators('username', 'Please enter a username of 4 characters or more', 'signup')
         ],
         postEditUser
     );
