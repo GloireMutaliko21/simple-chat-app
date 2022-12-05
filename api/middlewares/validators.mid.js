@@ -31,5 +31,12 @@ export const validators = (field, message, action) => {
                 .isLength({ min: 6 })
                 .trim();
         }
+
+        if (field === 'username') {
+            return body(field, message)
+                .isString()
+                .isLength({ min: 4 })
+                .trim();
+        }
     }
 };
