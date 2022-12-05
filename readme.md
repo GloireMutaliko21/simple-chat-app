@@ -99,3 +99,66 @@ Vous lirez ici les informations nécessaires pour l'utilisation de l'API implém
   - Edit user
     Ce controlleur permet à un utilisateur de modifier les informations de son profile.
     Dédans, nous récupérons les éléments du corps de la requête mais aussi le fichier de l'image avant de passer à la validation. Le reste des opérqtions consistent en la modification des informations à leur sauvegarde ainsi qu'à l'assignation d'un nouveau token.
+
+- `messages.ctrl.js`
+
+  - postSendMessage
+    Ce controlleur nous permet de pouvoir envoyer un nouveau message.
+    Nous récupérons tout d'abord :
+
+    - `content` : le contenu du message depuis le corps de la requête
+    - `senderId` : l'identifiant de l'envoyeur depuis l'utilisateur qui passe la requête
+    - `receiverId` : l'identifiant du recepteur depuis les paramètres de la requête
+      Ensuite, nous mettons les deux identifiants dans le tableau `talkers` (Souvenez-vous de l'utilité de ce tableau au niveau du modèle message. Nous y reviendrons lorsque nous allons voir la récupération des messages).
+      Après ces opérations nous créons un nouveau message basé sur notre modèle avec
+
+    ```
+    const message = new Message({
+            content,
+            senderId,
+            receiverId,
+            talkers
+        });
+    ```
+
+    Puis nous enregistrons ce message avec `await message.save()`. Notons ici que ce message sera enregistré avec comme valeur dans `talkers` deux identifiants des utilisateurs concernés par le message.
+    Après l'enregistrment, nous emettons en événement socket.io dans lequel nous renvoyons la donnée `message` qui représente le message qu'on vient d'enregistrer. Cet événement permettra d'afficher ce message en temps réel sur les interfaces utilisateurs concernés par le message.
+
+  - getMessages
+    Ce controlleur nous permettra de récupérer tous les messages entre deux utilisateurs données. Pour ça, nous avons besoin de deux informations :
+
+    - `senderId` : c'est l'identifiant de l'utilisateur qui envoie la requête. Nous le récupéronos de puis la propriété `user` de la requête
+    - `receiverId` : c'est l'autre interlocuteur. Nous récupérons cette information des paramètres de la requête.
+
+    Ensuite, nous recherchons les messages sur base de notre modèle. Dans la recherche nous faisons un filtre sur la propriété `talkers`. Celle-ci étant un tableau nous lui appliquons l'opérateur `$all`. L'opérateur `$all` sélectionne les documents où la valeur d'un champ est un tableau contenant tous les éléments spécifiés. Ce qui veut dire que avec ce filtre nous aurons tous les messages dans lesquels les deux identifiants sont présents. En d'autres termes, un tableau qui contient la conversations de ces deux utilisateurs.
+
+    L'écriture
+
+    ```
+    const messages = await Message.find({
+            talkers: {
+                $all: [senderId, receiverId],
+            }
+        }).populate(['receiverId', 'senderId']);
+    ```
+
+    est l'équivalent de la suivante utilisant les opérateurs `$and` et `$ou` :
+
+    ```
+    const messages = await Message.find({
+            talkers: {
+                $and: [
+                    {
+                      $or: [{ senderId: req.user._id }, { idReceiver: req.user._id }],
+                    },
+                    {
+                      $or: [{ senderId: req.params.receiverId }, { idReceiver: req.params.receiverId }]
+                    },
+                ],
+            }
+        }).populate(['receiverId', 'senderId']);
+    ```
+
+    Cette dernière syntaxe me parait un peu fastidieux...
+
+    Juste avant d'envoyer le résultat, nous appliquons la méthode `populate` de mongoose. Cette méthode, comme signlé avant, qui nous permettra d'avoir toutes les autres propriétés des deux utilisateurs.
