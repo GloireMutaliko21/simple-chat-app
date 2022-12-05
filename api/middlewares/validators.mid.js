@@ -25,5 +25,11 @@ export const validators = (field, message, action) => {
                 })
                 .normalizeEmail();
         }
+
+        if (field === 'password') {
+            return body(field, message)
+                .isLength({ min: 6 })
+                .trim();
+        }
     }
 };

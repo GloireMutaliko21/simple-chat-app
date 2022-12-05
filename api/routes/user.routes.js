@@ -10,7 +10,8 @@ router
     .post(
         '/signup',
         [
-            validators('email', 'Please enter a valid e-mail', 'signup')
+            validators('email', 'Please enter a valid e-mail', 'signup'),
+            validators('password', 'Password must have 6 characters or more', 'signup')
         ],
         signup
     )
