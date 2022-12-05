@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import userMdl from "../models/user.mdl.js";
 import cloudinary from "../utils/cloudinary.utl.js";
 import IO from "../socket.io.js"
+import { resultsValidation } from "../middlewares/validators.mid.js";
 
 export const signup = async (req, res, next) => {
     try {
@@ -53,6 +54,10 @@ export const signup = async (req, res, next) => {
 export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+
+        //ValidatorsResults
+        resultsValidation(req, res, next);
+
         const user = await userMdl.findOne({ email });
         if (!user) {
             res.status(401).json({ error: 'Invalid authentication params 1' });
