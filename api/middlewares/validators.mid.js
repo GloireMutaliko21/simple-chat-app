@@ -38,5 +38,9 @@ export const validators = (field, message, action) => {
                 .isLength({ min: 4 })
                 .trim();
         }
+    } else if (action === 'sendMsg') {
+        return body(field, message)
+            .trim()
+            .isLength({ min: 1 })
     }
 };

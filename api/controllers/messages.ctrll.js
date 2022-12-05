@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { validationResult } from 'express-validator';
 
 import IO from "../socket.io.js";
 import Message from "../models/message.mdl.js";
@@ -8,6 +9,13 @@ export const postSendMessage = async (req, res, next) => {
     const senderId = req.user._id;
     const receiverId = mongoose.Types.ObjectId(req.params.receiverId)
     const talkers = [senderId, receiverId];
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(422).json({ error: errors.array()[0].msg });
+        return;
+    }
+
     try {
         const message = new Message({
             content,
