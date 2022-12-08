@@ -53,7 +53,9 @@ export const signup = async (req, res, next) => {
             res.status(400).json({ err });
         }
     } catch (err) {
-        res.status(500).json(err.message);
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
     }
 };
 
@@ -92,7 +94,9 @@ export const login = async (req, res, next) => {
             res.status(401).json({ err });
         }
     } catch (err) {
-        res.status(500).json({ err });
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
     }
 };
 
@@ -109,7 +113,9 @@ export const logout = async (req, res, next) => {
         IO.getIO().emit('login');
         res.status(204).json({ message: 'No content' });
     } catch (err) {
-        res.status(500).json(err)
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
     }
 };
 
@@ -121,7 +127,9 @@ export const findAllUsers = async (req, res, next) => {
         }
         res.status(200).json({ message: 'Users founded', data: users });
     } catch (err) {
-        res.status(404).json({ err });
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
     }
 };
 
@@ -133,7 +141,9 @@ export const findOneUser = async (req, res, next) => {
         }
         res.status(200).json({ message: 'User founded', data: user })
     } catch (err) {
-        res.status(404).json({ err });
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
 
     }
 };
@@ -176,6 +186,8 @@ export const postEditUser = async (req, res, next) => {
         });
 
     } catch (err) {
-        res.status(500).json({ err });
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
     }
 };
