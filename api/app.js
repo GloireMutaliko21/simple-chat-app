@@ -13,6 +13,7 @@ import Io from './socket.io.js'
 import { racineApiRoute, userPath, messagePath } from './constants/constants.js';
 import userRouter from "./routes/user.routes.js"
 import messageRouter from "./routes/messages.routes.js"
+import { serverError } from './middlewares/errors.mid.js';
 
 const app = express();
 
@@ -45,7 +46,8 @@ app
 app.use(`${racineApiRoute}${userPath}`, userRouter);
 app.use(`${racineApiRoute}${messagePath}`, messageRouter);
 
-
+//Errors middlewares
+app.use(serverError);
 
 //app listener
 try {

@@ -31,7 +31,9 @@ export const postSendMessage = async (req, res, next) => {
             res.status(400).json({ err });
         }
     } catch (err) {
-        res.status(500).json({ err });
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
     }
 };
 
@@ -49,7 +51,9 @@ export const getMessages = async (req, res, next) => {
         }
         res.status(200).json({ data: messages });
     } catch (err) {
-        res.status(500).json({ err });
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
     }
 };
 
@@ -88,6 +92,8 @@ export const getRelatedMessages = async (req, res, next) => {
         }
         res.status(200).json({ data: { messages: messagesTosend } });
     } catch (err) {
-        res.status(500).json({ err });
+        const error = new Error(err);
+        res.status(500);
+        return next(error);
     }
 };
