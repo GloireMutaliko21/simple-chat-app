@@ -8,14 +8,18 @@ chai.use(chaiHttp);
 const should = chai.should();
 const expect = chai.expect;
 
+const baseUrl = '/talks/api/v1';
+const usersBaseUrl = '/users';
+const messagesBaseUrl = '/messages';
+
 let token;
 
-describe('LUNCH TEST', () => {
+describe('USERS TEST', () => {
     //Test Login
     it('Should connect', (done) => {
         chai
             .request(app)
-            .post('/talks/api/v1/users/login')
+            .post(`${baseUrl}${usersBaseUrl}/login`)
             .send({ email: 'val@golla.com', password: 'val' })
             .end((err, res) => {
                 expect(res.status).to.equal(200);
@@ -28,12 +32,20 @@ describe('LUNCH TEST', () => {
     it('Get all users', (done) => {
         chai
             .request(app)
-            .get('/talks/api/v1/users')
+            .get(`${baseUrl}${usersBaseUrl}/`)
             .auth(token, { type: 'bearer' })
             .end((err, res) => {
                 expect(res.status).to.equal(200);
                 done();
             });
     });
-
 });
+
+// describe('MESSAGES', () => {
+//     //POST A MESSAGE
+//     it('Should send a message', (done) => {
+//         chai
+//             .request(app)
+//             .post('')
+//     });
+// });
