@@ -51,7 +51,30 @@ describe('MESSAGES', () => {
             .send({ content: 'Salut Tests' })
             .end((err, res) => {
                 expect(res.status).to.equal(201);
-                token = res.body.token;
+                done();
+            });
+    });
+
+    //GET MESSAGES
+    it('Should get all connected user messages', (done) => {
+        chai
+            .request(app)
+            .get(`${baseUrl}${messagesBaseUrl}/messages`)
+            .auth(token, { type: 'bearer' })
+            .end((err, res) => {
+                expect(res.status).to.equal(200);
+                done();
+            });
+    });
+
+    //GET CONVERSATION
+    it('Should get all messages between connected user and request params user', (done) => {
+        chai
+            .request(app)
+            .get(`${baseUrl}${messagesBaseUrl}/messages/6372b1dc6818b9bd35d12749`)
+            .auth(token, { type: 'bearer' })
+            .end((err, res) => {
+                expect(res.status).to.equal(200);
                 done();
             });
     });
