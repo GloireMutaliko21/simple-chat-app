@@ -41,11 +41,18 @@ describe('USERS TEST', () => {
     });
 });
 
-// describe('MESSAGES', () => {
-//     //POST A MESSAGE
-//     it('Should send a message', (done) => {
-//         chai
-//             .request(app)
-//             .post('')
-//     });
-// });
+describe('MESSAGES', () => {
+    //POST A MESSAGE
+    it('Should send a message', (done) => {
+        chai
+            .request(app)
+            .post(`${baseUrl}${messagesBaseUrl}/send/6372b1dc6818b9bd35d12749`)
+            .auth(token, { type: 'bearer' })
+            .send({ content: 'Salut Tests' })
+            .end((err, res) => {
+                expect(res.status).to.equal(201);
+                token = res.body.token;
+                done();
+            });
+    });
+});
